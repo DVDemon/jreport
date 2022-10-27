@@ -23,8 +23,10 @@ include_directories(${Boost_INCLUDE_DIR})
 add_executable(${EXECUTABLE} main.cpp
                              config/config.cpp
                              database/database.cpp
-                             model/issue.cpp)
-                             
+                             model/issue.cpp
+                             file_export/xls_export.cpp
+                             loader/jira_loader.cpp)
+
 target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -pedantic -Werror )
 
 target_link_libraries(${EXECUTABLE} PRIVATE 
@@ -32,6 +34,8 @@ target_link_libraries(${EXECUTABLE} PRIVATE
                              ${Poco_LIBRARIES}
                              "PocoData"
                              "PocoDataMySQL"
+                             "OpenXLSX"
+                             stdc++fs
                              ZLIB::ZLIB
                              ${Boost_LIBRARIES}
                              OpenSSL::SSL
