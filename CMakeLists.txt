@@ -22,7 +22,9 @@ include_directories(${Boost_INCLUDE_DIR})
 
 add_executable(${EXECUTABLE} main.cpp
                              config/config.cpp
-                             database/database.cpp)
+                             database/database.cpp
+                             model/issue.cpp)
+                             
 target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -pedantic -Werror )
 
 target_link_libraries(${EXECUTABLE} PRIVATE 
