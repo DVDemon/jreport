@@ -2,6 +2,7 @@
 #include <boost/program_options.hpp>
 
 #include "config/config.h"
+#include "loader/jira_loader.h"
 #include "httplib.h"
 
 namespace po = boost::program_options;
@@ -40,8 +41,11 @@ int main(int argc, char *argv[])
 
         svr.Get("/hi", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 {       
+                    std::cout << "start processing 'hi' request ..." << std::endl;
                     std::string content = "Hello world ";
+                    loaders::LoaderJira::get().load("1");
                     res.set_content(content, "text/plain"); 
+                    std::cout << "end processing 'hi' request ..." << std::endl;
                 });
         
         svr.Get(R"(/numbers/(\d+))", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)

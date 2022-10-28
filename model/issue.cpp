@@ -18,6 +18,10 @@ namespace model
         return _id;
     }
 
+    std::string &Issue::key() {
+        return _key;
+    }
+
     std::string &Issue::name() {
         return _name;
     }
@@ -36,6 +40,10 @@ namespace model
 
     const std::string &Issue::get_id() {
         return _id;
+    }
+
+    const std::string &Issue::get_key() {
+        return _key;
     }
     const std::string &Issue::get_name() {
         return _name;
@@ -64,8 +72,9 @@ namespace model
             Statement select(session);
             std::vector<Issue> result;
             Issue a;
-            select << "SELECT id,name,description,author,assignee,status FROM Issue WHERE id = ?",
+            select << "SELECT id,key_field,name,description,author,assignee,status FROM Issue WHERE id = ?",
                 into(a._id),
+                into(a._key),
                 into(a._name),
                 into(a._description),
                 into(a._author),
@@ -101,8 +110,9 @@ namespace model
             Statement select(session);
             std::vector<Issue> result;
             Issue a;
-            select << "SELECT id,name,description,author,assignee,status FROM Issue",
+            select << "SELECT id,key_field,name,description,author,assignee,status FROM Issue",
                 into(a._id),
+                into(a._key),
                 into(a._name),
                 into(a._description),
                 into(a._author),
@@ -137,8 +147,9 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            insert << "INSERT INTO Author (id,name,description,author,assignee,status) VALUES(?, ?, ?, ?, ?, ?)",
+            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status) VALUES(?, ?, ?, ?, ?, ?)",
                 use(_id),
+                use(_key),
                 use(_name),
                 use(_description),
                 use(_author),
@@ -168,11 +179,12 @@ namespace model
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
         issue.id()          = object->getValue<std::string>("id");
-        issue.name()        = object->getValue<std::string>("name");;
-        issue.description() = object->getValue<std::string>("description");;
-        issue.author()      = object->getValue<std::string>("author");;
-        issue.assignee()    = object->getValue<std::string>("assignee");;
-        issue.status()      = object->getValue<std::string>("status");;
+        issue.key()        = object->getValue<std::string>("key");
+        issue.name()        = object->getValue<std::string>("name");
+        issue.description() = object->getValue<std::string>("description");
+        issue.author()      = object->getValue<std::string>("author");
+        issue.assignee()    = object->getValue<std::string>("assignee");
+        issue.status()      = object->getValue<std::string>("status");
 
         return issue;
     }
@@ -181,6 +193,7 @@ namespace model
 
         Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
         root->set("id", _id);
+        root->set("key", _key);
         root->set("name", _name);
         root->set("description", _description);
         root->set("author", _author);

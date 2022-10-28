@@ -4,8 +4,14 @@
 #include "../model/issue.h"
 #include <optional>
 namespace loaders{
-    struct LoaderJira{
-        static std::optional<model::Issue> load(const std::string & id);
+    class LoaderJira{
+        private:
+            LoaderJira();
+        public:
+            static LoaderJira& get();
+            std::optional<model::Issue> load(const std::string & id);
+
+            ~LoaderJira();
     };
 }
 

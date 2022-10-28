@@ -10,6 +10,7 @@ namespace model
     class Issue{
         private:
             std::string _id;
+            std::string _key;
             std::string _name;
             std::string _description;
             std::string _author;
@@ -18,6 +19,7 @@ namespace model
 
         public:
             std::string& id();
+            std::string& key();
             std::string& name();
             std::string& description();
             std::string& author();
@@ -25,6 +27,7 @@ namespace model
             std::string& status();
 
             const std::string& get_id();
+            const std::string& get_key();
             const std::string& get_name();
             const std::string& get_description();
             const std::string& get_author();
