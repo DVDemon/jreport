@@ -14,7 +14,7 @@
 
 #include <memory>
 
-//Authorization=ZHZkenl1YjE6My4xNE9uZWVyMg==
+
 namespace loaders
 {
     LoaderJira::LoaderJira()
