@@ -1,0 +1,1445 @@
+{
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "id": "1209804",
+    "self": "https://jira.mts.ru/rest/api/2/issue/1209804",
+    "key": "CLMRKT-100",
+    "fields": {
+        "customfield_13461": null,
+        "customfield_13460": null,
+        "customfield_12010": null,
+        "customfield_13465": null,
+        "customfield_13464": null,
+        "customfield_15404": null,
+        "customfield_10750": null,
+        "resolution": null,
+        "customfield_15405": null,
+        "customfield_10751": null,
+        "customfield_12017": null,
+        "customfield_10752": null,
+        "customfield_10743": null,
+        "customfield_12802": null,
+        "customfield_10745": null,
+        "customfield_10503": null,
+        "customfield_12801": null,
+        "customfield_10504": null,
+        "customfield_12804": null,
+        "customfield_10505": null,
+        "customfield_10748": null,
+        "customfield_10749": null,
+        "customfield_12809": null,
+        "lastViewed": null,
+        "customfield_12480": null,
+        "customfield_12482": null,
+        "customfield_12484": null,
+        "customfield_12483": null,
+        "customfield_12485": null,
+        "customfield_13458": null,
+        "customfield_10740": null,
+        "customfield_12489": null,
+        "labels": [
+            "Cloud-native"
+        ],
+        "customfield_10741": null,
+        "customfield_10731": null,
+        "customfield_13448": null,
+        "customfield_10732": null,
+        "customfield_10733": null,
+        "customfield_10734": null,
+        "customfield_11704": null,
+        "customfield_10735": null,
+        "aggregatetimeoriginalestimate": null,
+        "customfield_11703": null,
+        "customfield_10736": null,
+        "customfield_11706": null,
+        "customfield_10737": null,
+        "customfield_11705": null,
+        "customfield_10738": null,
+        "customfield_10739": null,
+        "issuelinks": [
+            {
+                "id": "1059407",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059407",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1402999",
+                    "key": "CLMRKT-656",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1402999",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  DSP",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059408",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059408",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403000",
+                    "key": "CLMRKT-657",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403000",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  SSP",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059411",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059411",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403003",
+                    "key": "CLMRKT-660",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403003",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Партнерская сеть CPA",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059413",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059413",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403004",
+                    "key": "CLMRKT-661",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403004",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Знаем лично",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059414",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059414",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403005",
+                    "key": "CLMRKT-662",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403005",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Talent Review",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059416",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059416",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403008",
+                    "key": "CLMRKT-663",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403008",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Твой Бизнес",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059418",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059418",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403010",
+                    "key": "CLMRKT-665",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403010",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Платформа мобильной коммерции",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/1",
+                            "description": "Задача создана и исполнитель может начать работу с ней",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/open.png",
+                            "name": "Создана",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "blue-gray",
+                                "name": "К выполнению"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059400",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059400",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1402990",
+                    "key": "CLMRKT-653",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1402990",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native - OmniChannel",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/3",
+                            "description": "Исполнитель работает над запросом",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/inprogress.png",
+                            "name": "В работе",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "В работе"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059406",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059406",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1402998",
+                    "key": "CLMRKT-655",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1402998",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  ChatPoint",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/3",
+                            "description": "Исполнитель работает над запросом",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/inprogress.png",
+                            "name": "В работе",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "В работе"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059409",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059409",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403001",
+                    "key": "CLMRKT-658",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403001",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Медиа планировщик",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/3",
+                            "description": "Исполнитель работает над запросом",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/inprogress.png",
+                            "name": "В работе",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "В работе"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059405",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059405",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1402997",
+                    "key": "CLMRKT-654",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1402997",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  Маркетолог",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/6",
+                            "description": "Работы над запросом считаются завершёнными. Решение устраивает Автора. Закрытые запросы могут быть Повторно открыты.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/closed.png",
+                            "name": "Закрыт",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "green",
+                                "name": "Выполнено"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059410",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059410",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403002",
+                    "key": "CLMRKT-659",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403002",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  ORD",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/6",
+                            "description": "Работы над запросом считаются завершёнными. Решение устраивает Автора. Закрытые запросы могут быть Повторно открыты.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/closed.png",
+                            "name": "Закрыт",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "green",
+                                "name": "Выполнено"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "1059417",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/1059417",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "outwardIssue": {
+                    "id": "1403009",
+                    "key": "CLMRKT-664",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1403009",
+                    "fields": {
+                        "summary": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native -  B2B Digital Highway",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/6",
+                            "description": "Работы над запросом считаются завершёнными. Решение устраивает Автора. Закрытые запросы могут быть Повторно открыты.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/closed.png",
+                            "name": "Закрыт",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "green",
+                                "name": "Выполнено"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            },
+            {
+                "id": "897472",
+                "self": "https://jira.mts.ru/rest/api/2/issueLink/897472",
+                "type": {
+                    "id": "10800",
+                    "name": "Parent",
+                    "inward": "child of",
+                    "outward": "parent of",
+                    "self": "https://jira.mts.ru/rest/api/2/issueLinkType/10800"
+                },
+                "inwardIssue": {
+                    "id": "1088827",
+                    "key": "KA-1397",
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1088827",
+                    "fields": {
+                        "summary": "Cloud Native - 3. Переход",
+                        "status": {
+                            "self": "https://jira.mts.ru/rest/api/2/status/3",
+                            "description": "Исполнитель работает над запросом",
+                            "iconUrl": "https://jira.mts.ru/images/icons/statuses/inprogress.png",
+                            "name": "В работе",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.mts.ru/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "yellow",
+                                "name": "В работе"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.mts.ru/rest/api/2/priority/4",
+                            "iconUrl": "https://jira.mts.ru/images/icons/priorities/minor.svg",
+                            "name": "Minor",
+                            "id": "4"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+                            "id": "10000",
+                            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+                            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+                            "name": "Epic",
+                            "subtask": false
+                        }
+                    }
+                }
+            }
+        ],
+        "assignee": {
+            "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+            "name": "arabchevskiy",
+            "key": "JIRAUSER93399",
+            "emailAddress": "arabchevskiy@mts.ru",
+            "avatarUrls": {
+                "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+            },
+            "displayName": "Рабчевский Андрей Станиславович",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+        },
+        "components": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/component/17834",
+                "id": "17834",
+                "name": "Architecture"
+            }
+        ],
+        "customfield_13445": null,
+        "customfield_13202": null,
+        "customfield_13447": null,
+        "customfield_12478": null,
+        "customfield_10730": null,
+        "customfield_13437": null,
+        "customfield_10600": null,
+        "customfield_10724": null,
+        "customfield_12903": null,
+        "customfield_10603": null,
+        "customfield_10605": null,
+        "customfield_10726": null,
+        "customfield_10727": null,
+        "customfield_10606": null,
+        "customfield_10728": null,
+        "subtasks": [],
+        "customfield_12461": null,
+        "reporter": {
+            "self": "https://jira.mts.ru/rest/api/2/user?username=dspanina",
+            "name": "dspanina",
+            "key": "JIRAUSER245087",
+            "emailAddress": "dspanina@mts.ru",
+            "avatarUrls": {
+                "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER245087&avatarId=29019",
+                "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER245087&avatarId=29019",
+                "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER245087&avatarId=29019",
+                "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER245087&avatarId=29019"
+            },
+            "displayName": "Панина Дарья",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+        },
+        "customfield_13432": null,
+        "customfield_13431": null,
+        "customfield_11133": null,
+        "customfield_12466": null,
+        "customfield_12465": null,
+        "customfield_11135": null,
+        "customfield_13433": null,
+        "customfield_13436": null,
+        "customfield_13435": null,
+        "customfield_12459": null,
+        "customfield_13427": null,
+        "customfield_13306": null,
+        "customfield_14518": null,
+        "customfield_13426": null,
+        "customfield_13305": null,
+        "customfield_11129": null,
+        "customfield_14515": null,
+        "customfield_11801": null,
+        "customfield_10711": null,
+        "customfield_13308": null,
+        "customfield_11800": null,
+        "customfield_10712": null,
+        "customfield_14516": null,
+        "customfield_13309": null,
+        "customfield_11805": null,
+        "customfield_14519": null,
+        "customfield_11804": null,
+        "customfield_10716": null,
+        "customfield_11807": null,
+        "customfield_10717": null,
+        "customfield_11806": null,
+        "progress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_10719": null,
+        "customfield_11809": null,
+        "votes": {
+            "self": "https://jira.mts.ru/rest/api/2/issue/CLMRKT-100/votes",
+            "votes": 0,
+            "hasVoted": false
+        },
+        "customfield_11808": null,
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        },
+        "archivedby": null,
+        "issuetype": {
+            "self": "https://jira.mts.ru/rest/api/2/issuetype/10000",
+            "id": "10000",
+            "description": "Создано Jira Software — не изменять и не удалять. Тип задачи для большой пользовательской истории, требующей декомпозиции.",
+            "iconUrl": "https://jira.mts.ru/images/icons/issuetypes/epic.svg",
+            "name": "Epic",
+            "subtask": false
+        },
+        "customfield_13780": null,
+        "project": {
+            "self": "https://jira.mts.ru/rest/api/2/project/15028",
+            "id": "15028",
+            "key": "CLMRKT",
+            "name": "Рекламные технологии",
+            "projectTypeKey": "software",
+            "avatarUrls": {
+                "48x48": "https://jira.mts.ru/secure/projectavatar?avatarId=10324",
+                "24x24": "https://jira.mts.ru/secure/projectavatar?size=small&avatarId=10324",
+                "16x16": "https://jira.mts.ru/secure/projectavatar?size=xsmall&avatarId=10324",
+                "32x32": "https://jira.mts.ru/secure/projectavatar?size=medium&avatarId=10324"
+            },
+            "projectCategory": {
+                "self": "https://jira.mts.ru/rest/api/2/projectCategory/10400",
+                "id": "10400",
+                "description": "",
+                "name": "Проекты кластеров"
+            }
+        },
+        "customfield_12452": null,
+        "customfield_14513": null,
+        "customfield_12455": null,
+        "customfield_14514": null,
+        "customfield_13425": null,
+        "customfield_13424": null,
+        "customfield_12448": null,
+        "customfield_14507": null,
+        "customfield_13417": null,
+        "customfield_10702": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=dspanina",
+                "name": "dspanina",
+                "key": "JIRAUSER245087",
+                "emailAddress": "dspanina@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER245087&avatarId=29019",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER245087&avatarId=29019",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER245087&avatarId=29019",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER245087&avatarId=29019"
+                },
+                "displayName": "Панина Дарья",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+                "name": "arabchevskiy",
+                "key": "JIRAUSER93399",
+                "emailAddress": "arabchevskiy@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+                },
+                "displayName": "Рабчевский Андрей Станиславович",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=myfedyayev",
+                "name": "myfedyayev",
+                "key": "JIRAUSER224906",
+                "emailAddress": "myfedyayev@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER224906&avatarId=25341",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER224906&avatarId=25341",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER224906&avatarId=25341",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER224906&avatarId=25341"
+                },
+                "displayName": "Федяев Михаил",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=yichervony",
+                "name": "yichervony",
+                "key": "JIRAUSER251678",
+                "emailAddress": "yichervony@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER251678&avatarId=31432",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER251678&avatarId=31432",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER251678&avatarId=31432",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER251678&avatarId=31432"
+                },
+                "displayName": "Червоный Юрий",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            }
+        ],
+        "customfield_10703": null,
+        "customfield_10704": null,
+        "resolutiondate": null,
+        "customfield_10705": null,
+        "customfield_10707": null,
+        "customfield_10709": null,
+        "watches": {
+            "self": "https://jira.mts.ru/rest/api/2/issue/CLMRKT-100/watchers",
+            "watchCount": 4,
+            "isWatching": false
+        },
+        "customfield_12200": null,
+        "customfield_12202": null,
+        "customfield_13412": null,
+        "customfield_15713": null,
+        "customfield_12201": null,
+        "customfield_12446": null,
+        "customfield_13405": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=dspanina",
+                "name": "dspanina",
+                "key": "JIRAUSER245087",
+                "emailAddress": "dspanina@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER245087&avatarId=29019",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER245087&avatarId=29019",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER245087&avatarId=29019",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER245087&avatarId=29019"
+                },
+                "displayName": "Панина Дарья",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+                "name": "arabchevskiy",
+                "key": "JIRAUSER93399",
+                "emailAddress": "arabchevskiy@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+                },
+                "displayName": "Рабчевский Андрей Станиславович",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=myfedyayev",
+                "name": "myfedyayev",
+                "key": "JIRAUSER224906",
+                "emailAddress": "myfedyayev@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER224906&avatarId=25341",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER224906&avatarId=25341",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER224906&avatarId=25341",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER224906&avatarId=25341"
+                },
+                "displayName": "Федяев Михаил",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=yichervony",
+                "name": "yichervony",
+                "key": "JIRAUSER251678",
+                "emailAddress": "yichervony@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER251678&avatarId=31432",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER251678&avatarId=31432",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER251678&avatarId=31432",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER251678&avatarId=31432"
+                },
+                "displayName": "Червоный Юрий",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            }
+        ],
+        "customfield_15705": null,
+        "customfield_12437": null,
+        "updated": "2022-10-28T10:19:30.308+0300",
+        "timeoriginalestimate": null,
+        "description": "Рефакторинг систем, требующих трансформации для достижения целевого состояния Cloud Native и перевод систем в целевой PaaS применимо для кластера Рекламные технологии",
+        "customfield_12673": null,
+        "customfield_12672": null,
+        "timetracking": {},
+        "customfield_12434": null,
+        "customfield_10921": null,
+        "customfield_10922": null,
+        "customfield_10923": null,
+        "customfield_10924": null,
+        "customfield_10925": null,
+        "customfield_10926": null,
+        "customfield_10927": null,
+        "customfield_10928": null,
+        "summary": "[РТ] - CN Переход к Cloud Native 2022Q3",
+        "customfield_12420": null,
+        "customfield_10000": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@61b1ec89[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@29c41495[overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}},byInstanceType={}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@5ae2debb[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@530b09ce[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@5e587437[overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@27b03fa0[stateCount=0,state=<null>,dueDate=<null>,overDue=false,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@6beb2aeb[overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@60251b21[topEnvironments=[],showProjects=false,successfulCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7dc132de[overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@5b2a5ff9[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@69a49a05[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@21907803[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}]},errors=[],configErrors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+        "customfield_11210": null,
+        "customfield_12301": null,
+        "customfield_12422": null,
+        "customfield_12421": null,
+        "customfield_12423": null,
+        "customfield_12302": null,
+        "customfield_11204": null,
+        "customfield_13504": null,
+        "customfield_13503": null,
+        "environment": null,
+        "customfield_12659": null,
+        "customfield_10910": null,
+        "customfield_11208": null,
+        "customfield_13508": "com.riadalabs.jira.plugins.notificationassistant.model.RecipientsDTO@117e9a33",
+        "customfield_10912": null,
+        "customfield_11209": null,
+        "customfield_10913": null,
+        "duedate": "2022-10-31",
+        "customfield_10914": null,
+        "customfield_13509": "-1",
+        "comment": {
+            "comments": [
+                {
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1209804/comment/2184031",
+                    "id": "2184031",
+                    "author": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+                        "name": "arabchevskiy",
+                        "key": "JIRAUSER93399",
+                        "emailAddress": "arabchevskiy@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+                        },
+                        "displayName": "Рабчевский Андрей Станиславович",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "body": "[~myfedyayev] [~yichervony] прошу согласовать переход в Q4.\r\n\r\nЗадачи на трансформацию будут сформированы после этапа планирования. По прошедшим планирование продуктам задачи взяты в работу. Работы ведутся в рамках 25% на все направления тех стратегии. Планируем уложиться в KPI кластера на 22 год.",
+                    "updateAuthor": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+                        "name": "arabchevskiy",
+                        "key": "JIRAUSER93399",
+                        "emailAddress": "arabchevskiy@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+                        },
+                        "displayName": "Рабчевский Андрей Станиславович",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "created": "2022-10-18T10:46:02.099+0300",
+                    "updated": "2022-10-18T13:05:52.690+0300"
+                },
+                {
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1209804/comment/2184943",
+                    "id": "2184943",
+                    "author": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=myfedyayev",
+                        "name": "myfedyayev",
+                        "key": "JIRAUSER224906",
+                        "emailAddress": "myfedyayev@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER224906&avatarId=25341",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER224906&avatarId=25341",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER224906&avatarId=25341",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER224906&avatarId=25341"
+                        },
+                        "displayName": "Федяев Михаил",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "body": "[~arabchevskiy]\r\n Согласовано, спасибо!\r\nПросьба прилинковать задачи Jira к продуктовым эпикам Перехода.",
+                    "updateAuthor": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=myfedyayev",
+                        "name": "myfedyayev",
+                        "key": "JIRAUSER224906",
+                        "emailAddress": "myfedyayev@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER224906&avatarId=25341",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER224906&avatarId=25341",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER224906&avatarId=25341",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER224906&avatarId=25341"
+                        },
+                        "displayName": "Федяев Михаил",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "created": "2022-10-18T13:07:40.485+0300",
+                    "updated": "2022-10-18T13:09:10.679+0300"
+                },
+                {
+                    "self": "https://jira.mts.ru/rest/api/2/issue/1209804/comment/2185218",
+                    "id": "2185218",
+                    "author": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=yichervony",
+                        "name": "yichervony",
+                        "key": "JIRAUSER251678",
+                        "emailAddress": "yichervony@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER251678&avatarId=31432",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER251678&avatarId=31432",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER251678&avatarId=31432",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER251678&avatarId=31432"
+                        },
+                        "displayName": "Червоный Юрий",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "body": "[~arabchevskiy]\r\nСогласовано.",
+                    "updateAuthor": {
+                        "self": "https://jira.mts.ru/rest/api/2/user?username=yichervony",
+                        "name": "yichervony",
+                        "key": "JIRAUSER251678",
+                        "emailAddress": "yichervony@mts.ru",
+                        "avatarUrls": {
+                            "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER251678&avatarId=31432",
+                            "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER251678&avatarId=31432",
+                            "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER251678&avatarId=31432",
+                            "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER251678&avatarId=31432"
+                        },
+                        "displayName": "Червоный Юрий",
+                        "active": true,
+                        "timeZone": "Europe/Moscow"
+                    },
+                    "created": "2022-10-18T13:29:34.556+0300",
+                    "updated": "2022-10-18T13:29:34.556+0300"
+                }
+            ],
+            "maxResults": 3,
+            "total": 3,
+            "startAt": 0
+        },
+        "customfield_10917": null,
+        "customfield_10918": null,
+        "fixVersions": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/version/20959",
+                "id": "20959",
+                "name": "22Q4",
+                "archived": false,
+                "released": false,
+                "releaseDate": "2022-12-31"
+            }
+        ],
+        "customfield_13500": "",
+        "customfield_11200": null,
+        "customfield_11201": null,
+        "customfield_12413": null,
+        "customfield_11202": null,
+        "customfield_11203": null,
+        "customfield_13501": {
+            "self": "https://jira.mts.ru/rest/api/2/customFieldOption/15204",
+            "value": "Не интеграционная задача",
+            "id": "15204",
+            "disabled": false
+        },
+        "customfield_12525": null,
+        "customfield_12404": null,
+        "customfield_10104": "ghx-label-7",
+        "customfield_12524": null,
+        "customfield_10105": "1|i3ikfk:",
+        "customfield_10106": null,
+        "customfield_12526": null,
+        "customfield_12408": null,
+        "customfield_10900": null,
+        "customfield_10901": null,
+        "customfield_10902": null,
+        "customfield_10904": null,
+        "customfield_10909": null,
+        "customfield_10100": null,
+        "priority": {
+            "self": "https://jira.mts.ru/rest/api/2/priority/2",
+            "iconUrl": "https://jira.mts.ru/images/icons/priorities/high.svg",
+            "name": "High",
+            "id": "2"
+        },
+        "customfield_10101": null,
+        "customfield_12402": null,
+        "customfield_10102": {
+            "self": "https://jira.mts.ru/rest/api/2/customFieldOption/10000",
+            "value": "Нужно сделать",
+            "id": "10000",
+            "disabled": true
+        },
+        "customfield_12523": null,
+        "customfield_10103": "[Рекламные технологии] 2022Q3 - Переход к Cloud Native",
+        "customfield_12513": null,
+        "timeestimate": null,
+        "versions": [],
+        "status": {
+            "self": "https://jira.mts.ru/rest/api/2/status/10100",
+            "description": "Запрос помещён в очередь.",
+            "iconUrl": "https://jira.mts.ru/images/icons/subtask.gif",
+            "name": "В очереди",
+            "id": "10100",
+            "statusCategory": {
+                "self": "https://jira.mts.ru/rest/api/2/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "К выполнению"
+            }
+        },
+        "customfield_12070": null,
+        "customfield_14011": null,
+        "customfield_12075": null,
+        "customfield_10211": null,
+        "customfield_12751": null,
+        "customfield_10212": null,
+        "archiveddate": null,
+        "customfield_10203": null,
+        "customfield_12745": null,
+        "customfield_10204": null,
+        "customfield_13712": null,
+        "customfield_10205": null,
+        "customfield_12504": null,
+        "aggregatetimeestimate": null,
+        "customfield_12060": null,
+        "creator": {
+            "self": "https://jira.mts.ru/rest/api/2/user?username=dspanina",
+            "name": "dspanina",
+            "key": "JIRAUSER245087",
+            "emailAddress": "dspanina@mts.ru",
+            "avatarUrls": {
+                "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER245087&avatarId=29019",
+                "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER245087&avatarId=29019",
+                "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER245087&avatarId=29019",
+                "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER245087&avatarId=29019"
+            },
+            "displayName": "Панина Дарья",
+            "active": true,
+            "timeZone": "Europe/Moscow"
+        },
+        "customfield_12062": null,
+        "customfield_12061": null,
+        "customfield_12064": null,
+        "customfield_12063": null,
+        "customfield_12066": null,
+        "customfield_12065": null,
+        "customfield_14243": null,
+        "customfield_12068": null,
+        "customfield_12067": null,
+        "aggregateprogress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_12069": null,
+        "customfield_12743": null,
+        "customfield_10201": null,
+        "customfield_10202": null,
+        "customfield_12742": null,
+        "customfield_12613": null,
+        "customfield_13702": null,
+        "customfield_12612": null,
+        "customfield_13701": null,
+        "customfield_12736": null,
+        "customfield_12978": null,
+        "timespent": null,
+        "customfield_15202": null,
+        "customfield_15203": null,
+        "customfield_15200": null,
+        "customfield_15201": null,
+        "customfield_12059": null,
+        "aggregatetimespent": null,
+        "customfield_12058": null,
+        "customfield_15204": null,
+        "customfield_13700": null,
+        "customfield_12611": null,
+        "customfield_15205": null,
+        "customfield_12731": null,
+        "customfield_12602": null,
+        "customfield_11634": null,
+        "customfield_12601": null,
+        "customfield_11636": null,
+        "customfield_11635": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=dspanina",
+                "name": "dspanina",
+                "key": "JIRAUSER245087",
+                "emailAddress": "dspanina@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER245087&avatarId=29019",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER245087&avatarId=29019",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER245087&avatarId=29019",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER245087&avatarId=29019"
+                },
+                "displayName": "Панина Дарья",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=arabchevskiy",
+                "name": "arabchevskiy",
+                "key": "JIRAUSER93399",
+                "emailAddress": "arabchevskiy@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER93399&avatarId=29248",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER93399&avatarId=29248",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER93399&avatarId=29248",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER93399&avatarId=29248"
+                },
+                "displayName": "Рабчевский Андрей Станиславович",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=myfedyayev",
+                "name": "myfedyayev",
+                "key": "JIRAUSER224906",
+                "emailAddress": "myfedyayev@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER224906&avatarId=25341",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER224906&avatarId=25341",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER224906&avatarId=25341",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER224906&avatarId=25341"
+                },
+                "displayName": "Федяев Михаил",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            },
+            {
+                "self": "https://jira.mts.ru/rest/api/2/user?username=yichervony",
+                "name": "yichervony",
+                "key": "JIRAUSER251678",
+                "emailAddress": "yichervony@mts.ru",
+                "avatarUrls": {
+                    "48x48": "https://jira.mts.ru/secure/useravatar?ownerId=JIRAUSER251678&avatarId=31432",
+                    "24x24": "https://jira.mts.ru/secure/useravatar?size=small&ownerId=JIRAUSER251678&avatarId=31432",
+                    "16x16": "https://jira.mts.ru/secure/useravatar?size=xsmall&ownerId=JIRAUSER251678&avatarId=31432",
+                    "32x32": "https://jira.mts.ru/secure/useravatar?size=medium&ownerId=JIRAUSER251678&avatarId=31432"
+                },
+                "displayName": "Червоный Юрий",
+                "active": true,
+                "timeZone": "Europe/Moscow"
+            }
+        ],
+        "customfield_12724": null,
+        "customfield_12603": null,
+        "customfield_11638": null,
+        "customfield_12606": null,
+        "customfield_11637": null,
+        "customfield_12605": null,
+        "customfield_11639": null,
+        "customfield_12609": null,
+        "workratio": -1,
+        "customfield_14220": null,
+        "customfield_13010": null,
+        "created": "2022-07-25T14:59:47.944+0300",
+        "customfield_12041": null,
+        "customfield_13012": null,
+        "customfield_14102": null,
+        "customfield_13011": null,
+        "customfield_14101": [
+            {
+                "self": "https://jira.mts.ru/rest/api/2/customFieldOption/17119",
+                "value": "Архитектура",
+                "id": "17119",
+                "disabled": false
+            }
+        ],
+        "customfield_11630": null,
+        "customfield_11632": null,
+        "customfield_12600": null,
+        "customfield_11631": null,
+        "customfield_10413": null,
+        "customfield_11622": null,
+        "customfield_14218": null,
+        "customfield_10414": null,
+        "customfield_11625": null,
+        "customfield_13805": null,
+        "customfield_11626": null,
+        "customfield_12715": null,
+        "customfield_13807": null,
+        "customfield_11628": null,
+        "customfield_13480": null,
+        "customfield_12030": null,
+        "customfield_13486": null,
+        "customfield_14217": null,
+        "customfield_12039": null,
+        "customfield_10410": null,
+        "customfield_10411": null,
+        "customfield_11620": null,
+        "customfield_12701": null,
+        "customfield_12700": null,
+        "customfield_12703": null,
+        "customfield_12702": null,
+        "attachment": [],
+        "customfield_11618": null,
+        "customfield_10408": null,
+        "customfield_10409": null,
+        "customfield_11619": null,
+        "customfield_13472": null,
+        "customfield_12022": null,
+        "customfield_13111": null,
+        "customfield_13474": null,
+        "customfield_12021": null,
+        "customfield_13473": null,
+        "customfield_12024": null,
+        "customfield_13113": null,
+        "customfield_13112": null,
+        "customfield_13475": null,
+        "customfield_12026": null,
+        "customfield_13478": null,
+        "customfield_13117": null,
+        "customfield_16503": null,
+        "customfield_16502": null,
+        "customfield_12019": null,
+        "customfield_10753": null,
+        "customfield_12810": null,
+        "customfield_11603": null,
+        "customfield_12813": null,
+        "customfield_10755": null,
+        "customfield_10756": null,
+        "customfield_10757": null,
+        "customfield_12814": null,
+        "customfield_11604": null,
+        "customfield_12817": null,
+        "customfield_12816": null
+    }
+}
