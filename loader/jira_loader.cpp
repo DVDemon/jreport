@@ -11,9 +11,11 @@
 #include "Poco/Net/HTTPSClientSession.h"
 #include "Poco/Net/HTTPRequest.h"
 #include "Poco/Net/HTTPResponse.h"
+#include <Poco/JSON/Parser.h>
+#include <Poco/Dynamic/Var.h>
 
 #include <memory>
-
+#include <fstream>
 
 namespace loaders
 {
@@ -30,10 +32,34 @@ namespace loaders
         static LoaderJira _instance;
         return _instance;
     }
+
+    std::string LoaderJira::load_from_file(const std::string &id)
+    {
+        int index = id.find_last_of('/');
+        if (index > 0)
+        {
+            std::string file_name = "stubs/" + id.substr(index + 1)+".json";
+            std::ifstream ifs(file_name);
+            std::cout << "loading from " << file_name << std::endl;
+
+            if (ifs.is_open())
+            {
+                std::istream_iterator<char> start{ifs >> std::noskipws}, end{};
+                std::string result{start, end};
+                return result;
+            }
+        }
+
+        return std::string();
+    }
+
     std::optional<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id)
     {
         std::optional<model::Issue> result;
 
+#ifdef STUB
+        std::string string_result = load_from_file(id);
+#elif
         try
         {
             Poco::URI uri("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relativehumidity_2m,windspeed_10m");
@@ -49,10 +75,27 @@ namespace loaders
         {
             std::cout << ex.displayText() << std::endl;
         }
+#endif
+        if(!string_result.empty()){
+            Poco::JSON::Parser parser;
+            Poco::Dynamic::Var result = parser.parse(string_result);
+            Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
+
+            model::Issue issue;
+            issue.id() =  object->getValue<std::string>("id");
+            issue.key() =  object->getValue<std::string>("key");
+            issue.description() =  object->getValue<std::string>("description");
+            issue.name() = object->getValue<std::string>("summary");
+
+            result = issue;
+        }
+
         return result;
     }
 
-    LoaderJira::~LoaderJira(){
+
+    LoaderJira::~LoaderJira()
+    {
         Poco::Net::uninitializeSSL();
     }
 }

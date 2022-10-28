@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
                 {       
                     std::cout << "start processing 'hi' request ..." << std::endl;
                     std::string content = "Hello world ";
-                    loaders::LoaderJira::get().load("1");
+                    loaders::LoaderJira::get().load("http://jira.mts.ru/rest/api/2/issue/KA-1395");
                     res.set_content(content, "text/plain"); 
                     std::cout << "end processing 'hi' request ..." << std::endl;
                 });
