@@ -4,7 +4,7 @@ project(jserver C CXX)
 
 set(EXECUTABLE jserver)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenSSL)
@@ -26,8 +26,6 @@ add_executable(${EXECUTABLE} main.cpp
                              model/issue.cpp
                              file_export/xls_export.cpp
                              loader/jira_loader.cpp)
-
-target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -pedantic -Werror )
 
 target_link_libraries(${EXECUTABLE} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
