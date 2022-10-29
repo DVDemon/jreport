@@ -3,6 +3,7 @@
 
 #include <set>
 #include <string>
+#include "Poco/JSON/Object.h"
 
 namespace model
 {
@@ -13,6 +14,7 @@ namespace model
         public:
             static Initiative& get();
             const std::set<std::string> &initiatives() const;
+            Poco::JSON::Array::Ptr toJSON() const;
     };
 } // namespace model
 

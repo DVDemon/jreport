@@ -22,6 +22,14 @@ namespace model
             }
         }
     }
+    Poco::JSON::Array::Ptr Initiative::toJSON() const{
+        Poco::JSON::Array::Ptr array = new Poco::JSON::Array();
+        for(auto init : _initiatives){
+            array->add(init.c_str());
+        }
+            
+        return array;
+    }
 
     Initiative &Initiative::get()
     {

@@ -23,6 +23,15 @@ namespace model
         }
     }
 
+    Poco::JSON::Array::Ptr Cluster::toJSON() const{
+        Poco::JSON::Array::Ptr array = new Poco::JSON::Array();
+        for(auto cluster : _clusters){
+            array->add(cluster.c_str());
+        }
+            
+        return array;
+    }
+
     Cluster &Cluster::get()
     {
         static Cluster instance;

@@ -50,8 +50,23 @@ int main(int argc, char *argv[])
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     }
                 });
-
-        svr.Get("/body-header-param", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+        
+        svr.Get("/clusters",[]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                {       
+          
+                        std::stringstream ss;
+                        Poco::JSON::Stringifier::stringify(model::Cluster::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
+                });
+        
+        svr.Get("/initiatives",[]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                {       
+          
+                        std::stringstream ss;
+                        Poco::JSON::Stringifier::stringify(model::Initiative::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
+                });
+    /*    svr.Get("/body-header-param", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 {
                     if (req.has_header("Content-Length")) {
                         auto val = req.get_header_value("Content-Length");
@@ -63,7 +78,7 @@ int main(int argc, char *argv[])
                             res.set_content(val, "text/plain"); 
                         } else
                         res.set_content(req.body, "text/plain"); 
-                });
+                });*/
 
         svr.Get("/stop", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 { 
