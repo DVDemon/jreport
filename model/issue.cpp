@@ -202,3 +202,15 @@ namespace model
         return root;
     }
 }
+
+std::ostream & operator<<(std::ostream& os,model::Issue& issue){
+    os << "id:" << issue.get_id() << std::endl;
+    os << "key:" << issue.get_key() << std::endl;
+    os << "name:" << issue.get_name() << std::endl;
+    os << "description:" << issue.get_description() << std::endl;
+    os << "author:" << issue.get_author() << std::endl;
+    os << "get_assignee:" << issue.get_assignee() << std::endl;
+    os << "status:" << issue.get_status() << std::endl;
+
+    return os;
+}

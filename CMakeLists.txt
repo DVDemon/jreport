@@ -24,6 +24,8 @@ add_executable(${EXECUTABLE} main.cpp
                              config/config.cpp
                              database/database.cpp
                              model/issue.cpp
+                             model/cluster.cpp
+                             model/initiative.cpp
                              file_export/xls_export.cpp
                              loader/jira_loader.cpp)
 

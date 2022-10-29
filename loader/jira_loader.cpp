@@ -46,6 +46,7 @@ namespace loaders
             {
                 std::istream_iterator<char> start{ifs >> std::noskipws}, end{};
                 std::string result{start, end};
+                
                 return result;
             }
         }
@@ -55,8 +56,6 @@ namespace loaders
 
     std::optional<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id)
     {
-        std::optional<model::Issue> result;
-
 #ifdef STUB
         std::string string_result = load_from_file(id);
 #elif
@@ -82,15 +81,14 @@ namespace loaders
             Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
             model::Issue issue;
-            issue.id() =  object->getValue<std::string>("id");
-            issue.key() =  object->getValue<std::string>("key");
+            issue.id() =  object->getValue<std::string>("id");            issue.key() =  object->getValue<std::string>("key");
+            object = object->getObject("fields");
             issue.description() =  object->getValue<std::string>("description");
             issue.name() = object->getValue<std::string>("summary");
-
-            result = issue;
+            return issue;
         }
 
-        return result;
+        return std::optional<model::Issue>();
     }
 
 

@@ -1,9 +1,12 @@
 #include <iostream>
 #include <boost/program_options.hpp>
+#include <sstream>
+#include "httplib.h"
 
 #include "config/config.h"
 #include "loader/jira_loader.h"
-#include "httplib.h"
+#include "model/cluster.h"
+#include "model/initiative.h"
 
 namespace po = boost::program_options;
 
@@ -11,6 +14,9 @@ int main(int argc, char *argv[])
 {
     try
     {
+        model::Cluster::get();
+        model::Initiative::get();
+        
         po::options_description desc{"Options"};
         desc.add_options()("help,h", "This screen")
         ("address,", po::value<std::string>()->required(), "set database ip address")
@@ -39,12 +45,20 @@ int main(int argc, char *argv[])
 
         httplib::Server svr;
 
-        svr.Get("/hi", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+        svr.Get("/issue/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 {       
-                    std::cout << "start processing 'hi' request ..." << std::endl;
+                    auto numbers = req.matches[1];
+                    std::string request_uri {"http://jira.mts.ru/rest/api/2/issue/"};
+                    request_uri+=numbers;
+                    std::cout << "start processing 'hi' request ..." << numbers<< std::endl;
                     std::string content = "Hello world ";
-                    loaders::LoaderJira::get().load("http://jira.mts.ru/rest/api/2/issue/KA-1395");
-                    res.set_content(content, "text/plain"); 
+                    auto item = loaders::LoaderJira::get().load(request_uri);
+                    if(item){
+                        
+                        std::stringstream ss;
+                        Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        res.set_content(ss.str(), "text/plain"); 
+                    }
                     std::cout << "end processing 'hi' request ..." << std::endl;
                 });
         

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 #include "Poco/JSON/Object.h"
 
 namespace model
@@ -41,8 +42,9 @@ namespace model
 
             static Issue fromJSON(const std::string & str);
             Poco::JSON::Object::Ptr toJSON() const;
-
     };
 }
+
+std::ostream & operator<<(std::ostream&,model::Issue&); 
 
 #endif
