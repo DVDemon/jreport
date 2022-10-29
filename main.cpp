@@ -28,19 +28,12 @@ int main(int argc, char *argv[])
         po::variables_map vm;
         po::store(parse_command_line(argc, argv, desc), vm);
 
-        if (vm.count("help"))
-            std::cout << desc << '\n';
-
-        if (vm.count("address"))
-            Config::get().database_ip() = vm["address"].as<std::string>();
-        if (vm.count("port"))
-            Config::get().database_port() = vm["port"].as<std::string>();
-        if (vm.count("login"))
-            Config::get().login() = vm["login"].as<std::string>();
-        if (vm.count("password"))
-            Config::get().password() = vm["password"].as<std::string>();
-        if (vm.count("database"))
-            Config::get().database() = vm["database"].as<std::string>();
+        if (vm.count("help")) std::cout << desc << '\n';
+        if (vm.count("address")) Config::get().database_ip() = vm["address"].as<std::string>();
+        if (vm.count("port")) Config::get().database_port() = vm["port"].as<std::string>();
+        if (vm.count("login")) Config::get().login() = vm["login"].as<std::string>();
+        if (vm.count("password")) Config::get().password() = vm["password"].as<std::string>();
+        if (vm.count("database")) Config::get().database() = vm["database"].as<std::string>();
 
 
         httplib::Server svr;
@@ -57,12 +50,6 @@ int main(int argc, char *argv[])
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     }
                 });
-        
-        svr.Get(R"(/numbers/(\d+))", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                {
-                    auto numbers = req.matches[1];
-                    res.set_content(numbers, "text/plain"); 
-                    });
 
         svr.Get("/body-header-param", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 {
