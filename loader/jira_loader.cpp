@@ -82,14 +82,11 @@ namespace loaders
             Poco::Dynamic::Var result = parser.parse(string_result);
             Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-            std::cout << "start" << std::endl;
             std::function<std::shared_ptr<model::Issue>(Poco::JSON::Object::Ptr)> create = [&](Poco::JSON::Object::Ptr object)
             {
-                std::cout << "create" << std::endl;
                 std::shared_ptr<model::Issue> issue = std::shared_ptr<model::Issue>(new model::Issue());
                 issue->id() =  object->getValue<std::string>("id");            
                 issue->key() =  object->getValue<std::string>("key");
-                std::cout << "fields" << std::endl;
 
                 if(object->has("fields")){
                     object = object->getObject("fields");
@@ -108,7 +105,6 @@ namespace loaders
 
                     if(object->has("issuelinks")){
                         Poco::JSON::Array::Ptr links = object->getArray("issuelinks");
-                        std::cout << "links" << std::endl;
                         if(links)
                         for(size_t i=0;i<links->size();++i){
                             Poco::JSON::Object::Ptr link = links->getObject(i);

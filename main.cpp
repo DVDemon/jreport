@@ -50,16 +50,12 @@ int main(int argc, char *argv[])
                     auto numbers = req.matches[1];
                     std::string request_uri {"http://jira.mts.ru/rest/api/2/issue/"};
                     request_uri+=numbers;
-                    std::cout << "start processing 'hi' request ..." << numbers<< std::endl;
-                    std::string content = "Hello world ";
                     auto item = loaders::LoaderJira::get().load(request_uri);
-                    if(item){
-                        
+                    if(item){                       
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     }
-                    std::cout << "end processing 'hi' request ..." << std::endl;
                 });
         
         svr.Get(R"(/numbers/(\d+))", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
