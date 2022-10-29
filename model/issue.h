@@ -4,10 +4,13 @@
 #include <string>
 #include <vector>
 #include <ostream>
+#include <memory>
 #include "Poco/JSON/Object.h"
 
 namespace model
 {
+    struct IssueLink;
+
     class Issue{
         private:
             std::string _id;
@@ -18,6 +21,8 @@ namespace model
             std::string _assignee;
             std::string _status;
 
+            std::vector<IssueLink> _links;
+
         public:
             std::string& id();
             std::string& key();
@@ -26,6 +31,7 @@ namespace model
             std::string& author();
             std::string& assignee();
             std::string& status();
+            std::vector<IssueLink>& links();
 
             const std::string& get_id();
             const std::string& get_key();
@@ -34,6 +40,7 @@ namespace model
             const std::string& get_author();
             const std::string& get_assignee();
             const std::string& get_status();
+            const std::vector<IssueLink>& get_links();
 
             static void init();
             static Issue read_by_id(std::string& id);
@@ -43,6 +50,16 @@ namespace model
             static Issue fromJSON(const std::string & str);
             Poco::JSON::Object::Ptr toJSON() const;
     };
+
+    struct IssueLink{
+        std::string link_type;
+        std::shared_ptr<Issue>   item;
+
+        IssueLink();
+        IssueLink(std::string link_type,std::shared_ptr<Issue>   item);
+    };
+
+
 }
 
 std::ostream & operator<<(std::ostream&,model::Issue&); 

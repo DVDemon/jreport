@@ -14,7 +14,7 @@ namespace loaders{
             std::string load_from_file(const std::string & id);
         public:
             static LoaderJira& get();
-            std::optional<model::Issue> load(const std::string & id);
+            std::shared_ptr<model::Issue> load(const std::string & id);
 
             ~LoaderJira();
     };

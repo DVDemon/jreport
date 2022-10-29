@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
                         
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
-                        res.set_content(ss.str(), "text/plain"); 
+                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     }
                     std::cout << "end processing 'hi' request ..." << std::endl;
                 });

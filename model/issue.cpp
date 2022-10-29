@@ -190,7 +190,6 @@ namespace model
     }
 
     Poco::JSON::Object::Ptr Issue::toJSON() const {
-
         Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
         root->set("id", _id);
         root->set("key", _key);
@@ -199,8 +198,34 @@ namespace model
         root->set("author", _author);
         root->set("assignee", _assignee);
         root->set("status", _status);
+        if(!_links.empty()){
+            Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
+            for(size_t i=0;i<_links.size();++i){
+                 Poco::JSON::Object::Ptr l =  new Poco::JSON::Object();
+                 l->set("type",_links[i].link_type);
+                 l->set("issue", _links[i].item->toJSON());
+                 links_array->add(l);
+            }
+            root->set("links",links_array);
+            
+        }
         return root;
     }
+
+     std::vector<IssueLink>& Issue::links(){
+        return _links;
+     }
+     
+     const std::vector<IssueLink>& Issue::get_links(){
+        return _links;
+     }
+
+     IssueLink::IssueLink() {}
+     IssueLink::IssueLink(std::string lt,std::shared_ptr<Issue>   i):
+     link_type(lt),item(i)
+     {
+
+     }
 }
 
 std::ostream & operator<<(std::ostream& os,model::Issue& issue){

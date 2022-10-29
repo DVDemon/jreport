@@ -16,6 +16,7 @@
 
 #include <memory>
 #include <fstream>
+#include <functional>
 
 namespace loaders
 {
@@ -38,7 +39,7 @@ namespace loaders
         int index = id.find_last_of('/');
         if (index > 0)
         {
-            std::string file_name = "stubs/" + id.substr(index + 1)+".json";
+            std::string file_name = "stubs/" + id.substr(index + 1) + ".json";
             std::ifstream ifs(file_name);
             std::cout << "loading from " << file_name << std::endl;
 
@@ -46,7 +47,7 @@ namespace loaders
             {
                 std::istream_iterator<char> start{ifs >> std::noskipws}, end{};
                 std::string result{start, end};
-                
+
                 return result;
             }
         }
@@ -54,7 +55,7 @@ namespace loaders
         return std::string();
     }
 
-    std::optional<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id)
+   std::shared_ptr<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id)
     {
 #ifdef STUB
         std::string string_result = load_from_file(id);
@@ -75,22 +76,66 @@ namespace loaders
             std::cout << ex.displayText() << std::endl;
         }
 #endif
-        if(!string_result.empty()){
+        if (!string_result.empty())
+        {
             Poco::JSON::Parser parser;
             Poco::Dynamic::Var result = parser.parse(string_result);
             Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-            model::Issue issue;
-            issue.id() =  object->getValue<std::string>("id");            issue.key() =  object->getValue<std::string>("key");
-            object = object->getObject("fields");
-            issue.description() =  object->getValue<std::string>("description");
-            issue.name() = object->getValue<std::string>("summary");
-            return issue;
+            std::cout << "start" << std::endl;
+            std::function<std::shared_ptr<model::Issue>(Poco::JSON::Object::Ptr)> create = [&](Poco::JSON::Object::Ptr object)
+            {
+                std::cout << "create" << std::endl;
+                std::shared_ptr<model::Issue> issue = std::shared_ptr<model::Issue>(new model::Issue());
+                issue->id() =  object->getValue<std::string>("id");            
+                issue->key() =  object->getValue<std::string>("key");
+                std::cout << "fields" << std::endl;
+
+                if(object->has("fields")){
+                    object = object->getObject("fields");
+
+                    if(object->has("description"))
+                    issue->description() =  object->getValue<std::string>("description");
+                    if(object->has("summary"))
+                    issue->name() = object->getValue<std::string>("summary");
+
+                    if(object->has("status"))
+                    issue->status() = object->getObject("status")->getValue<std::string>("name");
+                    if(object->has("creator"))
+                    issue->author() = object->getObject("creator")->getValue<std::string>("displayName");
+                    if(object->has("assignee"))
+                    issue->assignee() = object->getObject("assignee")->getValue<std::string>("displayName");
+
+                    if(object->has("issuelinks")){
+                        Poco::JSON::Array::Ptr links = object->getArray("issuelinks");
+                        std::cout << "links" << std::endl;
+                        if(links)
+                        for(size_t i=0;i<links->size();++i){
+                            Poco::JSON::Object::Ptr link = links->getObject(i);
+                            std::string type;
+                            if(link->has("outwardIssue")){
+                                    type = link->getObject("type")->getValue<std::string>("outward");
+                                    std::shared_ptr<model::Issue> linked_element = create(link->getObject("outwardIssue"));
+                                    issue->links().push_back(model::IssueLink(type,linked_element));
+                            } else
+                            if(link->has("inwardIssue")){
+                                    type = link->getObject("type")->getValue<std::string>("inward");
+                                    std::shared_ptr<model::Issue> linked_element = create(link->getObject("inwardIssue"));
+                                    issue->links().push_back(model::IssueLink(type,linked_element));
+                            } 
+
+                        }
+                    }
+                }
+
+               return issue; 
+            };
+
+            return create(object);
         }
 
-        return std::optional<model::Issue>();
+        return std::shared_ptr<model::Issue>();
     }
-
 
     LoaderJira::~LoaderJira()
     {
