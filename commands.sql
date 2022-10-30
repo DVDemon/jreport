@@ -7,3 +7,7 @@ CREATE TABLE IF NOT EXISTS Product_Issue(product_name VARCHAR(256) NOT NULL,init
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1395');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1396');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1397');
+
+INSERT INTO Product_Issue(product_name,initative_name,issue_key) VALUES ('МТС Твой Бизнес','Cloud Native','CLMRKT-83');
+
+

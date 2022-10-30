@@ -5,12 +5,14 @@
 #include <string>
 #include "Poco/JSON/Object.h"
 
+#include "initiative.h"
+
 namespace model
 {
     struct Product{
         std::string name;
         std::string cluster;
-        std::set<std::string> issues;
+        std::map<std::string,Initiative> issues;
         bool operator<(const Product &other) const;
     };
 

@@ -25,9 +25,9 @@ namespace model
             Poco::JSON::Array::Ptr array = result.extract<Poco::JSON::Array::Ptr>();
             for(size_t i=0;i<array->size();++i){
                 std::string item = array->getElement<std::string>(i);
+               
                 std::set<std::string> issues;
-                Poco::Data::Session session = database::Database::get().create_session();
-            
+                Poco::Data::Session session = database::Database::get().create_session();            
                 Statement select(session);
                 std::string issue;
                 select << "SELECT issue_key FROM Initiatives_Issue WHERE initative_name=?",
