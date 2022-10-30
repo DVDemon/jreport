@@ -7,13 +7,19 @@
 
 namespace model
 {
-    class Initiative{
+    struct Initiative{
+        std::string name;
+        std::set<std::string> issues;
+        bool operator<(const Initiative &other) const;
+    };
+
+    class Initiatives{
         private:
-            std::set<std::string> _initiatives;
-            Initiative();
+            std::set<Initiative> _initiatives;
+            Initiatives();
         public:
-            static Initiative& get();
-            const std::set<std::string> &initiatives() const;
+            static Initiatives& get();
+            const std::set<Initiative> &initiatives() const;
             Poco::JSON::Array::Ptr toJSON() const;
     };
 } // namespace model

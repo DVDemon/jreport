@@ -7,6 +7,7 @@
 #include "loader/jira_loader.h"
 #include "model/cluster.h"
 #include "model/initiative.h"
+#include "model/product.h"
 
 namespace po = boost::program_options;
 
@@ -14,9 +15,6 @@ int main(int argc, char *argv[])
 {
     try
     {
-        model::Cluster::get();
-        model::Initiative::get();
-        
         po::options_description desc{"Options"};
         desc.add_options()("help,h", "This screen")
         ("address,", po::value<std::string>()->required(), "set database ip address")
@@ -50,7 +48,15 @@ int main(int argc, char *argv[])
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     }
                 });
-        
+
+        svr.Get("/products",[]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                {       
+          
+                        std::stringstream ss;
+                        Poco::JSON::Stringifier::stringify(model::Products::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
+                });
+
         svr.Get("/clusters",[]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 {       
           
@@ -63,7 +69,7 @@ int main(int argc, char *argv[])
                 {       
           
                         std::stringstream ss;
-                        Poco::JSON::Stringifier::stringify(model::Initiative::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        Poco::JSON::Stringifier::stringify(model::Initiatives::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                 });
     /*    svr.Get("/body-header-param", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
