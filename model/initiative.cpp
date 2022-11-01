@@ -40,7 +40,8 @@ namespace model
                     if(select.execute())
                     issues.insert(issue);
                 }
-                _initiatives.insert({item,issues});
+                std::shared_ptr<Initiative> in_ptr = std::shared_ptr<Initiative>(new Initiative{item,issues});
+                _initiatives.insert(in_ptr);
             }
         }
     }
@@ -48,10 +49,10 @@ namespace model
         Poco::JSON::Array::Ptr array = new Poco::JSON::Array();
         for(auto &init : _initiatives){
             Poco::JSON::Object::Ptr obj = new Poco::JSON::Object();
-            obj->set("name",init.name);
+            obj->set("name",init->name);
             
             Poco::JSON::Array::Ptr issues = new Poco::JSON::Array();
-            for(const std::string& str:init.issues)
+            for(const std::string& str:init->issues)
                 issues->add(str);
             obj->set("initiatives",issues);
             array->add(obj);
@@ -66,7 +67,7 @@ namespace model
         return instance;
     }
 
-    const std::set<Initiative> &Initiatives::initiatives() const
+    std::set<std::shared_ptr<Initiative>> &Initiatives::initiatives()
     {
         return _initiatives;
     }

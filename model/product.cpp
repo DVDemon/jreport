@@ -28,15 +28,14 @@ namespace model
             {
                 Poco::JSON::Object::Ptr obj = array->getObject(i);
 
-
                 std::set<std::string> issues;
-                Poco::Data::Session session = database::Database::get().create_session();            
+                Poco::Data::Session session = database::Database::get().create_session();
                 Statement select(session);
                 std::string issue_name;
                 std::string issue_key;
                 std::string product_name = obj->getValue<std::string>("name");
                 std::string cluster_name = obj->getValue<std::string>("cluster");
-                Product product{product_name,cluster_name};
+                std::shared_ptr<Product> product = std::shared_ptr<Product>(new Product{product_name, cluster_name});
 
                 select << "SELECT initative_name,issue_key FROM Product_Issue WHERE product_name=?",
                     into(issue_name),
@@ -46,41 +45,24 @@ namespace model
 
                 while (!select.done())
                 {
-                    if(select.execute()){
-                        if(product.issues.find(issue_name)!=std::end(product.issues))
-                            product.issues[issue_name] = Initiative({issue_name});
-                         product.issues[issue_name].name = issue_name;
-                         product.issues[issue_name].issues.insert(issue_key);
-                    }                    
+                    if (select.execute())
+                    {
+                        if (product->issues.find(issue_name) != std::end(product->issues))
+                            product->issues[issue_name] = Initiative({issue_name});
+                        product->issues[issue_name].name = issue_name;
+                        product->issues[issue_name].issues.insert(issue_key);
+                    }
                 }
 
-
-                _products.insert(product);
+                _products[product_name] = product;
             }
         }
     }
     Poco::JSON::Array::Ptr Products::toJSON() const
     {
         Poco::JSON::Array::Ptr array = new Poco::JSON::Array();
-        for (auto &p : _products)
-        {
-            Poco::JSON::Object::Ptr obj = new Poco::JSON::Object();
-            obj->set("name",p.name);
-            obj->set("cluster",p.cluster);
-            Poco::JSON::Array::Ptr issues = new Poco::JSON::Array();
-            for(const auto& [in_name,sn]: p.issues){
-                Poco::JSON::Object::Ptr i = new Poco::JSON::Object();
-                i->set("name",sn.name);
-                Poco::JSON::Array::Ptr initiatives = new Poco::JSON::Array();
-                for(const std::string &s:sn.issues){
-                    initiatives->add(s.c_str());
-                }
-                i->set("issues",initiatives);
-                issues->add(i);
-            }
-            obj->set("initiatives",issues);
-            array->add(obj);
-        }
+        for (auto &[n, p] : _products)
+            array->add(p->toJSON());
 
         return array;
     }
@@ -91,13 +73,35 @@ namespace model
         return instance;
     }
 
-    const std::set<model::Product> &Products::products() const
+    std::map<std::string, std::shared_ptr<model::Product>> &Products::products()
     {
         return _products;
     }
 
-    bool Product::operator<(const Product &other) const{
-        return name<other.name;
+    Poco::JSON::Object::Ptr Product::toJSON() const
+    {
+        Poco::JSON::Object::Ptr obj = new Poco::JSON::Object();
+        obj->set("name", name);
+        obj->set("cluster", cluster);
+        Poco::JSON::Array::Ptr issues_json = new Poco::JSON::Array();
+        for (const auto &[in_name, sn] : issues)
+        {
+            Poco::JSON::Object::Ptr i = new Poco::JSON::Object();
+            i->set("name", sn.name);
+            Poco::JSON::Array::Ptr initiatives = new Poco::JSON::Array();
+            for (const std::string &s : sn.issues)
+            {
+                initiatives->add(s.c_str());
+            }
+            i->set("issues", initiatives);
+            issues_json->add(i);
+        }
+        obj->set("initiatives", issues_json);
+        return obj;
+    }
 
+    bool Product::operator<(const Product &other) const
+    {
+        return name < other.name;
     }
 }

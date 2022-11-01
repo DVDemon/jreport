@@ -46,7 +46,20 @@ int main(int argc, char *argv[])
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
-                    }
+                    } else res.status = 404;
+                });
+
+        svr.Get("/product/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                {       
+                    std::string name = req.matches[1];
+                    auto &products = model::Products::get().products();
+
+                    if(products.find(name)!=std::end(products)){
+                        std::stringstream ss;
+                        auto product_ptr = products[name];
+                        Poco::JSON::Stringifier::stringify(product_ptr->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
+                    } else res.status = 404;
                 });
 
         svr.Get("/products",[]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
@@ -72,19 +85,6 @@ int main(int argc, char *argv[])
                         Poco::JSON::Stringifier::stringify(model::Initiatives::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                 });
-    /*    svr.Get("/body-header-param", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                {
-                    if (req.has_header("Content-Length")) {
-                        auto val = req.get_header_value("Content-Length");
-                        
-                        }
-        
-                        if (req.has_param("key")) {
-                            auto val = req.get_param_value("key");
-                            res.set_content(val, "text/plain"); 
-                        } else
-                        res.set_content(req.body, "text/plain"); 
-                });*/
 
         svr.Get("/stop", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                 { 

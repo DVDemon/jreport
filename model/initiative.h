@@ -3,6 +3,8 @@
 
 #include <set>
 #include <string>
+#include <memory>
+
 #include "Poco/JSON/Object.h"
 
 namespace model
@@ -15,11 +17,11 @@ namespace model
 
     class Initiatives{
         private:
-            std::set<Initiative> _initiatives;
+            std::set<std::shared_ptr<Initiative>> _initiatives;
             Initiatives();
         public:
             static Initiatives& get();
-            const std::set<Initiative> &initiatives() const;
+            std::set<std::shared_ptr<Initiative>> &initiatives();
             Poco::JSON::Array::Ptr toJSON() const;
     };
 } // namespace model
