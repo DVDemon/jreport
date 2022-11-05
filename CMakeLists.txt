@@ -28,6 +28,7 @@ add_executable(${EXECUTABLE} main.cpp
                              model/initiative.cpp
                              model/product.cpp
                              model/cluster_initiative_issue.cpp
+                             model/product_initiative_issue.cpp
                              file_export/xls_export.cpp
                              loader/jira_loader.cpp)
 

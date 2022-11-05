@@ -9,6 +9,7 @@
 #include "model/initiative.h"
 #include "model/product.h"
 #include "model/cluster_initiative_issue.h"
+#include "model/product_initiative_issue.h"
 
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Parser.h>
@@ -40,6 +41,43 @@ int main(int argc, char *argv[])
                         Config::get().database() = vm["database"].as<std::string>();
 
                 httplib::Server svr;
+
+                svr.Post("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                         {
+                                std::cout << "product_initative_issue" << std::endl;
+                                std::cout << req.body << std::endl;
+                                Poco::JSON::Parser parser;
+                                Poco::Dynamic::Var var = parser.parse(req.body);
+                                Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
+                                model::ProductInitativeIssue cii = model::ProductInitativeIssue::fromJSON(json);
+                                cii.save();
+
+                                res.set_content("", "text/plain");
+                                res.status = 200;
+                         });
+
+                svr.Get("/product_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                        {       
+                                if (req.has_param("product_issue")&&
+                                    req.has_param("cluster_issue")){
+                                        try{
+                                                std::string product_issue = req.get_param_value("product_issue");
+                                                std::string cluster_issue = req.get_param_value("cluster_issue");
+
+                                                std::cout << "product:" << product_issue << ", issue:" << cluster_issue << std::endl;
+
+                                                model::ProductInitativeIssue pii = model::ProductInitativeIssue::load_by_issue(product_issue,cluster_issue);
+                                                std::string str;
+                                                str  = "{ \"issue\" : \"";
+                                                str += pii.product;
+                                                str += "\"}";
+                                                res.set_content(str, "text/json; charset=utf-8"); 
+                                        }catch(...){
+                                           res.status = 404;      
+                                        }
+                                } else res.status = 404; 
+                        
+                    });
 
                 svr.Get("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
@@ -89,6 +127,42 @@ int main(int argc, char *argv[])
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     } else res.status = 404; });
+
+                svr.Get("/products", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                        {       
+                        if (req.has_param("cluster")&&
+                            req.has_param("cluster_issue")){
+                                try{
+                                        std::string cluster = req.get_param_value("cluster");
+                                        std::string cluster_issue = req.get_param_value("cluster_issue");
+
+                                        std::string str;
+                                        bool comma = false;
+                                        str = "[";
+                                        for(auto &[name,product] : model::Products::get().products())
+                                                 {
+                                                        if(product->cluster == cluster){
+                                                                std::string product_issue;
+                                                                try{
+                                                                        model::ProductInitativeIssue pii = model::ProductInitativeIssue::load(product->name,cluster_issue);
+                                                                        product_issue = pii.product_issue;
+                                                                }catch(...){
+
+                                                                }
+                                                                if(comma) str += ",";
+                                                                        else comma = true;
+                                                                str += "{ \"name\" : \""+product->name +"\", \"issue\" : \""+product_issue+"\"}";                                                                    
+                                                        }
+                                                }
+                                                        
+                                                str += "]";
+                                                std::cout << str << std::endl;
+                                                res.set_content(str, "text/json; charset=utf-8"); 
+                                                }catch(...){
+                                                res.status = 404;      
+                                                }
+                                        } else res.status = 404; 
+                    });
 
                 svr.Get("/product/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
