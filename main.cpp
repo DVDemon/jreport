@@ -41,6 +41,29 @@ int main(int argc, char *argv[])
 
                 httplib::Server svr;
 
+                svr.Get("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                        {       
+                                if (req.has_param("cluster")&&
+                                    req.has_param("initiative")&&
+                                    req.has_param("initiative_issue")){
+                                        try{
+                                                std::string cluster = req.get_param_value("cluster");
+                                                std::string initiative = req.get_param_value("initiative");
+                                                std::string initiative_issue = req.get_param_value("initiative_issue");
+
+                                                model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::load(cluster,initiative,initiative_issue);
+                                                std::string str;
+                                                str  = "{ \"issue\" : \"";
+                                                str += cii.issue;
+                                                str += "\"}";
+                                                res.set_content(str, "text/json; charset=utf-8"); 
+                                        }catch(...){
+                                           res.status = 404;      
+                                        }
+                                } else res.status = 404; 
+                        
+                    });
+
                 svr.Post("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
                                 std::cout << "cluster_initative_epic" << std::endl;

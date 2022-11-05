@@ -23,6 +23,43 @@ namespace model
         return result;
     }
 
+    ClusterInitativeIssue ClusterInitativeIssue::load(std::string &cluster, std::string &initiative,std::string &initiative_issue){
+
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+
+            Statement select(session);
+            ClusterInitativeIssue result;
+
+            select << "SELECT issue,initiative_issue,initiative,cluster FROM Cluster_Initiative_Issue WHERE cluster=? AND initiative_issue=? AND initiative=?",
+                use(cluster),
+                use(initiative_issue),
+                use(initiative),
+                into(result.issue),
+                into(result.initiative_issue),
+                into(result.initiative),
+                into(result.cluster);
+
+            select.execute();
+            Poco::Data::RecordSet rs(select);
+            if (!rs.moveFirst()) throw std::logic_error("not found");
+            return result;
+        }
+
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+    }
+
     void ClusterInitativeIssue::save(){
         try
         {

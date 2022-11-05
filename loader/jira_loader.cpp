@@ -121,6 +121,10 @@ namespace loaders
                             } 
 
                         }
+
+                        std::sort(std::begin(issue->links()),std::end(issue->links()),[](const model::IssueLink &lhv,const model::IssueLink &rhv){
+                            return lhv.item->get_name()<rhv.item->get_name();
+                        });
                     }
                 }
 

@@ -7,6 +7,14 @@ CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1395');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1396');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1397');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('ArchOPS','KA-1435');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('TechRadar','KA-1479');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1140');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1141');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1142');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1480');
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1504');
+
 
 INSERT INTO Product_Issue(product_name,initative_name,issue_key) VALUES ('МТС Твой Бизнес','Cloud Native','CLMRKT-83');
 
