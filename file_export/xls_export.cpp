@@ -30,9 +30,10 @@ namespace file_export
             wks.cell(i, 3).value() = r.product;
             int j = 4;
             for(auto [i_status,p_status]: r.issue_status){
-                wks.cell(i, j).value() = i_status.key+" "+i_status.name+"\r\nhttps://jira.mts.ru/browse/"+
-                p_status.key+"\r\n"+p_status.status;
-                ++j;
+                wks.cell(i, j++).value() = i_status.key;
+                wks.cell(i, j++).value() = i_status.name;
+                wks.cell(i, j++).value() = "https://jira.mts.ru/browse/"+p_status.key;
+                wks.cell(i, j++).value() = p_status.status;
             }
             ++i;
         }

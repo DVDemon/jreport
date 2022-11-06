@@ -38,6 +38,10 @@ namespace model
         return _status;
     }
 
+    std::string& Issue::resolution(){
+        return _resolution;
+
+    }
     const std::string &Issue::get_id() {
         return _id;
     }
@@ -61,9 +65,10 @@ namespace model
         return _status;
     }
 
-    void Issue::init() {
-
+    const std::string& Issue::get_resolution(){
+        return _resolution;
     }
+
 
     Issue Issue::read_by_id(const  std::string &id) {
        try
@@ -186,6 +191,7 @@ namespace model
         issue.author()      = object->getValue<std::string>("author");
         issue.assignee()    = object->getValue<std::string>("assignee");
         issue.status()      = object->getValue<std::string>("status");
+        issue.resolution()  = object->getValue<std::string>("resolution");
 
         return issue;
     }
@@ -199,6 +205,7 @@ namespace model
         root->set("author", _author);
         root->set("assignee", _assignee);
         root->set("status", _status);
+        root->set("resolution",_resolution);
         if(!_links.empty()){
             Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
             for(size_t i=0;i<_links.size();++i){

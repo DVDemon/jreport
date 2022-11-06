@@ -74,6 +74,8 @@ int main(int argc, char *argv[])
                             ri.key = product_item->get_key();
                             ri.name = product_item->get_name();
                             ri.status = product_item->get_status();
+                            if(!product_item->get_resolution().empty()) ri.status = product_item->get_resolution();
+                                else ri.status = product_item->get_status();
 
                             line.issue_status.push_back({ii,ri});
 

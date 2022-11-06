@@ -20,6 +20,7 @@ namespace model
             std::string _author;
             std::string _assignee;
             std::string _status;
+            std::string _resolution;
 
             std::vector<IssueLink> _links;
 
@@ -31,6 +32,7 @@ namespace model
             std::string& author();
             std::string& assignee();
             std::string& status();
+            std::string& resolution();
             std::vector<IssueLink>& links();
 
             const std::string& get_id();
@@ -40,9 +42,9 @@ namespace model
             const std::string& get_author();
             const std::string& get_assignee();
             const std::string& get_status();
+            const std::string& get_resolution();
             const std::vector<IssueLink>& get_links();
 
-            static void init();
             static Issue read_by_id(const std::string& id);
             static std::vector<Issue> read_all();
             void save_to_mysql();

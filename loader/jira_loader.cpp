@@ -96,6 +96,13 @@ namespace loaders
                 if(object->has("fields")){
                     object = object->getObject("fields");
 
+                    if(object->has("resolution")){
+                            Poco::JSON::Object::Ptr res = object->getObject("resolution");
+                            if(res)
+                            if(res->has("name"))
+                            issue->resolution() = res->getValue<std::string>("name");
+                    }
+
                     if(object->has("description"))
                     issue->description() =  object->getValue<std::string>("description");
                     if(object->has("summary"))
