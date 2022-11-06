@@ -10,6 +10,7 @@
 #include "model/cluster_initiative_issue.h"
 #include "model/product_initiative_issue.h"
 #include "file_export/reports.h"
+#include "file_export/xls_export.h"
 
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Parser.h>
@@ -88,6 +89,8 @@ int main(int argc, char *argv[])
             }
         }
 
+        
+        file_export::ExportXLS::start_export(report);
         std::cout << "Report lines count: " << report.size() << std::endl;
     }
     catch (const std::exception &e)

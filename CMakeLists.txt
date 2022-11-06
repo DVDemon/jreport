@@ -41,6 +41,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     model/product.cpp
                                     model/cluster_initiative_issue.cpp
                                     model/product_initiative_issue.cpp
+                                    file_export/xls_export.cpp
                                     loader/jira_loader.cpp)
 
 target_link_libraries(${EXECUTABLE} PRIVATE 
