@@ -36,10 +36,13 @@ namespace loaders
 
     std::string LoaderJira::load_from_file(const std::string &id)
     {
-        int index = id.find_last_of('/');
-        if (index > 0)
-        {
-            std::string file_name = "stubs/" + id.substr(index + 1) + ".json";
+        
+        std::string file_name;
+        size_t index = id.find_last_of('/');
+        if (index == std::string::npos) file_name = "stubs/" + id + ".json";
+         else file_name = "stubs/" + id.substr(index + 1) + ".json";
+        
+            
             std::ifstream ifs(file_name);
             std::cout << "loading from " << file_name << std::endl;
 
@@ -50,7 +53,7 @@ namespace loaders
 
                 return result;
             }
-        }
+        
 
         return std::string();
     }
@@ -62,6 +65,8 @@ namespace loaders
 #elif
         try
         {
+            std::string request_uri {"http://jira.mts.ru/rest/api/2/issue/"};
+            request_uri+=id;
             Poco::URI uri("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relativehumidity_2m,windspeed_10m");
             Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());

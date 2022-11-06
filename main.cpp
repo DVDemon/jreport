@@ -118,10 +118,8 @@ int main(int argc, char *argv[])
 
                 svr.Get("/issue/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
-                    auto numbers = req.matches[1];
-                    std::string request_uri {"http://jira.mts.ru/rest/api/2/issue/"};
-                    request_uri+=numbers;
-                    auto item = loaders::LoaderJira::get().load(request_uri);
+                    auto key = req.matches[1];
+                    auto item = loaders::LoaderJira::get().load(key);
                     if(item){                       
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);

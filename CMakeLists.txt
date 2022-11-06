@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(jserver C CXX)
 
 set(EXECUTABLE jserver)
+set(EXPORT_EXECUTABLE xlsx_report)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -29,10 +30,32 @@ add_executable(${EXECUTABLE} main.cpp
                              model/product.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
-                             file_export/xls_export.cpp
                              loader/jira_loader.cpp)
 
+add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
+                                    config/config.cpp
+                                    database/database.cpp
+                                    model/issue.cpp
+                                    model/cluster.cpp
+                                    model/initiative.cpp
+                                    model/product.cpp
+                                    model/cluster_initiative_issue.cpp
+                                    model/product_initiative_issue.cpp
+                                    loader/jira_loader.cpp)
+
 target_link_libraries(${EXECUTABLE} PRIVATE 
+                             ${CMAKE_THREAD_LIBS_INIT} 
+                             ${Poco_LIBRARIES}
+                             "PocoData"
+                             "PocoDataMySQL"
+                             "OpenXLSX"
+                             stdc++fs
+                             ZLIB::ZLIB
+                             ${Boost_LIBRARIES}
+                             OpenSSL::SSL
+                             OpenSSL::Crypto)
+
+target_link_libraries(${EXPORT_EXECUTABLE} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
                              "PocoData"

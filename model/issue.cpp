@@ -65,13 +65,14 @@ namespace model
 
     }
 
-    Issue Issue::read_by_id(std::string &id) {
+    Issue Issue::read_by_id(const  std::string &id) {
        try
         {
             Poco::Data::Session session = database::Database::get().create_session();
             Statement select(session);
             std::vector<Issue> result;
             Issue a;
+            std::string i=id;
             select << "SELECT id,key_field,name,description,author,assignee,status FROM Issue WHERE id = ?",
                 into(a._id),
                 into(a._key),
@@ -80,7 +81,7 @@ namespace model
                 into(a._author),
                 into(a._assignee),
                 into(a._status),
-                use(id),
+                use(i),
                 range(0, 1);
 
             select.execute();

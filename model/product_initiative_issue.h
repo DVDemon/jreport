@@ -12,7 +12,7 @@ namespace model
         std::string cluster_issue;
         std::string product_issue;
 
-        static ProductInitativeIssue load(std::string &product, std::string &cluster_issue);
+        static ProductInitativeIssue load(const std::string &product, const  std::string &cluster_issue);
         static ProductInitativeIssue load_by_issue(std::string &product_issue, std::string &cluster_issue);
         static ProductInitativeIssue fromJSON(Poco::JSON::Object::Ptr ptr); 
         void save();

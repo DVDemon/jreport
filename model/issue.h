@@ -43,7 +43,7 @@ namespace model
             const std::vector<IssueLink>& get_links();
 
             static void init();
-            static Issue read_by_id(std::string& id);
+            static Issue read_by_id(const std::string& id);
             static std::vector<Issue> read_all();
             void save_to_mysql();
 

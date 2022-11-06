@@ -55,7 +55,7 @@ namespace model
             throw;
         }
     }
-    ProductInitativeIssue ProductInitativeIssue::load(std::string &product, std::string &cluster_issue){
+    ProductInitativeIssue ProductInitativeIssue::load(const std::string &product, const std::string &cluster_issue){
 
         try
         {
@@ -63,10 +63,12 @@ namespace model
 
             Statement select(session);
             ProductInitativeIssue result;
+            std::string p = product;
+            std::string ci = cluster_issue;
 
             select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE product=? AND cluster_issue=?",
-                use(product),
-                use(cluster_issue),
+                use(p),
+                use(ci),
                 into(result.product),
                 into(result.cluster_issue),
                 into(result.product_issue);
