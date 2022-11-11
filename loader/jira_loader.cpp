@@ -1,4 +1,6 @@
 #include "jira_loader.h"
+//#define CPPHTTPLIB_OPENSSL_SUPPORT
+#include "httplib.h"
 
 #include "Poco/StreamCopier.h"
 #include "Poco/URI.h"
@@ -14,6 +16,11 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/Dynamic/Var.h>
 
+#include <Poco/URIStreamFactory.h>
+#include <Poco/URIStreamOpener.h>
+#include <Poco/Net/HTTPSStreamFactory.h>
+#include <Poco/Net/HTTPStreamFactory.h>
+
 #include <memory>
 #include <fstream>
 #include <functional>
@@ -22,10 +29,12 @@ namespace loaders
 {
     LoaderJira::LoaderJira()
     {
+
         Poco::Net::initializeSSL();
         Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(false);
-        Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "", "", "rootcert.pem", Poco::Net::Context::VERIFY_STRICT, 9, false, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
+        Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "");
         Poco::Net::SSLManager::instance().initializeClient(0, ptrCert, ptrContext);
+        std::cout << "inited ..." << std::endl;
     }
 
     LoaderJira &LoaderJira::get()
@@ -62,23 +71,41 @@ namespace loaders
     {
 #ifdef STUB
         std::string string_result = load_from_file(id);
-#elif
+#endif
+
+#ifndef STUB
+        std::string string_result;
         try
         {
-            std::string request_uri {"http://jira.mts.ru/rest/api/2/issue/"};
-            request_uri+=id;
-            Poco::URI uri("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,relativehumidity_2m,windspeed_10m");
+            
+            std::string request_uri {"https://jira.mts.ru"};
+            std::string resource {"/rest/api/2/issue/"};
+            resource+=id;
+
+            Poco::URI uri(request_uri+resource);
             Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
-            request.set("user-agent", "Poco HTTPSClientSession");
+            request.setContentType("application/json");
+            request.set("Authorization", "Basic ZHZkenl1YjE6My4xNE9uZWVyMg==");
+            request.set("User-Agent", "PostmanRuntime/7.29.2");
+            request.setKeepAlive(true);
+
             s.sendRequest(request);
             Poco::Net::HTTPResponse response;
             std::istream &rs = s.receiveResponse(response);
-            Poco::StreamCopier::copyStream(rs, std::cout);
+
+            while(rs){
+                char c{};
+                rs.read(&c,1);
+                if(rs)
+                string_result += c;
+
+            }
         }
         catch (Poco::Exception &ex)
         {
             std::cout << ex.displayText() << std::endl;
+            throw;
         }
 #endif
         if (!string_result.empty())

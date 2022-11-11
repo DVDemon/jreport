@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
                 svr.Get("/issue/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
                     auto key = req.matches[1];
+                    std::cout << "key:" << key << std::endl;
                     auto item = loaders::LoaderJira::get().load(key);
                     if(item){                       
                         std::stringstream ss;
