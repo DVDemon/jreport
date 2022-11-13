@@ -69,7 +69,7 @@ namespace loaders
         return std::string();
     }
 
-   std::shared_ptr<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id)
+   std::shared_ptr<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id,const std::string & identity)
     {
 #ifdef STUB
         std::string string_result = load_from_file(id);
@@ -89,13 +89,7 @@ namespace loaders
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
             request.setContentType("application/json");
 
-            std::string token = Config::get().jira_username()+":"+Config::get().jira_password();
-            std::ostringstream os;
-            Poco::Base64Encoder b64in(os);
-            b64in << token;
-            b64in.close();
-
-            request.set("Authorization", "Basic "+os.str());
+            request.set("Authorization", identity);
             request.setKeepAlive(true);
 
             s.sendRequest(request);

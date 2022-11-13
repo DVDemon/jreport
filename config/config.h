@@ -11,8 +11,6 @@ class  Config{
         std::string _login;
         std::string _password;
         std::string _database;
-        std::string _jira_username;
-        std::string _jira_password;
         std::string _jira_address;
 
 
@@ -25,8 +23,6 @@ class  Config{
         std::string& login();
         std::string& password();
         std::string& database();
-        std::string& jira_username();
-        std::string& jira_password();
         std::string& jira_address();
 
         const std::string& get_database_port() const ;
@@ -34,8 +30,6 @@ class  Config{
         const std::string& get_login() const ;
         const std::string& get_password() const ;
         const std::string& get_database() const ;
-        const std::string& get_jira_username() const ;
-        const std::string& get_jira_password() const ;
         const std::string& get_jira_address() const ;
 };
 

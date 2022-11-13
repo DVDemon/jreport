@@ -39,10 +39,6 @@ int main(int argc, char *argv[])
                         Config::get().password() = vm["password"].as<std::string>();
                 if (vm.count("database"))
                         Config::get().database() = vm["database"].as<std::string>();
-                if (vm.count("juser"))
-                        Config::get().jira_username() = vm["juser"].as<std::string>();
-                if (vm.count("jpassword"))
-                        Config::get().jira_password() = vm["jpassword"].as<std::string>();
                 if (vm.count("jaddress"))
                         Config::get().jira_address() = vm["jaddress"].as<std::string>();
 
@@ -120,8 +116,6 @@ int main(int argc, char *argv[])
 
                 svr.Post("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
-                                std::cout << "cluster_initative_epic" << std::endl;
-                                std::cout << req.body << std::endl;
                                 Poco::JSON::Parser parser;
                                 Poco::Dynamic::Var var = parser.parse(req.body);
                                 Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
@@ -135,7 +129,8 @@ int main(int argc, char *argv[])
                         {       
                     auto key = req.matches[1];
                     std::cout << "key:" << key << std::endl;
-                    auto item = loaders::LoaderJira::get().load(key);
+
+                    auto item = loaders::LoaderJira::get().load(key,req.get_header_value("Authorization"));
                     if(item){                       
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
@@ -149,7 +144,6 @@ int main(int argc, char *argv[])
                                 try{
                                         std::string cluster = req.get_param_value("cluster");
                                         std::string cluster_issue = req.get_param_value("cluster_issue");
-
                                         std::string str;
                                         bool comma = false;
                                         str = "[";
