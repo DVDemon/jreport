@@ -1,6 +1,5 @@
 #include "jira_loader.h"
-//#define CPPHTTPLIB_OPENSSL_SUPPORT
-#include "httplib.h"
+
 
 #include "Poco/StreamCopier.h"
 #include "Poco/URI.h"
@@ -20,6 +19,9 @@
 #include <Poco/URIStreamOpener.h>
 #include <Poco/Net/HTTPSStreamFactory.h>
 #include <Poco/Net/HTTPStreamFactory.h>
+#include <Poco/Base64Encoder.h>
+
+#include "../config/config.h"
 
 #include <memory>
 #include <fstream>
@@ -78,7 +80,7 @@ namespace loaders
         try
         {
             
-            std::string request_uri {"https://jira.mts.ru"};
+            std::string request_uri {Config::get().jira_address()};
             std::string resource {"/rest/api/2/issue/"};
             resource+=id;
 
@@ -86,8 +88,14 @@ namespace loaders
             Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
             request.setContentType("application/json");
-            request.set("Authorization", "Basic ZHZkenl1YjE6My4xNE9uZWVyMg==");
-            request.set("User-Agent", "PostmanRuntime/7.29.2");
+
+            std::string token = Config::get().jira_username()+":"+Config::get().jira_password();
+            std::ostringstream os;
+            Poco::Base64Encoder b64in(os);
+            b64in << token;
+            b64in.close();
+
+            request.set("Authorization", "Basic "+os.str());
             request.setKeepAlive(true);
 
             s.sendRequest(request);

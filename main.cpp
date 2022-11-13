@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         try
         {
                 po::options_description desc{"Options"};
-                desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name");
+                desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name")("juser,", po::value<std::string>()->required(), "jira user name")("jpassword,", po::value<std::string>()->required(), "jira password")("jaddress,", po::value<std::string>()->required(), "jira address");
 
                 po::variables_map vm;
                 po::store(parse_command_line(argc, argv, desc), vm);
@@ -39,6 +39,13 @@ int main(int argc, char *argv[])
                         Config::get().password() = vm["password"].as<std::string>();
                 if (vm.count("database"))
                         Config::get().database() = vm["database"].as<std::string>();
+                if (vm.count("juser"))
+                        Config::get().jira_username() = vm["juser"].as<std::string>();
+                if (vm.count("jpassword"))
+                        Config::get().jira_password() = vm["jpassword"].as<std::string>();
+                if (vm.count("jaddress"))
+                        Config::get().jira_address() = vm["jaddress"].as<std::string>();
+
 
                 httplib::Server svr;
 
@@ -53,54 +60,63 @@ int main(int argc, char *argv[])
                                 cii.save();
 
                                 res.set_content("", "text/plain");
-                                res.status = 200;
-                         });
+                                res.status = 200; });
 
                 svr.Get("/product_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                        {       
-                                if (req.has_param("product_issue")&&
-                                    req.has_param("cluster_issue")){
-                                        try{
+                        {
+                                if (req.has_param("product_issue") &&
+                                    req.has_param("cluster_issue"))
+                                {
+                                        try
+                                        {
                                                 std::string product_issue = req.get_param_value("product_issue");
                                                 std::string cluster_issue = req.get_param_value("cluster_issue");
 
                                                 std::cout << "product:" << product_issue << ", issue:" << cluster_issue << std::endl;
 
-                                                model::ProductInitativeIssue pii = model::ProductInitativeIssue::load_by_issue(product_issue,cluster_issue);
+                                                model::ProductInitativeIssue pii = model::ProductInitativeIssue::load_by_issue(product_issue, cluster_issue);
                                                 std::string str;
-                                                str  = "{ \"issue\" : \"";
+                                                str = "{ \"issue\" : \"";
                                                 str += pii.product;
                                                 str += "\"}";
-                                                res.set_content(str, "text/json; charset=utf-8"); 
-                                        }catch(...){
-                                           res.status = 404;      
+                                                res.set_content(str, "text/json; charset=utf-8");
                                         }
-                                } else res.status = 404; 
-                        
-                    });
+                                        catch (...)
+                                        {
+                                                res.status = 404;
+                                        }
+                                }
+                                else
+                                        res.status = 404;
+                        });
 
                 svr.Get("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                        {       
-                                if (req.has_param("cluster")&&
-                                    req.has_param("initiative")&&
-                                    req.has_param("initiative_issue")){
-                                        try{
+                        {
+                                if (req.has_param("cluster") &&
+                                    req.has_param("initiative") &&
+                                    req.has_param("initiative_issue"))
+                                {
+                                        try
+                                        {
                                                 std::string cluster = req.get_param_value("cluster");
                                                 std::string initiative = req.get_param_value("initiative");
                                                 std::string initiative_issue = req.get_param_value("initiative_issue");
 
-                                                model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::load(cluster,initiative,initiative_issue);
+                                                model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
                                                 std::string str;
-                                                str  = "{ \"issue\" : \"";
+                                                str = "{ \"issue\" : \"";
                                                 str += cii.issue;
                                                 str += "\"}";
-                                                res.set_content(str, "text/json; charset=utf-8"); 
-                                        }catch(...){
-                                           res.status = 404;      
+                                                res.set_content(str, "text/json; charset=utf-8");
                                         }
-                                } else res.status = 404; 
-                        
-                    });
+                                        catch (...)
+                                        {
+                                                res.status = 404;
+                                        }
+                                }
+                                else
+                                        res.status = 404;
+                        });
 
                 svr.Post("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
@@ -113,8 +129,7 @@ int main(int argc, char *argv[])
                                 cii.save();
 
                                 res.set_content("", "text/plain");
-                                res.status = 200;
-                         });
+                                res.status = 200; });
 
                 svr.Get("/issue/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
@@ -160,8 +175,7 @@ int main(int argc, char *argv[])
                                                 }catch(...){
                                                 res.status = 404;      
                                                 }
-                                        } else res.status = 404; 
-                    });
+                                        } else res.status = 404; });
 
                 svr.Get("/product/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
