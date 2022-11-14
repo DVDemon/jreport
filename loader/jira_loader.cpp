@@ -83,12 +83,13 @@ namespace loaders
             std::string request_uri {Config::get().jira_address()};
             std::string resource {"/rest/api/2/issue/"};
             resource+=id;
-
+            //std::cout << resource << std::endl;
             Poco::URI uri(request_uri+resource);
             Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
             request.setContentType("application/json");
 
+            //std::cout << identity << std::endl;
             request.set("Authorization", identity);
             request.setKeepAlive(true);
 

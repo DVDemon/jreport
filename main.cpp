@@ -47,8 +47,8 @@ int main(int argc, char *argv[])
 
                 svr.Post("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
-                                std::cout << "product_initative_issue" << std::endl;
-                                std::cout << req.body << std::endl;
+                                //std::cout << "product_initative_issue" << std::endl;
+                                //std::cout << req.body << std::endl;
                                 Poco::JSON::Parser parser;
                                 Poco::Dynamic::Var var = parser.parse(req.body);
                                 Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
