@@ -8,6 +8,7 @@
 #include "model/cluster.h"
 #include "model/initiative.h"
 #include "model/product.h"
+#include "model/comment.h"
 #include "model/cluster_initiative_issue.h"
 #include "model/product_initiative_issue.h"
 
@@ -44,6 +45,46 @@ int main(int argc, char *argv[])
 
 
                 httplib::Server svr;
+
+                svr.Post("/comments", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                         {
+                                std::cout << "set comments" << std::endl;
+                                std::cout << req.body << std::endl;
+                                Poco::JSON::Parser parser;
+                                Poco::Dynamic::Var var = parser.parse(req.body);
+                                Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
+                                model::Comment com = model::Comment::fromJSON(json);
+                                com.save();
+
+                                res.set_content("", "text/plain");
+                                res.status = 200; });
+
+                svr.Get("/comments", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                        {
+                                std::cout << "get comments" << std::endl;
+                                if (req.has_param("product") &&
+                                    req.has_param("cluster_issue"))
+                                {
+                                        try
+                                        {
+                                                std::string product = req.get_param_value("product");
+                                                std::string cluster_issue = req.get_param_value("cluster_issue");
+
+                                                std::cout << "product:" << product << ", issue:" << cluster_issue << std::endl;
+
+                                                model::Comment com = model::Comment::load(product, cluster_issue);
+                                                std::stringstream ss;
+                                                Poco::JSON::Stringifier::stringify(com.toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                                                res.set_content(ss.str(), "text/json; charset=utf-8");
+                                        }
+                                        catch (...)
+                                        {
+                                                res.status = 404;
+                                        }
+                                }
+                                else
+                                        res.status = 404;
+                        });
 
                 svr.Post("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {

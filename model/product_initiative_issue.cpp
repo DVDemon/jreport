@@ -11,8 +11,9 @@ using Poco::Data::Statement;
 
 namespace model
 {
-    
-    ProductInitativeIssue ProductInitativeIssue::fromJSON(Poco::JSON::Object::Ptr ptr){
+
+    ProductInitativeIssue ProductInitativeIssue::fromJSON(Poco::JSON::Object::Ptr ptr)
+    {
         ProductInitativeIssue result;
 
         result.product = ptr->getValue<std::string>("product");
@@ -22,8 +23,9 @@ namespace model
         return result;
     }
 
-    ProductInitativeIssue ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue){
- try
+    ProductInitativeIssue ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue)
+    {
+        try
         {
             Poco::Data::Session session = database::Database::get().create_session();
 
@@ -39,7 +41,8 @@ namespace model
 
             select.execute();
             Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst()) throw std::logic_error("not found");
+            if (!rs.moveFirst())
+                throw std::logic_error("not found");
             return result;
         }
 
@@ -55,7 +58,8 @@ namespace model
             throw;
         }
     }
-    ProductInitativeIssue ProductInitativeIssue::load(const std::string &product, const std::string &cluster_issue){
+    ProductInitativeIssue ProductInitativeIssue::load(const std::string &product, const std::string &cluster_issue)
+    {
 
         try
         {
@@ -75,7 +79,8 @@ namespace model
 
             select.execute();
             Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst()) throw std::logic_error("not found");
+            if (!rs.moveFirst())
+                throw std::logic_error("not found");
             return result;
         }
 
@@ -92,7 +97,8 @@ namespace model
         }
     }
 
-    void ProductInitativeIssue::save(){
+    void ProductInitativeIssue::save()
+    {
         try
         {
             Poco::Data::Session session = database::Database::get().create_session();
@@ -122,6 +128,5 @@ namespace model
             std::cout << "statement:" << e.what() << std::endl;
             throw;
         }
-
     }
 } // namespace model

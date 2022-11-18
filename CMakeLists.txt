@@ -28,6 +28,7 @@ add_executable(${EXECUTABLE} main.cpp
                              model/cluster.cpp
                              model/initiative.cpp
                              model/product.cpp
+                             model/comment.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
                              loader/jira_loader.cpp)
@@ -39,6 +40,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     model/cluster.cpp
                                     model/initiative.cpp
                                     model/product.cpp
+                                    model/comment.cpp
                                     model/cluster_initiative_issue.cpp
                                     model/product_initiative_issue.cpp
                                     file_export/xls_export.cpp
