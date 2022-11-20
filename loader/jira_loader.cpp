@@ -144,6 +144,8 @@ namespace loaders
                     issue->author() = object->getObject("creator")->getValue<std::string>("displayName");
                     if(object->has("assignee"))
                     issue->assignee() = object->getObject("assignee")->getValue<std::string>("displayName");
+                    if(object->has("project"))
+                    issue->assignee() = object->getObject("project")->getValue<std::string>("key");
 
                     if(object->has("issuelinks")){
                         Poco::JSON::Array::Ptr links = object->getArray("issuelinks");

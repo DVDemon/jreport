@@ -13,6 +13,7 @@ namespace model
     struct Product{
         std::string name;
         std::string cluster;
+        std::string project;
         Poco::JSON::Object::Ptr toJSON() const;
         bool operator<(const Product &other) const;
     };

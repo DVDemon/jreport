@@ -25,7 +25,10 @@ namespace model
 
                 std::string product_name = obj->getValue<std::string>("name");
                 std::string cluster_name = obj->getValue<std::string>("cluster");
-                std::shared_ptr<Product> product = std::shared_ptr<Product>(new Product{product_name, cluster_name});
+                std::string  project;
+                if( obj->has("project")) project = obj->getValue<std::string>("project");
+
+                std::shared_ptr<Product> product = std::shared_ptr<Product>(new Product{product_name, cluster_name , project});
 
 
                 _products[product_name] = product;
@@ -57,6 +60,7 @@ namespace model
         Poco::JSON::Object::Ptr obj = new Poco::JSON::Object();
         obj->set("name", name);
         obj->set("cluster", cluster);
+        obj->set("project", project);
 
         return obj;
     }

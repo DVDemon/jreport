@@ -42,6 +42,15 @@ namespace model
         return _resolution;
 
     }
+    std::string& Issue::project(){
+        return _project;
+
+    }
+
+    const std::string &Issue::get_project() {
+        return _project;
+    }
+
     const std::string &Issue::get_id() {
         return _id;
     }
@@ -78,7 +87,7 @@ namespace model
             std::vector<Issue> result;
             Issue a;
             std::string i=id;
-            select << "SELECT id,key_field,name,description,author,assignee,status FROM Issue WHERE id = ?",
+            select << "SELECT id,key_field,name,description,author,assignee,status,project FROM Issue WHERE id = ?",
                 into(a._id),
                 into(a._key),
                 into(a._name),
@@ -86,6 +95,7 @@ namespace model
                 into(a._author),
                 into(a._assignee),
                 into(a._status),
+                into(a._project),
                 use(i),
                 range(0, 1);
 
@@ -116,7 +126,7 @@ namespace model
             Statement select(session);
             std::vector<Issue> result;
             Issue a;
-            select << "SELECT id,key_field,name,description,author,assignee,status FROM Issue",
+            select << "SELECT id,key_field,name,description,author,assignee,status,project FROM Issue",
                 into(a._id),
                 into(a._key),
                 into(a._name),
@@ -124,6 +134,7 @@ namespace model
                 into(a._author),
                 into(a._assignee),
                 into(a._status),
+                into(a._project),
                 range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())
@@ -153,14 +164,15 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status) VALUES(?, ?, ?, ?, ?, ?)",
+            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status,project) VALUES(?, ?, ?, ?, ?, ?,?,?)",
                 use(_id),
                 use(_key),
                 use(_name),
                 use(_description),
                 use(_author),
                 use(_assignee),
-                use(_status);
+                use(_status),
+                use(_project);
 
             insert.execute();
         }
@@ -185,13 +197,14 @@ namespace model
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
         issue.id()          = object->getValue<std::string>("id");
-        issue.key()        = object->getValue<std::string>("key");
+        issue.key()         = object->getValue<std::string>("key");
         issue.name()        = object->getValue<std::string>("name");
         issue.description() = object->getValue<std::string>("description");
         issue.author()      = object->getValue<std::string>("author");
         issue.assignee()    = object->getValue<std::string>("assignee");
         issue.status()      = object->getValue<std::string>("status");
         issue.resolution()  = object->getValue<std::string>("resolution");
+        issue.project()     = object->getValue<std::string>("project");
 
         return issue;
     }
@@ -206,6 +219,8 @@ namespace model
         root->set("assignee", _assignee);
         root->set("status", _status);
         root->set("resolution",_resolution);
+        root->set("project",_project);
+
         if(!_links.empty()){
             Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
             for(size_t i=0;i<_links.size();++i){
@@ -244,6 +259,7 @@ std::ostream & operator<<(std::ostream& os,model::Issue& issue){
     os << "author:" << issue.get_author() << std::endl;
     os << "get_assignee:" << issue.get_assignee() << std::endl;
     os << "status:" << issue.get_status() << std::endl;
+    os << "project:" << issue.get_project() << std::endl;
 
     return os;
 }

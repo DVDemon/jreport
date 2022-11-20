@@ -21,6 +21,7 @@ namespace model
             std::string _assignee;
             std::string _status;
             std::string _resolution;
+            std::string _project;
 
             std::vector<IssueLink> _links;
 
@@ -33,6 +34,7 @@ namespace model
             std::string& assignee();
             std::string& status();
             std::string& resolution();
+            std::string& project();
             std::vector<IssueLink>& links();
 
             const std::string& get_id();
@@ -43,6 +45,7 @@ namespace model
             const std::string& get_assignee();
             const std::string& get_status();
             const std::string& get_resolution();
+            const std::string& get_project();
             const std::vector<IssueLink>& get_links();
 
             static Issue read_by_id(const std::string& id);

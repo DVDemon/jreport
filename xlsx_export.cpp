@@ -7,6 +7,7 @@
 #include "model/cluster.h"
 #include "model/initiative.h"
 #include "model/product.h"
+#include "model/product_project.h"
 #include "model/cluster_initiative_issue.h"
 #include "model/product_initiative_issue.h"
 #include "file_export/reports.h"
@@ -85,6 +86,12 @@ int main(int argc, char *argv[])
                             auto product_item = loaders::LoaderJira::get().load(pii.product_issue,identity);
                             if (product_item)
                             {
+                                if(!product_item->get_project().empty()){
+                                    std::cout << "project:" << product_item->get_project() << std::endl;
+                                    model::ProductProject pp {product_item->get_key(),product_item->get_project()};
+                                    pp.save();
+                                }
+
                                 report::Report_Issue ri;
                                 ri.key = product_item->get_key();
                                 ri.name = product_item->get_name();

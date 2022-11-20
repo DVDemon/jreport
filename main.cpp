@@ -9,6 +9,7 @@
 #include "model/initiative.h"
 #include "model/product.h"
 #include "model/comment.h"
+#include "model/product_project.h"
 #include "model/cluster_initiative_issue.h"
 #include "model/product_initiative_issue.h"
 
@@ -45,6 +46,19 @@ int main(int argc, char *argv[])
 
 
                 httplib::Server svr;
+
+                svr.Post("/product_project", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                         {
+                                std::cout << "set project" << std::endl;
+                                std::cout << req.body << std::endl;
+                                Poco::JSON::Parser parser;
+                                Poco::Dynamic::Var var = parser.parse(req.body);
+                                Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
+                                model::ProductProject pp = model::ProductProject::fromJSON(json);
+                                pp.save();
+
+                                res.set_content("", "text/plain");
+                                res.status = 200; });
 
                 svr.Post("/comments", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
@@ -220,6 +234,8 @@ int main(int argc, char *argv[])
                     if(products.find(name)!=std::end(products)){
                         std::stringstream ss;
                         auto product_ptr = products[name];
+                        std::optional<model::ProductProject> pp = model::ProductProject::load(name);
+                        if(pp) product_ptr->project = pp->project;
                         Poco::JSON::Stringifier::stringify(product_ptr->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                     } else res.status = 404; });
