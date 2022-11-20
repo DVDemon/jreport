@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
                             {
                                 if(!product_item->get_project().empty()){
                                     std::cout << "project:" << product_item->get_project() << std::endl;
-                                    model::ProductProject pp {product_item->get_key(),product_item->get_project()};
+                                    model::ProductProject pp {product_item->get_name(),product_item->get_project()};
                                     pp.save();
                                 }
 
