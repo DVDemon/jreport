@@ -135,17 +135,25 @@ namespace loaders
 
                     if(object->has("description"))
                     issue->description() =  object->getValue<std::string>("description");
+
                     if(object->has("summary"))
                     issue->name() = object->getValue<std::string>("summary");
 
                     if(object->has("status"))
+                    if(object->getObject("status")->has("name"))
                     issue->status() = object->getObject("status")->getValue<std::string>("name");
+
                     if(object->has("creator"))
+                    if(object->getObject("creator")->has("displayName"))
                     issue->author() = object->getObject("creator")->getValue<std::string>("displayName");
+
+
                     if(object->has("assignee"))
+                    if(object->getObject("assignee")->has("displayName"))
                     issue->assignee() = object->getObject("assignee")->getValue<std::string>("displayName");
                     
                     if(object->has("project"))
+                    if(object->getObject("project")->has("key"))
                     issue->project() = object->getObject("project")->getValue<std::string>("key");
 
                     if(object->has("components")){
@@ -168,12 +176,13 @@ namespace loaders
                         for(size_t i=0;i<links->size();++i){
                             Poco::JSON::Object::Ptr link = links->getObject(i);
                             std::string type;
-                            if(link->has("outwardIssue")){
+
+                            if(link->has("outwardIssue")&&link->has("type")){
                                     type = link->getObject("type")->getValue<std::string>("outward");
                                     std::shared_ptr<model::Issue> linked_element = create(link->getObject("outwardIssue"));
                                     issue->links().push_back(model::IssueLink(type,linked_element));
                             } else
-                            if(link->has("inwardIssue")){
+                            if(link->has("inwardIssue")&&link->has("type")){
                                     type = link->getObject("type")->getValue<std::string>("inward");
                                     std::shared_ptr<model::Issue> linked_element = create(link->getObject("inwardIssue"));
                                     issue->links().push_back(model::IssueLink(type,linked_element));
