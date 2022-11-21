@@ -56,37 +56,46 @@ int main(int argc, char *argv[])
         b64in.close();
         std::string identity = "Basic " + os.str();
 
-       
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
-            for( const std::string initiative_issue_key : initiative->issues){
-                std::cout << "loading initiative: " << initiative_issue_key << std::endl;
+            for (const std::string initiative_issue_key : initiative->issues)
+            {
+                std::cout << "loading initiative: " << initiative_issue_key;
 
-                std::shared_ptr<model::Issue> initiative_issue = loaders::LoaderJira::get().load(initiative_issue_key,identity);
-                if(initiative_issue)
-                for(const std::string cluster : model::Cluster::get().clusters()){
-                    std::cout << "cluster: " << cluster << std::endl;
-                    try{
-                        model::ClusterInitativeIssue cli = model::ClusterInitativeIssue::load(cluster,initiative->name,initiative_issue_key);
-                        std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli.issue,identity);
-                        if(cluster_issue){
-                            for(const model::IssueLink& link: cluster_issue->get_links()){
-                                std::shared_ptr<model::Issue> product_issue = loaders::LoaderJira::get().load(link.item->get_key(),identity);
-                                if(product_issue){
-                                    if(!product_issue->get_product().empty()){
-                                        std::cout << link.item->get_key() << ": " << product_issue->get_product() << std::endl;
-                                        model::ProductInitativeIssue pii {product_issue->get_product(),cli.issue,link.item->get_key()};
-                                        pii.save();
+                std::shared_ptr<model::Issue> initiative_issue = loaders::LoaderJira::get().load(initiative_issue_key, identity);
+                std::cout << " done" << std::endl;
+                
+                if (initiative_issue)
+                    for (const std::string cluster : model::Cluster::get().clusters())
+                    {
+                        std::cout << "cluster: " << cluster << std::endl;
+                        try
+                        {
+                            model::ClusterInitativeIssue cli = model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue_key);
+                            std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli.issue, identity);
+                            if (cluster_issue)
+                            {
+                                for (const model::IssueLink &link : cluster_issue->get_links())
+                                {
+                                    std::shared_ptr<model::Issue> product_issue = loaders::LoaderJira::get().load(link.item->get_key(), identity);
+                                    if (product_issue)
+                                    {
+                                        if (!product_issue->get_product().empty())
+                                        {
+                                            std::cout << link.item->get_key() << ": " << product_issue->get_product() << std::endl;
+                                            model::ProductInitativeIssue pii{product_issue->get_product(), cli.issue, link.item->get_key()};
+                                            pii.save();
+                                        }
                                     }
                                 }
                             }
                         }
-                    }catch(...){
+                        catch (...)
+                        {
+                        }
                     }
-                }
             }
         }
-       
     }
     catch (const std::exception &e)
     {
