@@ -1,4 +1,5 @@
 build/*
 token.txt
 *.xlsx
+*.sh
 
