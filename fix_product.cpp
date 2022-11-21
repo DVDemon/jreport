@@ -60,9 +60,12 @@ int main(int argc, char *argv[])
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
             for( const std::string initiative_issue_key : initiative->issues){
+                std::cout << "loading initiative: " << initiative_issue_key << std::endl;
+
                 std::shared_ptr<model::Issue> initiative_issue = loaders::LoaderJira::get().load(initiative_issue_key,identity);
                 if(initiative_issue)
                 for(const std::string cluster : model::Cluster::get().clusters()){
+                    std::cout << "cluster: " << cluster << std::endl;
                     try{
                         model::ClusterInitativeIssue cli = model::ClusterInitativeIssue::load(cluster,initiative->name,initiative_issue_key);
                         std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli.issue,identity);

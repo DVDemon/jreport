@@ -150,13 +150,13 @@ namespace loaders
 
                     if(object->has("components")){
                         Poco::JSON::Array::Ptr comps = object->getArray("components");
-                         if(comps)
+                        if(comps)
                         for(size_t i=0;i<comps->size();++i){
                             Poco::JSON::Object::Ptr comp = comps->getObject(i);
                             if(comp->has("description")){
                                 std::string type = comp->getValue<std::string>("description");
                                 if(type=="Product")
-                                if(comp->has("description"))
+                                if(comp->has("name"))
                                     issue->product() = comp->getValue<std::string>("name");
                             }
                         }
