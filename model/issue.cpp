@@ -47,6 +47,15 @@ namespace model
 
     }
 
+    std::string& Issue::product(){
+        return _product;
+
+    }
+
+    const std::string &Issue::get_product() {
+        return _product;
+    }
+
     const std::string &Issue::get_project() {
         return _project;
     }
@@ -87,7 +96,7 @@ namespace model
             std::vector<Issue> result;
             Issue a;
             std::string i=id;
-            select << "SELECT id,key_field,name,description,author,assignee,status,project FROM Issue WHERE id = ?",
+            select << "SELECT id,key_field,name,description,author,assignee,status,project,project FROM Issue WHERE id = ?",
                 into(a._id),
                 into(a._key),
                 into(a._name),
@@ -96,6 +105,7 @@ namespace model
                 into(a._assignee),
                 into(a._status),
                 into(a._project),
+                into(a._product),
                 use(i),
                 range(0, 1);
 
@@ -126,7 +136,7 @@ namespace model
             Statement select(session);
             std::vector<Issue> result;
             Issue a;
-            select << "SELECT id,key_field,name,description,author,assignee,status,project FROM Issue",
+            select << "SELECT id,key_field,name,description,author,assignee,status,project,product FROM Issue",
                 into(a._id),
                 into(a._key),
                 into(a._name),
@@ -135,6 +145,7 @@ namespace model
                 into(a._assignee),
                 into(a._status),
                 into(a._project),
+                into(a._product),
                 range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())
@@ -164,7 +175,7 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status,project) VALUES(?, ?, ?, ?, ?, ?,?,?)",
+            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status,projec,product) VALUES(?, ?, ?, ?, ?, ?, ?,?,?)",
                 use(_id),
                 use(_key),
                 use(_name),
@@ -172,7 +183,8 @@ namespace model
                 use(_author),
                 use(_assignee),
                 use(_status),
-                use(_project);
+                use(_project),
+                use(_product);
 
             insert.execute();
         }
@@ -205,6 +217,7 @@ namespace model
         issue.status()      = object->getValue<std::string>("status");
         issue.resolution()  = object->getValue<std::string>("resolution");
         issue.project()     = object->getValue<std::string>("project");
+        issue.project()     = object->getValue<std::string>("product");
 
         return issue;
     }
@@ -220,6 +233,7 @@ namespace model
         root->set("status", _status);
         root->set("resolution",_resolution);
         root->set("project",_project);
+        root->set("product",_product);
 
         if(!_links.empty()){
             Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
@@ -260,6 +274,7 @@ std::ostream & operator<<(std::ostream& os,model::Issue& issue){
     os << "get_assignee:" << issue.get_assignee() << std::endl;
     os << "status:" << issue.get_status() << std::endl;
     os << "project:" << issue.get_project() << std::endl;
+    os << "product:" << issue.get_product() << std::endl;
 
     return os;
 }

@@ -148,6 +148,20 @@ namespace loaders
                     if(object->has("project"))
                     issue->project() = object->getObject("project")->getValue<std::string>("key");
 
+                    if(object->has("components")){
+                        Poco::JSON::Array::Ptr comps = object->getArray("components");
+                         if(comps)
+                        for(size_t i=0;i<comps->size();++i){
+                            Poco::JSON::Object::Ptr comp = comps->getObject(i);
+                            if(comp->has("description")){
+                                std::string type = comp->getValue<std::string>("description");
+                                if(type=="Product")
+                                if(comp->has("description"))
+                                    issue->product() = comp->getValue<std::string>("name");
+                            }
+                        }
+                    }
+
                     if(object->has("issuelinks")){
                         Poco::JSON::Array::Ptr links = object->getArray("issuelinks");
                         if(links)
