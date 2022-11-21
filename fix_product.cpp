@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
                         try
                         {
                             model::ClusterInitativeIssue cli = model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue_key);
+                            std::cout << "cluster initative: " << cli.issue << std::endl;
                             std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli.issue, identity);
                             if (cluster_issue)
                             {
