@@ -14,6 +14,7 @@ namespace model
 
         static ProductInitativeIssue load(const std::string &product, const  std::string &cluster_issue);
         static ProductInitativeIssue load_by_issue(std::string &product_issue, std::string &cluster_issue);
+        static std::vector<ProductInitativeIssue> load_by_cluster_issue(std::string &cluster_issue);
         static ProductInitativeIssue fromJSON(Poco::JSON::Object::Ptr ptr); 
         void save();
     };

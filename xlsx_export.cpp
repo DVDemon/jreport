@@ -58,6 +58,50 @@ int main(int argc, char *argv[])
         std::string identity = "Basic " + os.str();
 
         std::vector<report::Report> report;
+
+        for (std::shared_ptr<model::Initiative> initiative : model::Initiatives::get().initiatives())
+        {
+            for (const std::string cluster : model::Cluster::get().clusters())
+                for (std::string initiative_issue : initiative->issues)
+                {
+                    model::ClusterInitativeIssue cii =
+                        model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue);
+                    for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(cii.issue))
+                    {
+                        report::Report line;
+                        line.initative = initiative->name;
+                        line.cluster = cluster;
+                        line.product = pi.product;
+
+                        auto initiative_item = loaders::LoaderJira::get().load(pi.product_issue,identity);
+                        if (initiative_item)
+                        {
+                            report::Report_Issue ii;
+                            ii.key = initiative_item->get_key();
+                            ii.name = initiative_item->get_name();
+                            ii.status = initiative_item->get_status();
+
+                            auto product_item = loaders::LoaderJira::get().load(pi.product_issue,identity);
+                            if (product_item)
+                            {
+                                report::Report_Issue ri;
+                                ri.key = product_item->get_key();
+                                ri.name = product_item->get_name();
+                                ri.status = product_item->get_status();
+                                if (!product_item->get_resolution().empty())
+                                    ri.status = product_item->get_resolution();
+                                else
+                                    ri.status = product_item->get_status();
+
+                                line.issue_status.push_back({ii, ri});
+
+                                std::cout << initiative->name << ", " << cluster << ", " << pi.product << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
+                            }
+                        }
+                    }
+                }
+        }
+        /*
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
             for (auto &[product_name, product] : model::Products::get().products())
@@ -114,7 +158,7 @@ int main(int argc, char *argv[])
                 if (!line.issue_status.empty())
                     report.push_back(line);
             }
-        }
+        }*/
 
         file_export::ExportXLS::start_export(report);
         std::cout << "Report lines count: " << report.size() << std::endl;
