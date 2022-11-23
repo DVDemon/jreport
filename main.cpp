@@ -153,10 +153,11 @@ int main(int argc, char *argv[])
                                                 std::string initiative = req.get_param_value("initiative");
                                                 std::string initiative_issue = req.get_param_value("initiative_issue");
 
-                                                model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
+                                                std::optional<model::ClusterInitativeIssue> cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
+                                                if(!cii) return 404;
                                                 std::string str;
                                                 str = "{ \"issue\" : \"";
-                                                str += cii.issue;
+                                                str += cii->issue;
                                                 str += "\"}";
                                                 res.set_content(str, "text/json; charset=utf-8");
                                         }

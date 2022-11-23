@@ -74,10 +74,12 @@ namespace model
                 use(ci),
                 into(result.product),
                 into(result.cluster_issue),
-                into(result.product_issue);
+                into(result.product_issue),
+                range(0,1);
 
             while(!select.done()){
-                if(select.execute()) results.push_back(result);
+                if(select.execute()) 
+                    results.push_back(result);
             }
 
             return results;
