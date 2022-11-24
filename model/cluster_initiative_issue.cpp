@@ -71,8 +71,10 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE issue=?",
-                use(issue); //  iterate over result set one row at a time
+            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE initiative=? and cluster=? and initiative_issue=?",
+                use(initiative),
+                use(cluster),
+                use(initiative_issue); //  iterate over result set one row at a time
             delete_issue.execute();
 
             Statement insert_issue(session);
