@@ -54,7 +54,7 @@ public:
     void handleRequest(HTTPServerRequest &request,
                        HTTPServerResponse &response)
     {
-        std::cout << "set project" << std::endl;
+        std::cout << "product project" << std::endl;
         try
         {
             auto &stream = request.stream();

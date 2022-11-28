@@ -54,7 +54,7 @@ public:
     void handleRequest(HTTPServerRequest &request,
                        HTTPServerResponse &response)
     {
-        std::cout << "set comment" << std::endl;
+        std::cout << "initiatives" << std::endl;
         try
         {
                 response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);

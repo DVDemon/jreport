@@ -54,7 +54,7 @@ public:
     void handleRequest(HTTPServerRequest &request,
                        HTTPServerResponse &response)
     {
-        std::cout << "set comment" << std::endl;
+        std::cout << "comment" << std::endl;
         try
         {
             if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
