@@ -23,7 +23,7 @@ namespace model
         return result;
     }
 
-    ClusterInitativeIssue ClusterInitativeIssue::load(const std::string &cluster, const std::string &initiative,const std::string &initiative_issue){
+    std::optional<ClusterInitativeIssue> ClusterInitativeIssue::load(const std::string &cluster, const std::string &initiative,const std::string &initiative_issue){
 
         try
         {
@@ -43,11 +43,12 @@ namespace model
                 into(result.issue),
                 into(result.initiative_issue),
                 into(result.initiative),
-                into(result.cluster);
+                into(result.cluster),
+                range(0,1);
 
             select.execute();
             Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst()) throw std::logic_error("not found");
+            if (!rs.moveFirst()) return std::optional<ClusterInitativeIssue>();
             return result;
         }
 
@@ -70,8 +71,10 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE issue=?",
-                use(issue); //  iterate over result set one row at a time
+            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE initiative=? and cluster=? and initiative_issue=?",
+                use(initiative),
+                use(cluster),
+                use(initiative_issue); //  iterate over result set one row at a time
             delete_issue.execute();
 
             Statement insert_issue(session);

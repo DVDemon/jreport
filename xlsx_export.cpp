@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 {
     try
     {
+        std::cout << "loading parameters" << std::endl;
         po::options_description desc{"Options"};
         desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name")("juser,", po::value<std::string>()->required(), "jira user name")("jpassword,", po::value<std::string>()->required(), "jira password")("jaddress,", po::value<std::string>()->required(), "jira address");
 
@@ -59,47 +60,60 @@ int main(int argc, char *argv[])
 
         std::vector<report::Report> report;
 
+        std::cout << "start" << std::endl;
         for (std::shared_ptr<model::Initiative> initiative : model::Initiatives::get().initiatives())
         {
+            std::cout << initiative->name << std::endl;
             for (const std::string cluster : model::Cluster::get().clusters())
+            {
+                std::cout << "  " << cluster << std::endl;
                 for (std::string initiative_issue : initiative->issues)
                 {
-                    model::ClusterInitativeIssue cii =
+                    std::cout << "     " << initiative_issue << " ... ";
+                    std::optional<model::ClusterInitativeIssue> cii =
                         model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue);
-                    for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(cii.issue))
+                    if (cii)
                     {
-                        report::Report line;
-                        line.initative = initiative->name;
-                        line.cluster = cluster;
-                        line.product = pi.product;
-
-                        auto initiative_item = loaders::LoaderJira::get().load(pi.product_issue,identity);
-                        if (initiative_item)
+                        std::cout << "loaded" << std::endl;
+                        for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(cii->issue))
                         {
-                            report::Report_Issue ii;
-                            ii.key = initiative_item->get_key();
-                            ii.name = initiative_item->get_name();
-                            ii.status = initiative_item->get_status();
+                            std::cout << "        " << pi.product << std::endl;
+                            report::Report line;
+                            line.initative = initiative->name;
+                            line.cluster = cluster;
+                            line.product = pi.product;
 
-                            auto product_item = loaders::LoaderJira::get().load(pi.product_issue,identity);
-                            if (product_item)
+                            auto initiative_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
+                            if (initiative_item)
                             {
-                                report::Report_Issue ri;
-                                ri.key = product_item->get_key();
-                                ri.name = product_item->get_name();
-                                ri.status = product_item->get_status();
-                                if (!product_item->get_resolution().empty())
-                                    ri.status = product_item->get_resolution();
-                                else
+                                report::Report_Issue ii;
+                                ii.key = initiative_item->get_key();
+                                ii.name = initiative_item->get_name();
+                                ii.status = initiative_item->get_status();
+
+                                auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
+                                if (product_item)
+                                {
+                                    report::Report_Issue ri;
+                                    ri.key = product_item->get_key();
+                                    ri.name = product_item->get_name();
                                     ri.status = product_item->get_status();
+                                    if (!product_item->get_resolution().empty())
+                                        ri.status = product_item->get_resolution();
+                                    else
+                                        ri.status = product_item->get_status();
 
-                                line.issue_status.push_back({ii, ri});
+                                    line.issue_status.push_back({ii, ri});
 
-                                std::cout << initiative->name << ", " << cluster << ", " << pi.product << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
+                                    //std::cout << initiative->name << ", " << cluster << ", " << pi.product << " ," << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
+                                }
                             }
+                            if (!line.issue_status.empty())
+                                    report.push_back(line);
                         }
-                    }
+                    } else std::cout << "empty" << std::endl;
                 }
+            }
         }
         /*
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())

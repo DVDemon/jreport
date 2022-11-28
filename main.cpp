@@ -153,28 +153,42 @@ int main(int argc, char *argv[])
                                                 std::string initiative = req.get_param_value("initiative");
                                                 std::string initiative_issue = req.get_param_value("initiative_issue");
 
-                                                model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
+                                                std::cout << "get:" << cluster << ", " << initiative << ", " << initiative_issue << std::endl;
+
+                                                std::optional<model::ClusterInitativeIssue> cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
+                                                if(!cii) {
+                                                        std::cout << "not found" << std::endl;
+                                                        res.status = 404;
+                                                        return res.status;      
+                                                }
                                                 std::string str;
                                                 str = "{ \"issue\" : \"";
-                                                str += cii.issue;
+                                                str += cii->issue;
                                                 str += "\"}";
+                                                res.status = 200;
                                                 res.set_content(str, "text/json; charset=utf-8");
                                         }
                                         catch (...)
                                         {
+                                                std::cout << "exception" << std::endl;
                                                 res.status = 404;
+                                                return res.status;
                                         }
                                 }
                                 else
                                         res.status = 404;
+                                return res.status;
                         });
 
                 svr.Post("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
+                                std::cout << "cloud_initiative_epic" << std::endl;
                                 Poco::JSON::Parser parser;
                                 Poco::Dynamic::Var var = parser.parse(req.body);
                                 Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
                                 model::ClusterInitativeIssue cii = model::ClusterInitativeIssue::fromJSON(json);
+                                Poco::JSON::Stringifier::stringify(json, std::cout, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                                std::cout << std::endl;
                                 cii.save();
 
                                 res.set_content("", "text/plain");
@@ -190,7 +204,8 @@ int main(int argc, char *argv[])
                         std::stringstream ss;
                         Poco::JSON::Stringifier::stringify(item->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
-                    } else res.status = 404; });
+                        return 200;
+                    } else return 404; });
 
                 svr.Get("/products", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       

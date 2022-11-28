@@ -64,28 +64,31 @@ int main(int argc, char *argv[])
 
                 std::shared_ptr<model::Issue> initiative_issue = loaders::LoaderJira::get().load(initiative_issue_key, identity);
                 std::cout << " done" << std::endl;
-                
+
                 if (initiative_issue)
                     for (const std::string cluster : model::Cluster::get().clusters())
                     {
                         std::cout << "cluster: " << cluster << std::endl;
                         try
                         {
-                            model::ClusterInitativeIssue cli = model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue_key);
-                            std::cout << "cluster initative: " << cli.issue << std::endl;
-                            std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli.issue, identity);
-                            if (cluster_issue)
+                            std::optional<model::ClusterInitativeIssue> cli = model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue_key);
+                            if (cli)
                             {
-                                for (const model::IssueLink &link : cluster_issue->get_links())
+                                std::cout << "cluster initative: " << cli->issue << std::endl;
+                                std::shared_ptr<model::Issue> cluster_issue = loaders::LoaderJira::get().load(cli->issue, identity);
+                                if (cluster_issue)
                                 {
-                                    std::shared_ptr<model::Issue> product_issue = loaders::LoaderJira::get().load(link.item->get_key(), identity);
-                                    if (product_issue)
+                                    for (const model::IssueLink &link : cluster_issue->get_links())
                                     {
-                                        if (!product_issue->get_product().empty())
+                                        std::shared_ptr<model::Issue> product_issue = loaders::LoaderJira::get().load(link.item->get_key(), identity);
+                                        if (product_issue)
                                         {
-                                            std::cout << link.item->get_key() << " [" << product_issue->get_product() << "]"<< std::endl;
-                                            model::ProductInitativeIssue pii{product_issue->get_product(), cli.issue, link.item->get_key()};
-                                            pii.save();
+                                            if (!product_issue->get_product().empty())
+                                            {
+                                                std::cout << link.item->get_key() << " [" << product_issue->get_product() << "]" << std::endl;
+                                                model::ProductInitativeIssue pii{product_issue->get_product(), cli->issue, link.item->get_key()};
+                                                pii.save();
+                                            }
                                         }
                                     }
                                 }
