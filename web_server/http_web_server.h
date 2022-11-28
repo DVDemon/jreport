@@ -52,9 +52,9 @@ public:
     }
 
 protected:
-    void initialize(Application &self)
+    /*void initialize(Application &self)
     {
-        loadConfiguration();
+       // loadConfiguration();
         ServerApplication::initialize(self);
     }
 
@@ -65,8 +65,9 @@ protected:
 
     void defineOptions(OptionSet &options)
     {
-        ServerApplication::defineOptions(options);
+        //ServerApplication::defineOptions(options);
     }
+    */
 
     int main([[maybe_unused]] const std::vector<std::string> &args)
     {

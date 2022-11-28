@@ -32,7 +32,9 @@ int main(int argc, char *argv[])
             Config::get().jira_address() = vm["jaddress"].as<std::string>();
 
         HTTPWebServer app;
-        return app.run(argc, argv);
+        std::vector < std::string > args;
+        args.push_back("jreport_poco");
+        return app.run(args);
     }
     catch (const std::exception &e)
     {
