@@ -48,6 +48,8 @@ static bool startsWith(const std::string& str, const std::string& prefix)
 #include "product_project.h"
 #include "comments.h"
 #include "product_initiative_issue.h"
+#include "initiatives.h"
+#include "clusters.h"
 
 class HTTPRequestFactory: public HTTPRequestHandlerFactory
 {
@@ -59,6 +61,8 @@ public:
         if (startsWith(request.getURI(),"/product_project")) return new ProductProject(_format);
         if (startsWith(request.getURI(),"/comments")) return new Comments(_format);
         if (startsWith(request.getURI(),"/product_initative_issue")) return new ProductInitiativeIssue(_format);
+        if (startsWith(request.getURI(),"/initiatives")) return new Initiatives(_format);
+        if (startsWith(request.getURI(),"/clusters")) return new Clusters(_format);
 
         return 0;
     }

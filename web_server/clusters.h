@@ -43,62 +43,33 @@ using Poco::Util::OptionCallback;
 using Poco::Util::OptionSet;
 using Poco::Util::ServerApplication;
 
-#include "../model/product_initiative_issue.h"
+#include "../model/cluster.h"
 
-class ProductInitiativeIssue : public HTTPRequestHandler
+class Clusters : public HTTPRequestHandler
 {
+private:
 public:
-    ProductInitiativeIssue(const std::string &format) : _format(format) {}
+    Clusters(const std::string &format) : _format(format) {}
 
     void handleRequest(HTTPServerRequest &request,
                        HTTPServerResponse &response)
     {
-
+        std::cout << "set comment" << std::endl;
         try
         {
-            if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
-            {
-                std::cout << "set product initiative issue" << std::endl;
-                auto &stream = request.stream();
-                const size_t len = request.getContentLength();
-                std::string buffer(len, 0);
-                stream.read(buffer.data(), len);
-
-                Poco::JSON::Parser parser;
-                Poco::Dynamic::Var var = parser.parse(buffer);
-                Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
-                model::ProductInitativeIssue cii = model::ProductInitativeIssue::fromJSON(json);
-                cii.save();
-                response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
-                response.setChunkedTransferEncoding(true);
-                response.setContentType("application/json");
-                return;
-            }
-            HTMLForm form(request, request.stream());
-            if (form.has("product_issue") &&
-                form.has("cluster_issue"))
-            {
-                std::cout << "get product initiative issue" << std::endl;
-                std::string product_issue = form.get("product_issue").c_str();
-                std::string cluster_issue = form.get("cluster_issue").c_str();
-                model::ProductInitativeIssue pii = model::ProductInitativeIssue::load_by_issue(product_issue, cluster_issue);
-
                 response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
                 response.setChunkedTransferEncoding(true);
                 response.setContentType("application/json");
                 auto &ss = response.send();
-                std::string str;
-                str = "{ \"issue\" : \"";
-                str += pii.product;
-                str += "\"}";
-                ss << str;
+                Poco::JSON::Stringifier::stringify(model::Cluster::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                 ss.flush();
-            }
+                
+            
+            return;
         }
         catch (...)
         {
-            response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_FOUND);
-            response.send();
+
             return;
         }
 

@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
                                 res.set_content("", "text/plain");
                                 res.status = 200; });
 
-                svr.Get("/product_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                svr.Get("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {
                                 if (req.has_param("product_issue") &&
                                     req.has_param("cluster_issue"))

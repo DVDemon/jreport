@@ -86,11 +86,14 @@ public:
                 std::cout << "product:" << product << ", issue:" << cluster_issue << std::endl;
 
                 model::Comment com = model::Comment::load(product, cluster_issue);
-                std::stringstream ss;
-                Poco::JSON::Stringifier::stringify(com.toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                
                 response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
                 response.setChunkedTransferEncoding(true);
                 response.setContentType("application/json");
+                auto &ss = response.send();
+                Poco::JSON::Stringifier::stringify(com.toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                ss.flush();
+                
             }
             return;
         }
