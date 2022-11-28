@@ -17,10 +17,14 @@ namespace file_export
         doc.workbook().addWorksheet("report");
         OpenXLSX::XLWorksheet wks = doc.workbook().sheet("report");
 
+
         wks.cell(1, 1).value() = "Initiative";
         wks.cell(1, 2).value() = "Cluster";
         wks.cell(1, 3).value() = "Product";
-        wks.cell(1, 4).value() = "Status";
+        wks.cell(1, 4).value() = "Epic";
+        wks.cell(1, 5).value() = "Epic name";
+        wks.cell(1, 6).value() = "Epic link";
+        wks.cell(1, 7).value() = "Status";
 
         int i = 2;
         for (report::Report &r : report)
@@ -34,6 +38,7 @@ namespace file_export
                 wks.cell(i, j++).value() = i_status.name;
                 wks.cell(i, j++).value() = "https://jira.mts.ru/browse/"+p_status.key;
                 wks.cell(i, j++).value() = p_status.status;
+                
             }
             ++i;
         }
