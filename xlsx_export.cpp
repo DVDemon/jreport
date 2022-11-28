@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
                             line.cluster = cluster;
                             line.product = pi.product;
 
-                            auto initiative_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
+                            auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
                             if (initiative_item)
                             {
                                 report::Report_Issue ii;
