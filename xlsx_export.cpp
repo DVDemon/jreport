@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
                     if (cii)
                     {
                         std::cout << "loaded" << std::endl;
+                        auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
                         for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(cii->issue))
                         {
                             std::cout << "        " << pi.product << std::endl;
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
                             line.cluster = cluster;
                             line.product = pi.product;
 
-                            auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
+                            
                             if (initiative_item)
                             {
                                 report::Report_Issue ii;
