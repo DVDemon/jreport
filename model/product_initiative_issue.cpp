@@ -23,7 +23,7 @@ namespace model
         return result;
     }
 
-    ProductInitativeIssue ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue)
+    std::optional<ProductInitativeIssue>  ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue)
     {
         try
         {
@@ -42,7 +42,8 @@ namespace model
             select.execute();
             Poco::Data::RecordSet rs(select);
             if (!rs.moveFirst())
-                throw std::logic_error("not found");
+                return std::optional<ProductInitativeIssue>();
+                
             return result;
         }
 

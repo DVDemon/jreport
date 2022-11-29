@@ -81,18 +81,27 @@ public:
                 std::cout << "get product initiative issue" << std::endl;
                 std::string product_issue = form.get("product_issue").c_str();
                 std::string cluster_issue = form.get("cluster_issue").c_str();
-                model::ProductInitativeIssue pii = model::ProductInitativeIssue::load_by_issue(product_issue, cluster_issue);
+                std::optional<model::ProductInitativeIssue> pii = model::ProductInitativeIssue::load_by_issue(product_issue, cluster_issue);
 
-                response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
-                response.setChunkedTransferEncoding(true);
-                response.setContentType("application/json");
-                auto &ss = response.send();
-                std::string str;
-                str = "{ \"issue\" : \"";
-                str += pii.product;
-                str += "\"}";
-                ss << str;
-                ss.flush();
+                if (pii)
+                {
+                    response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
+                    response.setChunkedTransferEncoding(true);
+                    response.setContentType("application/json");
+                    auto &ss = response.send();
+                    std::string str;
+                    str = "{ \"issue\" : \"";
+                    str += pii->product;
+                    str += "\"}";
+                    ss << str;
+                    ss.flush();
+                }
+                else
+                {
+                    response.setStatus(Poco::Net::HTTPResponse::HTTP_NOT_FOUND);
+                    response.send();
+                    return;
+                }
             }
         }
         catch (...)
