@@ -3,7 +3,7 @@
 
 #include <string>
 #include "Poco/JSON/Object.h"
-
+#include <optional>
 namespace model
 {
     struct Comment{
@@ -12,7 +12,7 @@ namespace model
         std::string comment;
         std::string address;
 
-        static Comment load(const std::string &product, const  std::string &cluster_issue);
+        static std::optional<Comment> load(const std::string &product, const  std::string &cluster_issue);
         static Comment fromJSON(Poco::JSON::Object::Ptr ptr); 
         Poco::JSON::Object::Ptr toJSON();
         

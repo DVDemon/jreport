@@ -10,7 +10,7 @@ using Poco::Data::Session;
 using Poco::Data::Statement;
 
 namespace model{
-Comment Comment::load(const std::string &product, const  std::string &cluster_issue){
+std::optional<Comment> Comment::load(const std::string &product, const  std::string &cluster_issue){
  try
         {
             Poco::Data::Session session = database::Database::get().create_session();
@@ -31,7 +31,7 @@ Comment Comment::load(const std::string &product, const  std::string &cluster_is
             select.execute();
             Poco::Data::RecordSet rs(select);
             if (!rs.moveFirst())
-                throw std::logic_error("not found");
+                return std::optional<Comment>();
             return result;
         }
 

@@ -85,10 +85,16 @@ int main(int argc, char *argv[])
 
                                                 std::cout << "product:" << product << ", issue:" << cluster_issue << std::endl;
 
-                                                model::Comment com = model::Comment::load(product, cluster_issue);
+                                                std::optional<model::Comment> com = model::Comment::load(product, cluster_issue);
+                                                if(com){
                                                 std::stringstream ss;
-                                                Poco::JSON::Stringifier::stringify(com.toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                                                Poco::JSON::Stringifier::stringify(com->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                                                 res.set_content(ss.str(), "text/json; charset=utf-8");
+                                                return 200;
+                                                } else {
+                                                        std::cout << "comment not found" << std::endl;
+                                                        return 404;
+                                                }
                                         }
                                         catch (...)
                                         {
@@ -96,7 +102,8 @@ int main(int argc, char *argv[])
                                         }
                                 }
                                 else
-                                        res.status = 404; });
+                                        res.status = 404;
+                                return 404; });
 
                 svr.Post("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
