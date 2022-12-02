@@ -6,6 +6,7 @@ set(EXECUTABLE jserver)
 set(EXECUTABLE_POCO jserver_poco)
 set(EXPORT_EXECUTABLE xlsx_report)
 set(FIX_EXECUTABLE fix_product)
+set(PRODUCTS_EXECUTABLE export_products)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -24,6 +25,19 @@ include_directories(${Poco_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 
 add_executable(${EXECUTABLE_POCO} main_poco.cpp
+                             config/config.cpp
+                             database/database.cpp
+                             model/issue.cpp
+                             model/cluster.cpp
+                             model/initiative.cpp
+                             model/product.cpp
+                             model/comment.cpp
+                             model/product_project.cpp
+                             model/cluster_initiative_issue.cpp
+                             model/product_initiative_issue.cpp
+                             loader/jira_loader.cpp)
+
+add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
                              config/config.cpp
                              database/database.cpp
                              model/issue.cpp
@@ -89,6 +103,18 @@ target_link_libraries(${EXECUTABLE} PRIVATE
                              OpenSSL::Crypto)
 
 target_link_libraries(${EXECUTABLE_POCO} PRIVATE 
+                             ${CMAKE_THREAD_LIBS_INIT} 
+                             ${Poco_LIBRARIES}
+                             "PocoData"
+                             "PocoDataMySQL"
+                             "OpenXLSX"
+                             stdc++fs
+                             ZLIB::ZLIB
+                             ${Boost_LIBRARIES}
+                             OpenSSL::SSL
+                             OpenSSL::Crypto)
+
+target_link_libraries(${PRODUCTS_EXECUTABLE} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
                              "PocoData"

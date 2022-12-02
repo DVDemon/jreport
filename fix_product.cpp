@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
                                             if (!product_issue->get_product().empty())
                                             {
                                                 std::cout << link.item->get_key() << " [" << product_issue->get_product() << "]" << std::endl;
-                                                model::ProductInitativeIssue pii{product_issue->get_product(), cli->issue, link.item->get_key()};
+                                                model::ProductInitativeIssue pii{product_issue->get_product(), initiative_issue_key, link.item->get_key()};
                                                 pii.save();
                                             }
                                         }

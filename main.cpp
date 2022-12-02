@@ -150,18 +150,20 @@ int main(int argc, char *argv[])
                                                                         res_array.push_back(r);
                                                                 }                           
                                                         }
-                                                        std::string str="[";
+
+                                                        Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
                                                         for(size_t i=0;i<res_array.size();++i){
                                                                 auto &r = res_array[i];
-                                                                str+="{";
-                                                                str+="\"product_issue\" : \""+r.product_issue+"\", ";
-                                                                str+="\"product_issue_name\" : \""+r.product_issue_name+"\", ";
-                                                                str+="\"product_name\" : \""+r.product_name+"\"";
-                                                                str+="}";
-                                                                if(i!=res_array.size()-1) str+=" , ";
+                                                                Poco::JSON::Object::Ptr l =  new Poco::JSON::Object();
+                                                                l->set("product_issue",r.product_issue);
+                                                                l->set("product_issue_name", r.product_issue_name);
+                                                                l->set("product_name", r.product_name);
+                                                                links_array->add(l);
                                                         }
-                                                        str+="]";
-                                                        res.set_content(str, "text/json; charset=utf-8");
+
+                                                        std::stringstream ss;
+                                                        Poco::JSON::Stringifier::stringify(links_array, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                                                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
                                                         return 200;
                                                 }                                                
                                         }
@@ -342,8 +344,8 @@ int main(int argc, char *argv[])
                 svr.Get("/stop", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         { svr.stop(); });
 
-                std::cout << "starting server at port 80 ..." << std::endl;
-                svr.listen("0.0.0.0", 80);
+                std::cout << "starting server at port 9999 ..." << std::endl;
+                svr.listen("0.0.0.0", 9999);
         }
         catch (const std::exception &e)
         {
