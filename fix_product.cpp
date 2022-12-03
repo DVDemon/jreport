@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
                         std::cout << "cluster: " << cluster << std::endl;
                         try
                         {
-                            std::optional<model::ClusterInitativeIssue> cli = model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue_key);
+                            std::optional<model::ClusterInitativeIssue> cli = model::ClusterInitativeIssue::load(cluster, initiative_issue_key);
                             if (cli)
                             {
                                 std::cout << "cluster initative: " << cli->issue << std::endl;

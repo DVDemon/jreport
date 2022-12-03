@@ -13,7 +13,7 @@ namespace model
         std::string initiative;
         std::string initiative_issue;
         std::string issue;
-        static std::optional<ClusterInitativeIssue> load(const std::string &cluster,const std::string &initiative,const std::string &initiative_issue);
+        static std::optional<ClusterInitativeIssue> load(const std::string &cluster,const std::string &initiative_issue);
         static ClusterInitativeIssue fromJSON(Poco::JSON::Object::Ptr ptr); 
         void save();
     };

@@ -1,0 +1,410 @@
+openapi: '3.0.2'
+info:
+  version: '1.0.0'
+  title: 'jreport server api'
+  description: Позволяет сохранить информацию о привязке продуктов к задачам в jira для построения отчетности
+servers:
+  - url: http://192.168.64.6:9999
+paths:
+  /product_project:
+    post:
+      summary: Set project for product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product_project'
+      responses:
+        '200':
+          description: Project seted
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string
+  /comments:
+    post:
+      summary: Set comment for product issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '200':
+          description: Comments seted
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string 
+    get:
+      summary: Get comments for product issue
+      parameters:
+      - name: product
+        description: Product name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: cluster_issue
+        description: Cluster issue
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string
+  /product_initative_issue:
+    post:
+      summary: Set link between product initiative issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product_initiative_issue'
+      responses:
+        '200':
+          description: Link saved
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string 
+    get:
+      summary: Get product initiative issue
+      parameters:
+      - name: product_issue
+        description: Product issue
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: cluster_issue
+        description: Cluster issue
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Product initiative issues
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product_initiative_issue'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+  /issues_with_products/{cluster_issue}:
+    get:
+      summary: Get issues with product 
+      parameters:
+        - name: cluster_issue
+          description: The unique identifier of the cluster issue
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: initiative_epic
+          description: Jira initiative epic
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product_issue'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+  /cluster_initative_epic:
+    post:
+      summary: Set comment for product issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '200':
+          description: Cluster initiative seted
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string 
+    get:
+      summary: Get issue for given cluster,  initiative and issue 
+      parameters:
+      - name: cluster
+        description: Cluster name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: initiative_issue
+        description: Initiative issue
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Cluster initiative epic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issue:
+                    type: string
+                
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string
+  /issue/{key}:
+    get:
+      summary: Get jira issue
+      parameters:
+        - name: key
+          description: The unique identifier of the jira issue
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/issue'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+  /products:
+    get:
+      summary: get list of product
+      parameters:
+        - name: cluster
+          description: The cluster name
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: cluster_issue
+          description: The cluster issue id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+
+  /clusters:
+    get:
+      summary: Get clusters
+      responses:
+        '200':
+          description: Issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusters'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+  /initiatives:
+    get:
+      summary: Get initiatives
+      responses:
+        '200':
+          description: Issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/initiatives'
+        404:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string   
+components:
+  schemas:
+    product_project:
+      type: object
+      properties:
+        product:
+          type: string
+        project:
+          type: string
+    comment:
+      type: object
+      properties:
+        product:
+          type: string
+        cluster_issue:
+          type: string
+        comment:
+          type: string
+        address:
+          type: string
+    product_initiative_issue:
+      type: object
+      properties:
+        product:
+          type: string
+        cluster_issue:
+          type: string
+        product_issue:
+          type: string
+    product_issue:
+      type: object
+      properties:
+          product_issue:
+            type: string
+          product_issue_name:
+            type: string
+          product_name:
+            type: string
+    issue:
+      type: object
+      properties:
+            id:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            author:
+              type: string
+            assignee:
+              type: string
+            status:
+              type: string
+            resolution:
+              type: string
+            project:
+              type: string
+            product:
+              type: string
+            link:
+              type: array
+              items:
+                type: object
+                properties:
+                  link_type:
+                    type: string
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      key:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      author:
+                        type: string
+                      assignee:
+                        type: string
+                      status:
+                        type: string
+                      resolution:
+                        type: string
+                      project:
+                        type: string
+                      product:
+                        type: string
+    products:
+      type: array
+      items:
+        type: object
+        properties:
+          name: 
+            type: string
+          issue:
+            type: string
+    clusters:
+      type: array
+      items:
+        type: string
+    initiatives:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          initiatives:
+            type: array
+            items:
+              type: string
+

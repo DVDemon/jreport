@@ -49,7 +49,12 @@ int main(int argc, char *argv[])
                 svr.Post("/product_project", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
                                 std::cout << "set project" << std::endl;
-                                std::cout << req.body << std::endl;
+                                std::cout << "[" << req.body << "]" << std::endl;
+                                if(req.body.empty()) {
+                                        res.status = 404;
+                                        return 404;
+                                }
+
                                 Poco::JSON::Parser parser;
                                 Poco::Dynamic::Var var = parser.parse(req.body);
                                 Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
@@ -57,7 +62,8 @@ int main(int argc, char *argv[])
                                 pp.save();
 
                                 res.set_content("", "text/plain");
-                                res.status = 200; });
+                                res.status = 200;
+                                return 200; });
 
                 svr.Post("/comments", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                          {
@@ -173,7 +179,7 @@ int main(int argc, char *argv[])
                                         }
                                 }
                                
-                                        return 404;});
+                                        return 404; });
 
                 svr.Get("/product_initative_issue", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {
@@ -204,23 +210,21 @@ int main(int argc, char *argv[])
                                 }
                                 else
                                         res.status = 404; 
-                                        return 404;});
+                                        return 404; });
 
                 svr.Get("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {
                                 if (req.has_param("cluster") &&
-                                    req.has_param("initiative") &&
                                     req.has_param("initiative_issue"))
                                 {
                                         try
                                         {
                                                 std::string cluster = req.get_param_value("cluster");
-                                                std::string initiative = req.get_param_value("initiative");
                                                 std::string initiative_issue = req.get_param_value("initiative_issue");
 
-                                                std::cout << "get:" << cluster << ", " << initiative << ", " << initiative_issue << std::endl;
+                                                std::cout << "get:" << cluster << ", "  << initiative_issue << std::endl;
 
-                                                std::optional<model::ClusterInitativeIssue> cii = model::ClusterInitativeIssue::load(cluster, initiative, initiative_issue);
+                                                std::optional<model::ClusterInitativeIssue> cii = model::ClusterInitativeIssue::load(cluster, initiative_issue);
                                                 if(!cii) {
                                                         std::cout << "not found" << std::endl;
                                                         res.status = 404;
@@ -278,9 +282,7 @@ int main(int argc, char *argv[])
                                 try{
                                         std::string cluster = req.get_param_value("cluster");
                                         std::string cluster_issue = req.get_param_value("cluster_issue");
-                                        std::string str;
-                                        bool comma = false;
-                                        str = "[";
+                                        Poco::JSON::Array::Ptr array = new Poco::JSON::Array();
                                         for(auto &[name,product] : model::Products::get().products())
                                                  {
                                                         if(product->cluster == cluster){
@@ -291,40 +293,22 @@ int main(int argc, char *argv[])
                                                                 }catch(...){
 
                                                                 }
-                                                                if(comma) str += ",";
-                                                                        else comma = true;
-                                                                str += "{ \"name\" : \""+product->name +"\", \"issue\" : \""+product_issue+"\"}";                                                                    
+                                                                Poco::JSON::Object::Ptr l =  new Poco::JSON::Object();
+                                                                l->set("name",product->name);
+                                                                l->set("issue", product_issue);
+                                                                array->add(l);                                                           
                                                         }
                                                 }
-                                                        
-                                                str += "]";
-                                                std::cout << str << std::endl;
-                                                res.set_content(str, "text/json; charset=utf-8"); 
+
+                                                std::stringstream ss;
+                                                Poco::JSON::Stringifier::stringify(array, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                                                res.set_content(ss.str(), "text/json; charset=utf-8"); 
+                                                res.status = 200; 
                                                 }catch(...){
                                                 res.status = 404;      
                                                 }
                                         } else res.status = 404; });
 
-                svr.Get("/product/(.*)", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                        {       
-                    std::string name = req.matches[1];
-                    auto &products = model::Products::get().products();
-
-                    if(products.find(name)!=std::end(products)){
-                        std::stringstream ss;
-                        auto product_ptr = products[name];
-                        std::optional<model::ProductProject> pp = model::ProductProject::load(name);
-                        if(pp) product_ptr->project = pp->project;
-                        Poco::JSON::Stringifier::stringify(product_ptr->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
-                        res.set_content(ss.str(), "text/json; charset=utf-8"); 
-                    } else res.status = 404; });
-
-                svr.Get("/products", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                        {       
-          
-                        std::stringstream ss;
-                        Poco::JSON::Stringifier::stringify(model::Products::get().toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
-                        res.set_content(ss.str(), "text/json; charset=utf-8"); });
 
                 svr.Get("/clusters", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {       
@@ -341,8 +325,35 @@ int main(int argc, char *argv[])
                         res.set_content(ss.str(), "text/json; charset=utf-8"); 
                         std::cout << "done" << std::endl;; });
 
-                svr.Get("/stop", [&]([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
-                        { svr.stop(); });
+                svr.Get("/report", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
+                        {       
+                                std::ifstream ifs("report.xlsx", std::ifstream::binary);
+                                if (ifs.is_open())
+                                {
+                                        ifs.seekg (0, ifs.end);
+                                        int length = ifs.tellg();
+                                        ifs.seekg (0, ifs.beg);
+
+                                        char * buffer = new char [length];
+
+                                        std::cout << "Reading " << length << " characters... ";
+                                        // read data as a block:
+                                        ifs.read (buffer,length);
+
+                                        if (ifs)
+                                                std::cout << "all characters read successfully.";
+                                        else
+                                                std::cout << "error: only " << ifs.gcount() << " could be read";
+                                        ifs.close();
+
+                                        // ...buffer contains the entire file...
+                                        std::string str(buffer,length);
+                                        res.set_content(str,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+                                        delete[] buffer;
+                                }
+                                std::cout << "done" << std::endl; 
+                        });
 
                 std::cout << "starting server at port 9999 ..." << std::endl;
                 svr.listen("0.0.0.0", 9999);

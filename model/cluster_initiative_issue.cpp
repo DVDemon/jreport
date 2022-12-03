@@ -23,7 +23,7 @@ namespace model
         return result;
     }
 
-    std::optional<ClusterInitativeIssue> ClusterInitativeIssue::load(const std::string &cluster, const std::string &initiative,const std::string &initiative_issue){
+    std::optional<ClusterInitativeIssue> ClusterInitativeIssue::load(const std::string &cluster, const std::string &initiative_issue){
 
         try
         {
@@ -34,12 +34,10 @@ namespace model
 
             std::string c = cluster;
             std::string ii = initiative_issue;
-            std::string i = initiative;
 
-            select << "SELECT issue,initiative_issue,initiative,cluster FROM Cluster_Initiative_Issue WHERE cluster=? AND initiative_issue=? AND initiative=?",
+            select << "SELECT issue,initiative_issue,initiative,cluster FROM Cluster_Initiative_Issue WHERE cluster=? AND initiative_issue=?",
                 use(c),
                 use(ii),
-                use(i),
                 into(result.issue),
                 into(result.initiative_issue),
                 into(result.initiative),

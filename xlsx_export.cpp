@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
                 {
                     std::cout << "     " << initiative_issue << " ... ";
                     std::optional<model::ClusterInitativeIssue> cii =
-                        model::ClusterInitativeIssue::load(cluster, initiative->name, initiative_issue);
+                        model::ClusterInitativeIssue::load(cluster, initiative_issue);
                     if (cii)
                     {
                         std::cout << "loaded" << std::endl;
