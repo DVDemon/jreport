@@ -351,8 +351,8 @@ int main(int argc, char *argv[])
                                         res.set_content(str,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
                                         delete[] buffer;
-                                }
-                                std::cout << "done" << std::endl; 
+                                };
+                                return 200;
                         });
 
                 std::cout << "starting server at port 9999 ..." << std::endl;
