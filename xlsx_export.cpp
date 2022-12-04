@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
                         auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
                         for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue))//cii->issue))
                         {
+                            try{
                             std::cout << "        " << pi.product << std::endl;
                             report::Report line;
                             line.initative = initiative->name;
@@ -111,6 +112,9 @@ int main(int argc, char *argv[])
                             }
                             if (!line.issue_status.empty())
                                     report.push_back(line);
+                            }catch(...){
+                                std::cout << "exception" << std::endl;
+                            }
                         }
                     } else std::cout << "empty" << std::endl;
                 }
