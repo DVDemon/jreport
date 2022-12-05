@@ -88,6 +88,12 @@ int main(int argc, char *argv[])
                                                 std::cout << link.item->get_key() << " [" << product_issue->get_product() << "]" << std::endl;
                                                 model::ProductInitativeIssue pii{product_issue->get_product(), initiative_issue_key, link.item->get_key()};
                                                 pii.save();
+
+                                                if(!product_issue->get_project().empty()){
+                                                    std::cout << "project:" << product_issue->get_project() << std::endl;
+                                                    model::ProductProject pp {product_issue->get_name(),product_issue->get_project()};
+                                                    pp.save();
+                                                }
                                             }
                                         }
                                     }
