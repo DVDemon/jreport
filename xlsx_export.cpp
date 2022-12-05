@@ -64,59 +64,59 @@ int main(int argc, char *argv[])
         for (std::shared_ptr<model::Initiative> initiative : model::Initiatives::get().initiatives())
         {
             std::cout << initiative->name << std::endl;
-            for (const std::string cluster : model::Cluster::get().clusters())
+
+            for (std::string initiative_issue : initiative->issues)
             {
-                std::cout << "  " << cluster << std::endl;
-                for (std::string initiative_issue : initiative->issues)
+                std::cout << initiative_issue << std::endl;
+
+                auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
+                for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)) // cii->issue))
                 {
-                    std::cout << "     " << initiative_issue << " ... ";
-                    std::optional<model::ClusterInitativeIssue> cii =
-                        model::ClusterInitativeIssue::load(cluster, initiative_issue);
-                    if (cii)
+                    try
                     {
-                        std::cout << "loaded" << std::endl;
-                        auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
-                        for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue))//cii->issue))
+                        std::cout << "        " << pi.product << std::endl;
+                        std::string cluster;
+
+                        if(model::Products::get().products().find(pi.product)!=std::end(model::Products::get().products())){
+                            auto product_ptr = model::Products::get().products()[pi.product];
+                            if(product_ptr) cluster = product_ptr->cluster;
+                        }
+                        report::Report line;
+                        line.initative = initiative->name;
+                        line.cluster = cluster;
+                        line.product = pi.product;
+
+                        if (initiative_item)
                         {
-                            try{
-                            std::cout << "        " << pi.product << std::endl;
-                            report::Report line;
-                            line.initative = initiative->name;
-                            line.cluster = cluster;
-                            line.product = pi.product;
+                            report::Report_Issue ii;
+                            ii.key = initiative_item->get_key();
+                            ii.name = initiative_item->get_name();
+                            ii.status = initiative_item->get_status();
 
-                            
-                            if (initiative_item)
+                            auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
+                            if (product_item)
                             {
-                                report::Report_Issue ii;
-                                ii.key = initiative_item->get_key();
-                                ii.name = initiative_item->get_name();
-                                ii.status = initiative_item->get_status();
-
-                                auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
-                                if (product_item)
-                                {
-                                    report::Report_Issue ri;
-                                    ri.key = product_item->get_key();
-                                    ri.name = product_item->get_name();
+                                report::Report_Issue ri;
+                                ri.key = product_item->get_key();
+                                ri.name = product_item->get_name();
+                                ri.status = product_item->get_status();
+                                if (!product_item->get_resolution().empty())
+                                    ri.status = product_item->get_resolution();
+                                else
                                     ri.status = product_item->get_status();
-                                    if (!product_item->get_resolution().empty())
-                                        ri.status = product_item->get_resolution();
-                                    else
-                                        ri.status = product_item->get_status();
 
-                                    line.issue_status.push_back({ii, ri});
+                                line.issue_status.push_back({ii, ri});
 
-                                    //std::cout << initiative->name << ", " << cluster << ", " << pi.product << " ," << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
-                                }
-                            }
-                            if (!line.issue_status.empty())
-                                    report.push_back(line);
-                            }catch(...){
-                                std::cout << "exception" << std::endl;
+                                // std::cout << initiative->name << ", " << cluster << ", " << pi.product << " ," << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
                             }
                         }
-                    } else std::cout << "empty" << std::endl;
+                        if (!line.issue_status.empty())
+                            report.push_back(line);
+                    }
+                    catch (...)
+                    {
+                        std::cout << "exception" << std::endl;
+                    }
                 }
             }
         }
