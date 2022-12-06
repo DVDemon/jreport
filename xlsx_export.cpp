@@ -10,6 +10,7 @@
 #include "model/product_project.h"
 #include "model/cluster_initiative_issue.h"
 #include "model/product_initiative_issue.h"
+#include "model/cluster_project.h"
 #include "file_export/reports.h"
 #include "file_export/xls_export.h"
 
@@ -96,6 +97,14 @@ int main(int argc, char *argv[])
                             auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
                             if (product_item)
                             {
+                                if(cluster.empty()){
+                                    std::optional<model::ClusterProject> cp = model::ClusterProject::load(product_item->get_project());
+                                    if(cp) {
+                                            cluster = cp->cluster;
+                                            std::cout << "add cluster: " << cluster << std::endl;
+                                    }
+                                }
+
                                 report::Report_Issue ri;
                                 ri.key = product_item->get_key();
                                 ri.name = product_item->get_name();
