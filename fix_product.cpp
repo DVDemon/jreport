@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
         std::string identity = "Basic " + os.str();
 
         model::ClusterProject::fill();
+        return 1;
 
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
