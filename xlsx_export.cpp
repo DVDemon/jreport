@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
                                     std::optional<model::ClusterProject> cp = model::ClusterProject::load(product_item->get_project());
                                     if(cp) {
                                             cluster = cp->cluster;
+                                            line.cluster = cluster;
                                             std::cout << "add cluster: " << cluster << std::endl;
                                     }
                                 }
