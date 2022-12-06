@@ -78,7 +78,6 @@ namespace model
          std::map<std::string,std::set<std::string>> clusters;
 
          for(model::ProductProject &pp : array){
-            std::cout << pp.product << " ... ";
             if(Products::get().products().find(pp.product)!=std::end(Products::get().products())){
                 std::shared_ptr<model::Product> prod_ptr = model::Products::get().products()[pp.product];
                 if(prod_ptr){
@@ -88,16 +87,16 @@ namespace model
                     }
                     clusters[prod_ptr->cluster].insert(pp.project);
                 }
-            } else std::cout << "not found" << std::endl;
-            //
+            } 
          }
         
-         std::cout << std::endl << std::endl;
          for(auto & [c,p] : clusters){
-                std::cout << "Cluster: " << c;
-                for(auto & s: p)
-                    std::cout << s << " ";
-                std::cout << std::endl;
+                for(auto & s: p){
+                    ClusterProject cp;
+                    cp.cluster = c;
+                    cp.project = s;
+                    cp.save();
+                }
             }
     }
 
