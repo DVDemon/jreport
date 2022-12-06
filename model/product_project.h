@@ -3,6 +3,7 @@
 
 #include <string>
 #include <optional>
+#include <vector>
 #include "Poco/JSON/Object.h"
 
 namespace model
@@ -11,7 +12,7 @@ namespace model
         std::string product;
         std::string project;
 
-
+        static std::vector<ProductProject> load();
         static std::optional<ProductProject> load(const std::string &product);
         static ProductProject fromJSON(Poco::JSON::Object::Ptr ptr); 
         Poco::JSON::Object::Ptr toJSON();

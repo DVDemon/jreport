@@ -64,6 +64,42 @@ namespace model
         return result;
     }
 
+    std::vector<ProductProject> ProductProject::load(){
+
+    try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+
+            Statement select(session);
+            std::vector<ProductProject> results;
+            ProductProject result;
+
+            select << "SELECT product,project FROM Product_Project",
+                into(result.product),
+                into(result.project),
+                range(0,1);
+
+            while(!select.done()){
+                if(select.execute()) 
+                    results.push_back(result);
+            }
+
+            return results;
+        }
+
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+    }
+
     void ProductProject::save()
     {
         try

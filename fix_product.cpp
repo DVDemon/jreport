@@ -17,6 +17,7 @@
 #include <Poco/Dynamic/Var.h>
 #include <Poco/Base64Encoder.h>
 
+#include "model/cluster_project.h"
 namespace po = boost::program_options;
 
 int main(int argc, char *argv[])
@@ -55,6 +56,8 @@ int main(int argc, char *argv[])
         b64in << token;
         b64in.close();
         std::string identity = "Basic " + os.str();
+
+        model::ClusterProject::fill();
 
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {

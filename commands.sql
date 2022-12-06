@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,
 CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL);
 CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL);
 CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);
+CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);
 
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1395');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1396');
