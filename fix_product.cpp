@@ -57,9 +57,6 @@ int main(int argc, char *argv[])
         b64in.close();
         std::string identity = "Basic " + os.str();
 
-        model::ClusterProject::fill();
-        return 1;
-
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
             for (const std::string initiative_issue_key : initiative->issues)
@@ -95,7 +92,7 @@ int main(int argc, char *argv[])
 
                                                 if(!product_issue->get_project().empty()){
                                                     std::cout << "project:" << product_issue->get_project() << std::endl;
-                                                    model::ProductProject pp {product_issue->get_name(),product_issue->get_project()};
+                                                    model::ProductProject pp {product_issue->get_product(),product_issue->get_project()};
                                                     pp.save();
                                                 }
                                             }
@@ -110,6 +107,8 @@ int main(int argc, char *argv[])
                     }
             }
         }
+    
+        model::ClusterProject::fill();
     }
     catch (const std::exception &e)
     {

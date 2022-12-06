@@ -92,6 +92,7 @@ namespace model
             //
          }
         
+         std::cout << std::endl << std::endl;
          for(auto & [c,p] : clusters){
                 std::cout << "Cluster: " << c;
                 for(auto & s: p)
