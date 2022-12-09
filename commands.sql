@@ -18,3 +18,9 @@ INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architec
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1142');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1480');
 INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1504');
+
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ("Micro-frontends for Web UIs","KA-2234");
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ("Пилотирование практики Architecture as Code","KA-2227");
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ("Запрет интеграции через БД","KA-2217");
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ("Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4","KA-2229");
+INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ("[BCAA] Актуализация описания компетенций и связей с ПО","KA-2255");
