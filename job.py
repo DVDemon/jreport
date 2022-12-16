@@ -28,7 +28,7 @@ for i in range(0,365):
     if t.hour >= 2:
         future += datetime.timedelta(days=1)
     print(f'sleep {(future-t).total_seconds()} seconds')
-    #time.sleep((future-t).total_seconds())
+    time.sleep((future-t).total_seconds())
     subprocess.run(["/bin/sh","export.sh"])
 
     credentials = Credentials(username=login, password=password)
