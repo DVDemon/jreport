@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenSSL)
 find_package(Threads)
 find_package(ZLIB)
-find_package(Poco REQUIRED COMPONENTS Foundation Util Net XML JSON Crypto NetSSL)
+find_package(Poco REQUIRED COMPONENTS Foundation Util Net XML JSON Crypto NetSSL MongoDB)
 find_package(Boost COMPONENTS filesystem system program_options regex REQUIRED)
 
 if(OPENSSL_FOUND)

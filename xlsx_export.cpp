@@ -1,6 +1,7 @@
 #include <iostream>
 #include <boost/program_options.hpp>
 #include <sstream>
+#include <chrono>
 
 #include "config/config.h"
 #include "loader/jira_loader.h"
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "loading parameters" << std::endl;
         po::options_description desc{"Options"};
-        desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name")("juser,", po::value<std::string>()->required(), "jira user name")("jpassword,", po::value<std::string>()->required(), "jira password")("jaddress,", po::value<std::string>()->required(), "jira address");
+        desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name")("juser,", po::value<std::string>()->required(), "jira user name")("jpassword,", po::value<std::string>()->required(), "jira password")("jaddress,", po::value<std::string>()->required(), "jira address")("mongo,", po::value<std::string>()->required(), "mongo address")("mongo_port,", po::value<std::string>()->required(), "mongo port");
 
         po::variables_map vm;
         po::store(parse_command_line(argc, argv, desc), vm);
@@ -50,6 +51,10 @@ int main(int argc, char *argv[])
             password = vm["jpassword"].as<std::string>();
         if (vm.count("jaddress"))
             Config::get().jira_address() = vm["jaddress"].as<std::string>();
+        if (vm.count("mongo"))
+            Config::get().mongo_address() = vm["mongo"].as<std::string>();
+        if (vm.count("mongo_port"))
+            Config::get().mongo_port() = vm["mongo_port"].as<std::string>();
         // load initiatives
 
         std::string token = user + ":" + password;
@@ -78,9 +83,11 @@ int main(int argc, char *argv[])
                         std::cout << "        " << pi.product << std::endl;
                         std::string cluster;
 
-                        if(model::Products::get().products().find(pi.product)!=std::end(model::Products::get().products())){
+                        if (model::Products::get().products().find(pi.product) != std::end(model::Products::get().products()))
+                        {
                             auto product_ptr = model::Products::get().products()[pi.product];
-                            if(product_ptr) cluster = product_ptr->cluster;
+                            if (product_ptr)
+                                cluster = product_ptr->cluster;
                         }
                         report::Report line;
                         line.initative = initiative->name;
@@ -97,12 +104,16 @@ int main(int argc, char *argv[])
                             auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
                             if (product_item)
                             {
-                                if(cluster.empty()){
+
+                                loaders::LoaderJira::get().save(product_item);
+                                if (cluster.empty())
+                                {
                                     std::optional<model::ClusterProject> cp = model::ClusterProject::load(product_item->get_project());
-                                    if(cp) {
-                                            cluster = cp->cluster;
-                                            line.cluster = cluster;
-                                            std::cout << "add cluster: " << cluster << std::endl;
+                                    if (cp)
+                                    {
+                                        cluster = cp->cluster;
+                                        line.cluster = cluster;
+                                        std::cout << "add cluster: " << cluster << std::endl;
                                     }
                                 }
 
@@ -117,7 +128,26 @@ int main(int argc, char *argv[])
 
                                 line.issue_status.push_back({ii, ri});
 
-                                // std::cout << initiative->name << ", " << cluster << ", " << pi.product << " ," << initiative_issue << ", " << pi.cluster_issue << ", " << pi.product_issue << std::endl;
+                                for (size_t day = 1; day <= 7; ++day)
+                                {
+                                    std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+                                    now -= std::chrono::hours(day * 24);
+                                    std::time_t t_t = std::chrono::system_clock::to_time_t(now);
+                                    tm local_tm = *localtime(&t_t);
+                                    auto old_issue = loaders::LoaderJira::get().load_by_date(product_item->get_key(), local_tm);
+                                    if (old_issue)
+                                    {
+                                        ri.key = old_issue->get_key();
+                                        ri.name = old_issue->get_name();
+                                        ri.status = old_issue->get_status();
+                                        if (!old_issue->get_resolution().empty())
+                                            ri.status = old_issue->get_resolution();
+                                        else
+                                            ri.status = old_issue->get_status();
+
+                                        line.issue_status.push_back({ii, ri});
+                                    }
+                                }
                             }
                         }
                         if (!line.issue_status.empty())

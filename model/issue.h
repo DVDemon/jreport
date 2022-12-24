@@ -55,7 +55,7 @@ namespace model
             static std::vector<Issue> read_all();
             void save_to_mysql();
 
-            static Issue fromJSON(const std::string & str);
+            static std::shared_ptr<Issue> fromJSON(const std::string & str);
             Poco::JSON::Object::Ptr toJSON() const;
     };
 

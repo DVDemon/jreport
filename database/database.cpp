@@ -15,7 +15,14 @@ namespace database{
         _connection_string+=Config::get().get_password();
 
         Poco::Data::MySQL::Connector::registerConnector();
+
         //_pool = std::make_unique<Poco::Data::SessionPool>(Poco::Data::MySQL::Connector::KEY, _connection_string);
+
+        // mongodb://<user>:<password>@hostname.com:<port>/database-name
+        _mongo.connect(Config::get().get_mongo_address(),std::atol(Config::get().mongo_port().c_str()));
+    }
+    Poco::MongoDB::Connection& Database::mongo(){
+        return _mongo;
     }
 
     Database& Database::get(){

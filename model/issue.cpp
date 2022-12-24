@@ -202,22 +202,38 @@ namespace model
 
     }
 
-    Issue Issue::fromJSON(const std::string &str) {
-        Issue issue;
+    std::shared_ptr<Issue> Issue::fromJSON(const std::string &str) {
+        //std::cout << str << std::endl << std::endl;
+        std::shared_ptr<Issue> issue = std::make_shared<Issue>();
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(str);
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-        issue.id()          = object->getValue<std::string>("id");
-        issue.key()         = object->getValue<std::string>("key");
-        issue.name()        = object->getValue<std::string>("name");
-        issue.description() = object->getValue<std::string>("description");
-        issue.author()      = object->getValue<std::string>("author");
-        issue.assignee()    = object->getValue<std::string>("assignee");
-        issue.status()      = object->getValue<std::string>("status");
-        issue.resolution()  = object->getValue<std::string>("resolution");
-        issue.project()     = object->getValue<std::string>("project");
-        issue.project()     = object->getValue<std::string>("product");
+        issue->id()          = object->getValue<std::string>("id");
+        issue->key()         = object->getValue<std::string>("key");
+        issue->name()        = object->getValue<std::string>("name");
+        issue->description() = object->getValue<std::string>("description");
+        issue->author()      = object->getValue<std::string>("author");
+        issue->assignee()    = object->getValue<std::string>("assignee");
+        issue->status()      = object->getValue<std::string>("status");
+        issue->resolution()  = object->getValue<std::string>("resolution");
+        issue->project()     = object->getValue<std::string>("project");
+        issue->project()     = object->getValue<std::string>("product");
+
+        Poco::JSON::Array::Ptr links = object->getArray("links");
+        if(links){
+            for(size_t i=0;i< links->size();++i){
+                Poco::JSON::Object::Ptr l = links->getObject(i);
+                IssueLink il;
+                il.link_type = l->getValue<std::string>("type");
+                Poco::JSON::Object::Ptr item = l->getObject("issue");
+
+                std::stringstream ss;
+                Poco::JSON::Stringifier::stringify(item, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);      
+                il.item = Issue::fromJSON(ss.str());
+                issue->links().push_back(il);
+            }
+        } 
 
         return issue;
     }

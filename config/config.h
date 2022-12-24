@@ -13,6 +13,9 @@ class  Config{
         std::string _database;
         std::string _jira_address;
 
+        std::string _mongo_address;
+        std::string _mongo_port;
+
 
     public:
         static Config& get();
@@ -24,6 +27,12 @@ class  Config{
         std::string& password();
         std::string& database();
         std::string& jira_address();
+
+        std::string& mongo_address();
+        std::string& mongo_port();
+
+        const std::string& get_mongo_address();
+        const std::string& get_mongo_port();
 
         const std::string& get_database_port() const ;
         const std::string& get_database_ip() const ;

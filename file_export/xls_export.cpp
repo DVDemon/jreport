@@ -41,6 +41,13 @@ namespace file_export
         wks.cell(1, 5).value() = "Epic name";
         wks.cell(1, 6).value() = "Epic link";
         wks.cell(1, 7).value() = "Status";
+        wks.cell(1, 8).value() = "Day - 1";
+        wks.cell(1, 9).value() = "Day - 2";
+        wks.cell(1, 10).value() = "Day - 3";
+        wks.cell(1, 11).value() = "Day - 4";
+        wks.cell(1, 12).value() = "Day - 5";
+        wks.cell(1, 13).value() = "Day - 6";
+        wks.cell(1, 14).value() = "Day - 7";
         wks.setColor(OpenXLSX::XLColor(120,0,0));
         int i = 2;
         for (report::Report &r : report)
@@ -51,12 +58,12 @@ namespace file_export
             int j = 4;
 
             for(auto [i_status,p_status]: r.issue_status){
-                wks.cell(i, j++).value() = i_status.key;
-                wks.cell(i, j++).value() = i_status.name;
-                wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/"+p_status.key+"\")");
-                wks.cell(i, j++).value() = map_status(p_status.status);
-                
-                
+                if(j<6){
+                    wks.cell(i, j++).value() = i_status.key;
+                    wks.cell(i, j++).value() = i_status.name;
+                    wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/"+p_status.key+"\")");
+                }
+                wks.cell(i, j++).value() = map_status(p_status.status);                
             }
             ++i;
         }

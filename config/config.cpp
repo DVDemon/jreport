@@ -10,6 +10,22 @@ Config &Config::get()
     return _instance;
 }
 
+std::string& Config::mongo_address(){
+    return _mongo_address;
+}
+
+std::string& Config::mongo_port(){
+    return _mongo_port;
+}
+
+const std::string& Config::get_mongo_address(){
+    return _mongo_address;
+}
+
+const std::string& Config::get_mongo_port(){
+    return _mongo_port;
+}
+
 const std::string &Config::get_database_port() const
 {
     return _database_port;

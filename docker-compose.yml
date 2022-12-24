@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning 
+    volumes: 
+      - cache:/data
+  mongo:
+    image: mongo:5.0
+
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_DATABASE=jreport
+      #- MONGO_INITDB_ROOT_USERNAME=admin
+      #- MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      # seeding scripts
+      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+      # named volumes
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+volumes:
+  mongodb:
+  mongoconfig:
+  cache:
+    driver: local
