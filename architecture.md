@@ -40,11 +40,12 @@ component jreport_client
 component jreport_server
 component xls_report
 component jira
+
 artifact clusters.json
 artifact initiatives.json
 artifact products.json
 database MySql
-
+database MongoDB
 
 jreport_client --> jreport_server : "HTTP/REST"
 
@@ -53,13 +54,14 @@ jreport_server --> clusters.json : "file i/o"
 jreport_server --> initiatives.json : "file i/o"
 jreport_server --> products.json : "file i/o"
 jreport_server --> MySql : "Store links [TCP:3306]"
-jreport_server --> Mongo
+
 
 xls_report --> jira : "HTTP/REST"
 xls_report --> clusters.json : "file i/o"
 xls_report --> initiatives.json : "file i/o"
 xls_report --> products.json : "file i/o"
 xls_report --> MySql : "Store links [TCP:3306]"
+xls_report --> MongoDB : "Store/Get history jira issue status TCP [27017]"
 
 
 @enduml
