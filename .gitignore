@@ -1,4 +1,5 @@
 build/*
+.vscode/*
 token.txt
 *.xlsx
 *.sh

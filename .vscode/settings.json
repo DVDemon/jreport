@@ -72,6 +72,8 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "any": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "future": "cpp"
     }
 }

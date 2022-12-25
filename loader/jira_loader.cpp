@@ -38,7 +38,7 @@ namespace loaders
         Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(false);
         Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "");
         Poco::Net::SSLManager::instance().initializeClient(0, ptrCert, ptrContext);
-        std::cout << "inited ..." << std::endl;
+        //std::cout << "inited ..." << std::endl;
     }
 
     LoaderJira &LoaderJira::get()
@@ -175,6 +175,12 @@ namespace loaders
 
     std::shared_ptr<model::Issue> LoaderJira::load( const std::string &id, [[maybe_unused]] const std::string &identity)
     {
+        std::shared_ptr<model::Issue> res;
+        res = model::Issue::from_cache(id);
+        if(res) {
+            //std::cout << "loaded from cache" << std::endl;
+            return res;
+        }
 #ifdef STUB
         std::string string_result = load_from_file(id);
 #endif
@@ -216,8 +222,12 @@ namespace loaders
         }
 #endif
         
+        if(!string_result.empty()){
+            res = parse(string_result);
+            if(res) res->save_to_cache();
+        }
 
-        return parse(string_result);
+        return res;
     }
 
     LoaderJira::~LoaderJira()

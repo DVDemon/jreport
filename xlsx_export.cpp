@@ -1,5 +1,4 @@
 #include <iostream>
-#include <boost/program_options.hpp>
 #include <sstream>
 #include <chrono>
 
@@ -18,62 +17,26 @@
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Parser.h>
 #include <Poco/Dynamic/Var.h>
-#include <Poco/Base64Encoder.h>
 
-namespace po = boost::program_options;
 
-int main(int argc, char *argv[])
+
+int main()
 {
     try
     {
-        std::cout << "loading parameters" << std::endl;
-        po::options_description desc{"Options"};
-        desc.add_options()("help,h", "This screen")("address,", po::value<std::string>()->required(), "set database ip address")("port,", po::value<std::string>()->required(), "databaase port")("login,", po::value<std::string>()->required(), "database login")("password,", po::value<std::string>()->required(), "database password")("database,", po::value<std::string>()->required(), "database name")("juser,", po::value<std::string>()->required(), "jira user name")("jpassword,", po::value<std::string>()->required(), "jira password")("jaddress,", po::value<std::string>()->required(), "jira address")("mongo,", po::value<std::string>()->required(), "mongo address")("mongo_port,", po::value<std::string>()->required(), "mongo port");
 
-        po::variables_map vm;
-        po::store(parse_command_line(argc, argv, desc), vm);
-        std::string user, password;
-        if (vm.count("help"))
-            std::cout << desc << '\n';
-        if (vm.count("address"))
-            Config::get().database_ip() = vm["address"].as<std::string>();
-        if (vm.count("port"))
-            Config::get().database_port() = vm["port"].as<std::string>();
-        if (vm.count("login"))
-            Config::get().login() = vm["login"].as<std::string>();
-        if (vm.count("password"))
-            Config::get().password() = vm["password"].as<std::string>();
-        if (vm.count("database"))
-            Config::get().database() = vm["database"].as<std::string>();
-        if (vm.count("juser"))
-            user = vm["juser"].as<std::string>();
-        if (vm.count("jpassword"))
-            password = vm["jpassword"].as<std::string>();
-        if (vm.count("jaddress"))
-            Config::get().jira_address() = vm["jaddress"].as<std::string>();
-        if (vm.count("mongo"))
-            Config::get().mongo_address() = vm["mongo"].as<std::string>();
-        if (vm.count("mongo_port"))
-            Config::get().mongo_port() = vm["mongo_port"].as<std::string>();
-        // load initiatives
-
-        std::string token = user + ":" + password;
-        std::ostringstream os;
-        Poco::Base64Encoder b64in(os);
-        b64in << token;
-        b64in.close();
-        std::string identity = "Basic " + os.str();
+        std::string identity = Config::get().get_identity();
 
         std::vector<report::Report> report;
 
-        std::cout << "start" << std::endl;
+
         for (std::shared_ptr<model::Initiative> initiative : model::Initiatives::get().initiatives())
         {
             std::cout << initiative->name << std::endl;
 
             for (std::string initiative_issue : initiative->issues)
             {
-                std::cout << initiative_issue << std::endl;
+                std::cout << "     " << initiative_issue << std::endl;
 
                 auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
                 for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)) // cii->issue))
@@ -113,7 +76,7 @@ int main(int argc, char *argv[])
                                     {
                                         cluster = cp->cluster;
                                         line.cluster = cluster;
-                                        std::cout << "add cluster: " << cluster << std::endl;
+                                        std::cout << "        add cluster: " << cluster << std::endl;
                                     }
                                 }
 

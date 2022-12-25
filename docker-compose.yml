@@ -2,6 +2,7 @@ version: '3.3'
 services:
   cache:
     image: redis:6.2-alpine
+    container_name: cache-1
     restart: always
     ports:
       - '6379:6379'
@@ -10,7 +11,7 @@ services:
       - cache:/data
   mongo:
     image: mongo:5.0
-
+    container_name: mongo-1
     ports:
       - '27017:27017'
     environment:
