@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {
-            for (const std::string initiative_issue_key : initiative->issues)
+            for (const std::string & initiative_issue_key : initiative->issues)
             {
                 std::cout << "loading initiative: " << initiative_issue_key;
 
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
                 std::cout << " done" << std::endl;
 
                 if (initiative_issue)
-                    for (const std::string cluster : model::Cluster::get().clusters())
+                    for (const std::string & cluster : model::Cluster::get().clusters())
                     {
                         std::cout << "cluster: " << cluster << std::endl;
                         try

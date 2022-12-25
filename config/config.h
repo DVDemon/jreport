@@ -16,6 +16,7 @@ class  Config{
         std::string _mongo_address;
         std::string _mongo_port;
 
+        std::string _cache_servers;
 
     public:
         static Config& get();
@@ -31,6 +32,9 @@ class  Config{
         std::string& mongo_address();
         std::string& mongo_port();
 
+        std::string& cache_servers();
+
+
         const std::string& get_mongo_address();
         const std::string& get_mongo_port();
 
@@ -40,6 +44,7 @@ class  Config{
         const std::string& get_password() const ;
         const std::string& get_database() const ;
         const std::string& get_jira_address() const ;
+        const std::string& get_cache_servers() const;
 };
 
 #endif

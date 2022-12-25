@@ -208,9 +208,10 @@ int main(int argc, char *argv[])
                                                 }
 
                                 }
-                                else
-                                        res.status = 404; 
-                                        return 404; });
+                                
+                                res.status = 404; 
+                                return 404; 
+                        });
 
                 svr.Get("/cluster_initative_epic", []([[maybe_unused]] const httplib::Request &req, [[maybe_unused]] httplib::Response &res)
                         {

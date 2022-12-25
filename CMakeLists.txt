@@ -8,8 +8,12 @@ set(EXPORT_EXECUTABLE xlsx_report)
 set(FIX_EXECUTABLE fix_product)
 set(PRODUCTS_EXECUTABLE export_products)
 
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set (REDISCPP_FLAGS "-DREDISCPP_HEADER_ONLY=ON")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall ${REDISCPP_FLAGS}")
+set (CMAKE_CXX_FLAGS_RELEASE "-O3 -g0 -std=${STD_CXX} -Wall -DNDEBUG ${REDISCPP_FLAGS}")
 
 find_package(OpenSSL)
 find_package(Threads)
@@ -27,6 +31,7 @@ include_directories(${Boost_INCLUDE_DIR})
 add_executable(${EXECUTABLE_POCO} main_poco.cpp
                              config/config.cpp
                              database/database.cpp
+                             database/cache.cpp
                              model/issue.cpp
                              model/cluster.cpp
                              model/initiative.cpp
@@ -41,6 +46,7 @@ add_executable(${EXECUTABLE_POCO} main_poco.cpp
 add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
                              config/config.cpp
                              database/database.cpp
+                             database/cache.cpp
                              model/issue.cpp
                              model/cluster.cpp
                              model/initiative.cpp
@@ -55,6 +61,7 @@ add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
 add_executable(${EXECUTABLE} main.cpp
                              config/config.cpp
                              database/database.cpp
+                             database/cache.cpp
                              model/issue.cpp
                              model/cluster.cpp
                              model/initiative.cpp
@@ -69,6 +76,7 @@ add_executable(${EXECUTABLE} main.cpp
 add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     config/config.cpp
                                     database/database.cpp
+                                    database/cache.cpp
                                     model/issue.cpp
                                     model/cluster.cpp
                                     model/initiative.cpp
@@ -84,6 +92,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
 add_executable(${FIX_EXECUTABLE}    fix_product.cpp
                                     config/config.cpp
                                     database/database.cpp
+                                    database/cache.cpp
                                     model/issue.cpp
                                     model/cluster.cpp
                                     model/initiative.cpp

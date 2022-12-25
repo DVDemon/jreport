@@ -51,7 +51,7 @@ private:
 public:
     Clusters(const std::string &format) : _format(format) {}
 
-    void handleRequest(HTTPServerRequest &request,
+    void handleRequest([[maybe_unused]] HTTPServerRequest &request,
                        HTTPServerResponse &response)
     {
         std::cout << "clusters" << std::endl;

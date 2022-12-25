@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
                             if (product_item)
                             {
 
-                                loaders::LoaderJira::get().save(product_item);
+                                product_item->save_to_mongodb();
                                 if (cluster.empty())
                                 {
                                     std::optional<model::ClusterProject> cp = model::ClusterProject::load(product_item->get_project());
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
                                     now -= std::chrono::hours(day * 24);
                                     std::time_t t_t = std::chrono::system_clock::to_time_t(now);
                                     tm local_tm = *localtime(&t_t);
-                                    auto old_issue = loaders::LoaderJira::get().load_by_date(product_item->get_key(), local_tm);
+                                    auto old_issue = model::Issue::from_mongodb(product_item->get_key(), local_tm);
                                     if (old_issue)
                                     {
                                         ri.key = old_issue->get_key();

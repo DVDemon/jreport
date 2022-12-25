@@ -1,5 +1,6 @@
 #include "issue.h"
 #include "../database/database.h"
+#include "../database/cache.h"
 
 #include <Poco/Data/RecordSet.h>
 #include <Poco/JSON/Parser.h>
@@ -12,233 +13,257 @@ using namespace Poco::Data::Keywords;
 using Poco::Data::Session;
 using Poco::Data::Statement;
 
+#include <Poco/MongoDB/Cursor.h>
+
 namespace model
 {
-    std::string &Issue::id() {
+    std::string &Issue::id()
+    {
         return _id;
     }
 
-    std::string &Issue::key() {
+    std::string &Issue::key()
+    {
         return _key;
     }
 
-    std::string &Issue::name() {
+    std::string &Issue::name()
+    {
         return _name;
     }
-    std::string &Issue::description() {
+    std::string &Issue::description()
+    {
         return _description;
     }
-    std::string &Issue::author() {
+    std::string &Issue::author()
+    {
         return _author;
     }
-    std::string &Issue::assignee() {
+    std::string &Issue::assignee()
+    {
         return _assignee;
     }
-    std::string &Issue::status() {
+    std::string &Issue::status()
+    {
         return _status;
     }
 
-    std::string& Issue::resolution(){
+    std::string &Issue::resolution()
+    {
         return _resolution;
-
     }
-    std::string& Issue::project(){
-        return _project;
-
-    }
-
-    std::string& Issue::product(){
-        return _product;
-
-    }
-
-    const std::string &Issue::get_product() {
-        return _product;
-    }
-
-    const std::string &Issue::get_project() {
+    std::string &Issue::project()
+    {
         return _project;
     }
 
-    const std::string &Issue::get_id() {
+    std::string &Issue::product()
+    {
+        return _product;
+    }
+
+    const std::string &Issue::get_product()
+    {
+        return _product;
+    }
+
+    const std::string &Issue::get_project()
+    {
+        return _project;
+    }
+
+    const std::string &Issue::get_id()
+    {
         return _id;
     }
 
-    const std::string &Issue::get_key() {
+    const std::string &Issue::get_key()
+    {
         return _key;
     }
-    const std::string &Issue::get_name() {
+    const std::string &Issue::get_name()
+    {
         return _name;
     }
-    const std::string &Issue::get_description() {
+    const std::string &Issue::get_description()
+    {
         return _description;
     }
-    const std::string &Issue::get_author() {
+    const std::string &Issue::get_author()
+    {
         return _author;
     }
-    const std::string &Issue::get_assignee() {
+    const std::string &Issue::get_assignee()
+    {
         return _assignee;
     }
-    const std::string &Issue::get_status() {
+    const std::string &Issue::get_status()
+    {
         return _status;
     }
 
-    const std::string& Issue::get_resolution(){
+    const std::string &Issue::get_resolution()
+    {
         return _resolution;
     }
 
+    void Issue::save_to_cache(){
+        std::stringstream ss;
+        Poco::JSON::Stringifier::stringify(toJSON(), ss);
+        std::string message = ss.str();
+        database::Cache::get().put(get_key(), message);
+    }
 
-    Issue Issue::read_by_id(const  std::string &id) {
-       try
+    std::shared_ptr<model::Issue> Issue::from_cache(const std::string & key){
+         try
         {
-            Poco::Data::Session session = database::Database::get().create_session();
-            Statement select(session);
-            std::vector<Issue> result;
-            Issue a;
-            std::string i=id;
-            select << "SELECT id,key_field,name,description,author,assignee,status,project,project FROM Issue WHERE id = ?",
-                into(a._id),
-                into(a._key),
-                into(a._name),
-                into(a._description),
-                into(a._author),
-                into(a._assignee),
-                into(a._status),
-                into(a._project),
-                into(a._product),
-                use(i),
-                range(0, 1);
-
-            select.execute();
-            Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst()) throw std::logic_error("not found");
-
-            return a;
+            std::string result;
+            if (database::Cache::get().get(key, result))
+                return fromJSON(result);
+            else
+                return std::shared_ptr<Issue>();
         }
-
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (std::exception* err)
         {
-            std::cout << "connection:" << e.what() << std::endl;
-            throw;
-        }
-        catch (Poco::Data::MySQL::StatementException &e)
-        {
-
-            std::cout << "statement:" << e.what() << std::endl;
+            std::cerr << "error:" << err->what() << std::endl;
             throw;
         }
     }
-    
-    std::vector<Issue> Issue::read_all() {
+
+// https://github.com/pocoproject/poco/blob/devel/MongoDB/samples/SQLToMongo/src/SQLToMongo.cpp
+    void Issue::save_to_mongodb()
+    {
+        Poco::MongoDB::Database db("jreport");
         try
         {
-            Poco::Data::Session session = database::Database::get().create_session();
-            Statement select(session);
-            std::vector<Issue> result;
-            Issue a;
-            select << "SELECT id,key_field,name,description,author,assignee,status,project,product FROM Issue",
-                into(a._id),
-                into(a._key),
-                into(a._name),
-                into(a._description),
-                into(a._author),
-                into(a._assignee),
-                into(a._status),
-                into(a._project),
-                into(a._product),
-                range(0, 1); //  iterate over result set one row at a time
+            const std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+            const std::time_t t_t = std::chrono::system_clock::to_time_t(now);
+            tm local_tm = *localtime(&t_t);
+            std::string date_key;
+            date_key += std::to_string(local_tm.tm_year + 1900) + std::to_string(local_tm.tm_mon + 1) + std::to_string(local_tm.tm_mday);
 
-            while (!select.done())
+            Poco::SharedPtr<Poco::MongoDB::DeleteRequest> request = db.createDeleteRequest("issues");
+            request->selector().add("key", get_key());
+            request->selector().add("date", date_key);
+            database::Database::get().mongo().sendRequest(*request);
+
+            Poco::SharedPtr<Poco::MongoDB::InsertRequest> insertRequest = db.createInsertRequest("issues");
+
+            std::stringstream ss;
+            Poco::JSON::Stringifier::stringify(toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+
+            insertRequest->addNewDocument()
+                .add("key", get_key())
+                .add("date", date_key)
+                .add("document", ss.str());
+
+            database::Database::get().mongo().sendRequest(*insertRequest);
+            std::string lastError = db.getLastError(database::Database::get().mongo());
+            if (!lastError.empty())
             {
-                if(select.execute())
-                result.push_back(a);
+                std::cout << "mongodb Last Error: " << db.getLastError(database::Database::get().mongo()) << std::endl;
             }
-            return result;
+            else
+                std::cout << "mongodb: Saved" << std::endl;
         }
-
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (std::exception &ex)
         {
-            std::cout << "connection:" << e.what() << std::endl;
-            throw;
-        }
-        catch (Poco::Data::MySQL::StatementException &e)
-        {
-
-            std::cout << "statement:" << e.what() << std::endl;
-            throw;
+            std::cout << "mongodb exception: " << ex.what() << std::endl;
+            std::string lastError = db.getLastError(database::Database::get().mongo());
+            if (!lastError.empty())
+            {
+                std::cout << "mongodb Last Error: " << db.getLastError(database::Database::get().mongo()) << std::endl;
+            }
         }
     }
-    
-    void Issue::save_to_mysql() {
+
+    std::shared_ptr<model::Issue> Issue::from_mongodb(const std::string &key, const tm &date)
+    {
+        std::shared_ptr<model::Issue> result;
+
         try
         {
-            Poco::Data::Session session = database::Database::get().create_session();
-            Poco::Data::Statement insert(session);
+            std::string date_key;
+            date_key += std::to_string(date.tm_year + 1900) + std::to_string(date.tm_mon + 1) + std::to_string(date.tm_mday);
 
-            insert << "INSERT INTO Author (id,key,name,description,author,assignee,status,projec,product) VALUES(?, ?, ?, ?, ?, ?, ?,?,?)",
-                use(_id),
-                use(_key),
-                use(_name),
-                use(_description),
-                use(_author),
-                use(_assignee),
-                use(_status),
-                use(_project),
-                use(_product);
+            Poco::MongoDB::Cursor cursor("jreport", "issues");
+            cursor.query().selector().add("key", key);
+            cursor.query().selector().add("date", date_key);
 
-            insert.execute();
+            std::cout << "mongodb: query key='" + key + "' date='" + date_key + "'" << std::endl;
+
+            Poco::MongoDB::ResponseMessage &response = cursor.next(database::Database::get().mongo());
+            for (;;)
+            {
+                for (Poco::MongoDB::Document::Vector::const_iterator it = response.documents().begin(); it != response.documents().end(); ++it)
+                {
+                    result = model::Issue::fromJSON((*it)->get<std::string>("document"));
+                    auto pp = result->toJSON();
+                    std::stringstream ss;
+                    Poco::JSON::Stringifier::stringify(pp, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+
+                    return result;
+                }
+
+                // When the cursorID is 0, there are no documents left, so break out ...
+                if (response.cursorID() == 0)
+                {
+                    break;
+                }
+
+                // Get the next bunch of documents
+                response = cursor.next(database::Database::get().mongo());
+            }
         }
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (std::exception &ex)
         {
-            std::cout << "connection:" << e.what() << std::endl;
-            throw;
-        }
-        catch (Poco::Data::MySQL::StatementException &e)
-        {
-
-            std::cout << "statement:" << e.what() << std::endl;
-            throw;
+            std::cout << "mongodb exception: " << ex.what() << std::endl;
         }
 
+        return result;
     }
 
-    std::shared_ptr<Issue> Issue::fromJSON(const std::string &str) {
-        //std::cout << str << std::endl << std::endl;
+    std::shared_ptr<Issue> Issue::fromJSON(const std::string &str)
+    {
+        // std::cout << str << std::endl << std::endl;
         std::shared_ptr<Issue> issue = std::make_shared<Issue>();
         Poco::JSON::Parser parser;
         Poco::Dynamic::Var result = parser.parse(str);
         Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
 
-        issue->id()          = object->getValue<std::string>("id");
-        issue->key()         = object->getValue<std::string>("key");
-        issue->name()        = object->getValue<std::string>("name");
+        issue->id() = object->getValue<std::string>("id");
+        issue->key() = object->getValue<std::string>("key");
+        issue->name() = object->getValue<std::string>("name");
         issue->description() = object->getValue<std::string>("description");
-        issue->author()      = object->getValue<std::string>("author");
-        issue->assignee()    = object->getValue<std::string>("assignee");
-        issue->status()      = object->getValue<std::string>("status");
-        issue->resolution()  = object->getValue<std::string>("resolution");
-        issue->project()     = object->getValue<std::string>("project");
-        issue->project()     = object->getValue<std::string>("product");
+        issue->author() = object->getValue<std::string>("author");
+        issue->assignee() = object->getValue<std::string>("assignee");
+        issue->status() = object->getValue<std::string>("status");
+        issue->resolution() = object->getValue<std::string>("resolution");
+        issue->project() = object->getValue<std::string>("project");
+        issue->project() = object->getValue<std::string>("product");
 
         Poco::JSON::Array::Ptr links = object->getArray("links");
-        if(links){
-            for(size_t i=0;i< links->size();++i){
+        if (links)
+        {
+            for (size_t i = 0; i < links->size(); ++i)
+            {
                 Poco::JSON::Object::Ptr l = links->getObject(i);
                 IssueLink il;
                 il.link_type = l->getValue<std::string>("type");
                 Poco::JSON::Object::Ptr item = l->getObject("issue");
 
                 std::stringstream ss;
-                Poco::JSON::Stringifier::stringify(item, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);      
+                Poco::JSON::Stringifier::stringify(item, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
                 il.item = Issue::fromJSON(ss.str());
                 issue->links().push_back(il);
             }
-        } 
+        }
 
         return issue;
     }
 
-    Poco::JSON::Object::Ptr Issue::toJSON() const {
+    Poco::JSON::Object::Ptr Issue::toJSON() const
+    {
         Poco::JSON::Object::Ptr root = new Poco::JSON::Object();
         root->set("id", _id);
         root->set("key", _key);
@@ -247,41 +272,43 @@ namespace model
         root->set("author", _author);
         root->set("assignee", _assignee);
         root->set("status", _status);
-        root->set("resolution",_resolution);
-        root->set("project",_project);
-        root->set("product",_product);
+        root->set("resolution", _resolution);
+        root->set("project", _project);
+        root->set("product", _product);
 
-        if(!_links.empty()){
+        if (!_links.empty())
+        {
             Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
-            for(size_t i=0;i<_links.size();++i){
-                 Poco::JSON::Object::Ptr l =  new Poco::JSON::Object();
-                 l->set("type",_links[i].link_type);
-                 l->set("issue", _links[i].item->toJSON());
-                 links_array->add(l);
+            for (size_t i = 0; i < _links.size(); ++i)
+            {
+                Poco::JSON::Object::Ptr l = new Poco::JSON::Object();
+                l->set("type", _links[i].link_type);
+                l->set("issue", _links[i].item->toJSON());
+                links_array->add(l);
             }
-            root->set("links",links_array);
-            
+            root->set("links", links_array);
         }
         return root;
     }
 
-     std::vector<IssueLink>& Issue::links(){
+    std::vector<IssueLink> &Issue::links()
+    {
         return _links;
-     }
-     
-     const std::vector<IssueLink>& Issue::get_links(){
+    }
+
+    const std::vector<IssueLink> &Issue::get_links()
+    {
         return _links;
-     }
+    }
 
-     IssueLink::IssueLink() {}
-     IssueLink::IssueLink(std::string lt,std::shared_ptr<Issue>   i):
-     link_type(lt),item(i)
-     {
-
-     }
+    IssueLink::IssueLink() {}
+    IssueLink::IssueLink(std::string lt, std::shared_ptr<Issue> i) : link_type(lt), item(i)
+    {
+    }
 }
 
-std::ostream & operator<<(std::ostream& os,model::Issue& issue){
+std::ostream &operator<<(std::ostream &os, model::Issue &issue)
+{
     os << "id:" << issue.get_id() << std::endl;
     os << "key:" << issue.get_key() << std::endl;
     os << "name:" << issue.get_name() << std::endl;

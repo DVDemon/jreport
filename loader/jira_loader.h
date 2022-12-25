@@ -17,10 +17,6 @@ namespace loaders{
         public:
             static LoaderJira& get();
             std::shared_ptr<model::Issue> load(const std::string & id,const std::string & identity);
-
-            void save( std::shared_ptr<model::Issue> issue);
-            std::shared_ptr<model::Issue> load_by_date(const std::string & key, const tm& date);
-
             ~LoaderJira();
     };
 }

@@ -50,11 +50,11 @@ namespace model
             const std::string& get_project();
             const std::string& get_product();
             const std::vector<IssueLink>& get_links();
-
-            static Issue read_by_id(const std::string& id);
-            static std::vector<Issue> read_all();
-            void save_to_mysql();
-
+            
+            void save_to_mongodb();
+            void save_to_cache();
+            static std::shared_ptr<Issue> from_cache(const std::string & key);
+            static std::shared_ptr<Issue> from_mongodb(const std::string & key,const tm &date);
             static std::shared_ptr<Issue> fromJSON(const std::string & str);
             Poco::JSON::Object::Ptr toJSON() const;
     };

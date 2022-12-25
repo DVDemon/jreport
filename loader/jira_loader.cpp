@@ -47,103 +47,6 @@ namespace loaders
         return _instance;
     }
 
-// https://github.com/pocoproject/poco/blob/devel/MongoDB/samples/SQLToMongo/src/SQLToMongo.cpp
-
-    void LoaderJira::save([[maybe_unused]] std::shared_ptr<model::Issue> issue)
-    {
-        if (issue)
-        {
-            Poco::MongoDB::Database db("jreport");
-            try
-            {
-                const std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-                const std::time_t t_t = std::chrono::system_clock::to_time_t(now);
-                tm local_tm = *localtime(&t_t);
-                std::string date_key;
-                date_key += std::to_string(local_tm.tm_year + 1900) + std::to_string(local_tm.tm_mon + 1) + std::to_string(local_tm.tm_mday);
-
-                Poco::SharedPtr<Poco::MongoDB::DeleteRequest> request = db.createDeleteRequest("issues");
-                request->selector().add("key", issue->get_key());
-                request->selector().add("date", date_key);
-                database::Database::get().mongo().sendRequest(*request);
-
-                Poco::SharedPtr<Poco::MongoDB::InsertRequest> insertRequest = db.createInsertRequest("issues");
-
-                std::stringstream ss;
-                Poco::JSON::Stringifier::stringify(issue->toJSON(), ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
-
-                insertRequest->addNewDocument()
-                    .add("key", issue->get_key())
-                    .add("date", date_key)
-                    .add("document", ss.str());
-
-                database::Database::get().mongo().sendRequest(*insertRequest);
-                std::string lastError = db.getLastError(database::Database::get().mongo());
-                if (!lastError.empty())
-                {
-                    std::cout << "mongodb Last Error: " << db.getLastError(database::Database::get().mongo()) << std::endl;
-                }
-                else
-                    std::cout << "mongodb: Saved" << std::endl;
-            }
-            catch (std::exception &ex)
-            {
-                std::cout << "mongodb exception: " << ex.what() << std::endl;
-                std::string lastError = db.getLastError(database::Database::get().mongo());
-                if (!lastError.empty())
-                {
-                    std::cout << "mongodb Last Error: " << db.getLastError(database::Database::get().mongo()) << std::endl;
-                }
-            }
-        }
-    }
-
-    std::shared_ptr<model::Issue> LoaderJira::load_by_date(const std::string &key, const tm &date)
-    {
-        std::shared_ptr<model::Issue> result;
-
-        try
-        {
-            std::string date_key;
-            date_key += std::to_string(date.tm_year + 1900) + std::to_string(date.tm_mon + 1) + std::to_string(date.tm_mday);
-
-            Poco::MongoDB::Cursor cursor("jreport", "issues");
-            cursor.query().selector().add("key", key);
-            cursor.query().selector().add("date", date_key);
-
-            std::cout << "mongodb: query key='" + key + "' date='" + date_key + "'" << std::endl;
-
-            Poco::MongoDB::ResponseMessage &response = cursor.next(database::Database::get().mongo());
-            for (;;)
-            {
-                for (Poco::MongoDB::Document::Vector::const_iterator it = response.documents().begin(); it != response.documents().end(); ++it)
-                {
-                    result = model::Issue::fromJSON((*it)->get<std::string>("document"));
-                    auto pp = result->toJSON();
-                    std::stringstream ss;
-                    Poco::JSON::Stringifier::stringify(pp, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER); 
-
-                    return result;
-                }
-
-                // When the cursorID is 0, there are no documents left, so break out ...
-                if (response.cursorID() == 0)
-                {
-                    break;
-                }
-
-                // Get the next bunch of documents
-                response = cursor.next(database::Database::get().mongo());
-            }
-        }
-        catch (std::exception &ex)
-        {
-            std::cout << "mongodb exception: " << ex.what() << std::endl;
-        }
-
-        return result;
-    }
-
     std::string LoaderJira::load_from_file(const std::string &id)
     {
 
@@ -270,7 +173,7 @@ namespace loaders
         return std::shared_ptr<model::Issue>();
     }
 
-    std::shared_ptr<model::Issue> LoaderJira::load([[maybe_unused]] const std::string &id, const std::string &identity)
+    std::shared_ptr<model::Issue> LoaderJira::load( const std::string &id, [[maybe_unused]] const std::string &identity)
     {
 #ifdef STUB
         std::string string_result = load_from_file(id);

@@ -46,6 +46,7 @@ artifact initiatives.json
 artifact products.json
 database MySql
 database MongoDB
+database Redis
 
 jreport_client --> jreport_server : "HTTP/REST"
 
@@ -54,7 +55,7 @@ jreport_server --> clusters.json : "file i/o"
 jreport_server --> initiatives.json : "file i/o"
 jreport_server --> products.json : "file i/o"
 jreport_server --> MySql : "Store links [TCP:3306]"
-
+jreport_server --> Redis : "Get/Set cached jira issues TCP[6379]"
 
 xls_report --> jira : "HTTP/REST"
 xls_report --> clusters.json : "file i/o"
@@ -62,7 +63,7 @@ xls_report --> initiatives.json : "file i/o"
 xls_report --> products.json : "file i/o"
 xls_report --> MySql : "Store links [TCP:3306]"
 xls_report --> MongoDB : "Store/Get history jira issue status TCP [27017]"
-
+xls_report --> Redis : "Get/Set cached jira issues TCP[6379]"
 
 @enduml
 ```
