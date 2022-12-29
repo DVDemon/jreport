@@ -68,7 +68,7 @@ namespace database
         }
         catch (std::exception &ex)
         {
-            std::cout << "--- redis exception: " << ex.what() << std::endl;
+            //std::cout << "--- redis exception: " << ex.what() << std::endl;
             return false;
         }
 

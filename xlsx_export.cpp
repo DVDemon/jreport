@@ -84,6 +84,7 @@ int main()
                                 ri.key = product_item->get_key();
                                 ri.name = product_item->get_name();
                                 ri.status = product_item->get_status();
+                                ri.assigne = product_item->get_assignee();
                                 if (!product_item->get_resolution().empty())
                                     ri.status = product_item->get_resolution();
                                 else
@@ -91,7 +92,8 @@ int main()
 
                                 line.issue_status.push_back({ii, ri});
 
-                                for (size_t day = 1; day <= 7; ++day)
+                                const std::vector<size_t> days {1,2,3,4,5,7,14,21,30,60,90};
+                                for (size_t day : days)
                                 {
                                     std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
                                     now -= std::chrono::hours(day * 24);
@@ -103,6 +105,8 @@ int main()
                                         ri.key = old_issue->get_key();
                                         ri.name = old_issue->get_name();
                                         ri.status = old_issue->get_status();
+                                        ri.assigne = old_issue->get_assignee();
+                                        ri.day_shift = day;
                                         if (!old_issue->get_resolution().empty())
                                             ri.status = old_issue->get_resolution();
                                         else

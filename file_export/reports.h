@@ -10,6 +10,8 @@ namespace report{
         std::string key;
         std::string name;
         std::string status;
+        std::string assigne;
+        size_t      day_shift;
     };
 
     struct Report{

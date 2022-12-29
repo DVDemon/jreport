@@ -40,14 +40,19 @@ namespace file_export
         wks.cell(1, 4).value() = "Epic";
         wks.cell(1, 5).value() = "Epic name";
         wks.cell(1, 6).value() = "Epic link";
-        wks.cell(1, 7).value() = "Status";
-        wks.cell(1, 8).value() = "Day - 1";
-        wks.cell(1, 9).value() = "Day - 2";
-        wks.cell(1, 10).value() = "Day - 3";
-        wks.cell(1, 11).value() = "Day - 4";
-        wks.cell(1, 12).value() = "Day - 5";
-        wks.cell(1, 13).value() = "Day - 6";
-        wks.cell(1, 14).value() = "Day - 7";
+        wks.cell(1, 7).value() = "Assigne";
+        wks.cell(1, 8).value() = "Status";
+        wks.cell(1, 9).value() = "Day - 1";
+        wks.cell(1, 10).value() = "Day - 2";
+        wks.cell(1, 11).value() = "Day - 3";
+        wks.cell(1, 12).value() = "Day - 4";
+        wks.cell(1, 13).value() = "Day - 5";
+        wks.cell(1, 14).value() = "Week - 1";
+        wks.cell(1, 15).value() = "Week - 2";
+        wks.cell(1, 16).value() = "Week - 3";
+        wks.cell(1, 17).value() = "Month - 1";
+        wks.cell(1, 18).value() = "Month - 2";
+        wks.cell(1, 19).value() = "Month - 3";
         wks.setColor(OpenXLSX::XLColor(120,0,0));
         int i = 2;
         for (report::Report &r : report)
@@ -62,6 +67,7 @@ namespace file_export
                     wks.cell(i, j++).value() = i_status.key;
                     wks.cell(i, j++).value() = i_status.name;
                     wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/"+p_status.key+"\")");
+                    wks.cell(i, j++).value() = p_status.assigne;
                 }
                 wks.cell(i, j++).value() = map_status(p_status.status);                
             }

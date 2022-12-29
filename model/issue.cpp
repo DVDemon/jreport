@@ -120,14 +120,15 @@ namespace model
             std::string result;
             if (database::Cache::get().get(key, result))
                 return fromJSON(result);
-            else
-                return std::shared_ptr<Issue>();
+            //else
+                
         }
         catch (std::exception* err)
         {
-            std::cerr << "error:" << err->what() << std::endl;
-            throw;
+            //std::cerr << "error:" << err->what() << std::endl;
+            //throw;
         }
+        return std::shared_ptr<Issue>();
     }
 
 // https://github.com/pocoproject/poco/blob/devel/MongoDB/samples/SQLToMongo/src/SQLToMongo.cpp
@@ -140,7 +141,9 @@ namespace model
             const std::time_t t_t = std::chrono::system_clock::to_time_t(now);
             tm local_tm = *localtime(&t_t);
             std::string date_key;
-            date_key += std::to_string(local_tm.tm_year + 1900) + std::to_string(local_tm.tm_mon + 1) + std::to_string(local_tm.tm_mday);
+            date_key += std::to_string(local_tm.tm_year + 1900) + 
+                ((local_tm.tm_mon + 1<10)?"0":"") + std::to_string(local_tm.tm_mon + 1) + 
+                ((local_tm.tm_mday <10)?"0":"") + std::to_string(local_tm.tm_mday);
 
             Poco::SharedPtr<Poco::MongoDB::DeleteRequest> request = db.createDeleteRequest("issues");
             request->selector().add("key", get_key());
@@ -163,8 +166,8 @@ namespace model
             {
                 std::cout << "mongodb Last Error: " << db.getLastError(database::Database::get().mongo()) << std::endl;
             }
-            else
-                std::cout << "mongodb: Saved" << std::endl;
+           // else
+           //     std::cout << "mongodb: Saved" << std::endl;
         }
         catch (std::exception &ex)
         {
@@ -184,13 +187,15 @@ namespace model
         try
         {
             std::string date_key;
-            date_key += std::to_string(date.tm_year + 1900) + std::to_string(date.tm_mon + 1) + std::to_string(date.tm_mday);
+            date_key += std::to_string(date.tm_year + 1900) + 
+                ((date.tm_mon + 1<10)?"0":"") + std::to_string(date.tm_mon + 1) + 
+                ((date.tm_mday <10)?"0":"") + std::to_string(date.tm_mday);
 
             Poco::MongoDB::Cursor cursor("jreport", "issues");
             cursor.query().selector().add("key", key);
             cursor.query().selector().add("date", date_key);
 
-            std::cout << "mongodb: query key='" + key + "' date='" + date_key + "'" << std::endl;
+            //std::cout << "mongodb: query key='" + key + "' date='" + date_key + "'" << std::endl;
 
             Poco::MongoDB::ResponseMessage &response = cursor.next(database::Database::get().mongo());
             for (;;)
