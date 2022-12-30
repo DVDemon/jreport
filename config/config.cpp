@@ -6,18 +6,18 @@
 Config::Config()
 {
 
-    _database_ip = std::getenv("DATABASE_IP");
-    _database_port = std::getenv("DATABASE_PORT");
-    _login = std::getenv("DATABASE_LOGIN");
-    _password = std::getenv("DATABASE_PASSWORD");
-    _database = std::getenv("DATABASE_NAME");
-    _jira_address = std::getenv("JIRA_ADDRESS");
-    _mongo_address = std::getenv("MONGO_ADDRESS");
-    ;
-    _mongo_port = std::getenv("MONGO_PORT");
-    _cache_servers = std::getenv("CACHE");
-    _jira_user = std::getenv("JIRA_USER");
-    _jira_password = std::getenv("JIRA_PASSWORD");
+    if(std::getenv("DATABASE_IP")) _database_ip = std::getenv("DATABASE_IP");
+    if(std::getenv("DATABASE_PORT")) _database_port = std::getenv("DATABASE_PORT");
+    if(std::getenv("DATABASE_LOGIN")) _login = std::getenv("DATABASE_LOGIN");
+    if(std::getenv("DATABASE_PASSWORD")) _password = std::getenv("DATABASE_PASSWORD");
+    if(std::getenv("DATABASE_NAME")) _database = std::getenv("DATABASE_NAME");
+    if(std::getenv("JIRA_ADDRESS")) _jira_address = std::getenv("JIRA_ADDRESS");
+    if(std::getenv("MONGO_ADDRESS")) _mongo_address = std::getenv("MONGO_ADDRESS");
+    
+    if(std::getenv("MONGO_PORT")) _mongo_port = std::getenv("MONGO_PORT");
+    if(std::getenv("CACHE")) _cache_servers = std::getenv("CACHE");
+    if(std::getenv("JIRA_USER")) _jira_user = std::getenv("JIRA_USER");
+    if(std::getenv("JIRA_PASSWORD")) _jira_password = std::getenv("JIRA_PASSWORD");
 }
 
 const std::string Config::get_identity() const
