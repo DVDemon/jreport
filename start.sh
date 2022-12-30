@@ -7,7 +7,7 @@ export JIRA_ADDRESS=https://jira.mts.ru
 export MONGO_ADDRESS=127.0.0.1
 export MONGO_PORT=27017
 export CACHE=127.0.0.1:6379
-export JIRA_USER=dvdzyub1
-export JIRA_PASSWORD=3.14Oneer3
+# export JIRA_USER=
+# export JIRA_PASSWORD=
 
 build/jserver 
