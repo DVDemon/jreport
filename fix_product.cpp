@@ -23,7 +23,7 @@ int main()
 {
     try
     {
-        std::string identity = Config::get().get_identity();
+        std::string identity = Config::get().get_jira_identity();
 
         for (const std::shared_ptr<model::Initiative> &initiative : model::Initiatives::get().initiatives())
         {

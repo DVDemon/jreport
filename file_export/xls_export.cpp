@@ -6,24 +6,7 @@ namespace file_export
 {
     void ExportXLS::export_status(std::vector<report::Report> &report, OpenXLSX::XLDocument &doc)
     {
-        std::map<std::string, std::string> status{
-            {"Бэклог", "В работе"},
-            {"Выполнено", "Готово"},
-            {"Закрыт", "Готово"},
-            {"Открыто", "В работе"},
-            {"Готово к проверке", "Ревью"},
-            {"В ожидании", "Приостановлено"},
-            {"Отклонено", "Отменено"}};
-
-        auto map_status = [&status](auto &old_status) -> std::string
-        {
-            if (status.find(old_status) != std::end(status))
-            {
-                return status[old_status];
-            }
-            else
-                return old_status;
-        };
+       
         doc.workbook().addWorksheet("report");
         OpenXLSX::XLWorksheet wks = doc.workbook().sheet("report");
 
@@ -64,7 +47,7 @@ namespace file_export
                     wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/" + p_status.key + "\")");
                     wks.cell(i, j++).value() = p_status.assigne;
                 }
-                wks.cell(i, j++).value() = map_status(p_status.status);
+                wks.cell(i, j++).value() = report::Report::map_status(p_status.status);
             }
             ++i;
         }

@@ -20,6 +20,8 @@ namespace report{
         std::string cluster;
         std::string product;
 
+        static std::string map_status(const std::string & old_status);
+
         std::vector<std::pair<Report_Issue,Report_Issue>> issue_status;
     };
 }

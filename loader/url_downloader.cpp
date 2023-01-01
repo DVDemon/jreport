@@ -46,11 +46,14 @@ namespace loaders
             Poco::URI uri(url);
             Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
+            request.setVersion(Poco::Net::HTTPMessage::HTTP_1_1);
             request.setContentType("application/json");
             request.set("Authorization", identity);
+            request.set("Accept", "application/json");
             request.setKeepAlive(true);
 
             s.sendRequest(request);
+  
             Poco::Net::HTTPResponse response;
             std::istream &rs = s.receiveResponse(response);
 
@@ -61,6 +64,47 @@ namespace loaders
                 if (rs)
                     string_result += c;
             }
+        }
+        catch (Poco::Exception &ex)
+        {
+            return std::optional<std::string>();
+        }
+
+        return string_result;
+    }
+
+    std::optional<std::string> Downloader::do_put(const std::string& url,const std::string &identity,const std::string &data){
+         std::string string_result;
+        try
+        {
+            Poco::URI uri(url);
+            Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
+            Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_PUT, uri.toString());
+            request.setVersion(Poco::Net::HTTPMessage::HTTP_1_1);
+            request.setContentType("application/json");
+            request.set("Authorization", identity);
+            request.set("Accept", "application/json");
+            request.set("User-Agent","jreport application");
+            request.setContentLength(data.size());
+            request.setKeepAlive(true);
+
+
+            std::ostream& o = s.sendRequest(request);
+            o << data;
+            o.flush();
+  
+            Poco::Net::HTTPResponse response;
+            std::istream &rs = s.receiveResponse(response);
+
+            std::cout << response.getStatus() << std::endl;
+            while (rs)
+            {
+                char c{};
+                rs.read(&c, 1);
+                if (rs)
+                    string_result += c;
+            }
+           // std::cout <<"[" << string_result << "]" << std::endl;
         }
         catch (Poco::Exception &ex)
         {

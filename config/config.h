@@ -14,6 +14,10 @@ class  Config{
         std::string _jira_address;
         std::string _jira_user;
         std::string _jira_password;
+        
+        std::string _confluence_user;
+        std::string _confluence_password;
+        std::string _confluence_address;
 
         std::string _mongo_address;
         std::string _mongo_port;
@@ -37,6 +41,14 @@ class  Config{
         std::string& jira_user();
         std::string& jira_password();
 
+        std::string& confluence_user();
+        std::string& confluence_password();
+        std::string& confluence_address();
+
+        const std::string& get_confluence_user();
+        const std::string& get_confluence_password();
+        const std::string& get_confluence_address();
+
         const std::string& get_jira_user();
         const std::string& get_jira_password();
 
@@ -51,7 +63,8 @@ class  Config{
         const std::string& get_jira_address() const ;
         const std::string& get_cache_servers() const;
 
-        const std::string get_identity() const;
+        const std::string get_jira_identity() const;
+        const std::string get_confluence_identity() const;
 };
 
 #endif

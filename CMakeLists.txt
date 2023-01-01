@@ -91,6 +91,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     model/product_initiative_issue.cpp
                                     file_export/xls_export.cpp
                                     file_export/confluence_export.cpp
+                                    file_export/reports.cpp
                                     loader/url_downloader.cpp
                                     loader/jira_loader.cpp)
 

@@ -18,9 +18,13 @@ Config::Config()
     if(std::getenv("CACHE")) _cache_servers = std::getenv("CACHE");
     if(std::getenv("JIRA_USER")) _jira_user = std::getenv("JIRA_USER");
     if(std::getenv("JIRA_PASSWORD")) _jira_password = std::getenv("JIRA_PASSWORD");
+
+    if(std::getenv("CONFLUENCE_USER")) _confluence_user = std::getenv("CONFLUENCE_USER");
+    if(std::getenv("CONFLUENCE_PASSWORD")) _confluence_password = std::getenv("CONFLUENCE_PASSWORD");
+    if(std::getenv("CONFLUENCE_ADDRESS")) _confluence_address=std::getenv("CONFLUENCE_ADDRESS");
 }
 
-const std::string Config::get_identity() const
+const std::string Config::get_jira_identity() const
 {
     std::string token = _jira_user + ":" + _jira_password;
     std::ostringstream os;
@@ -29,6 +33,41 @@ const std::string Config::get_identity() const
     b64in.close();
     std::string identity = "Basic " + os.str();
     return identity;
+}
+
+const std::string Config::get_confluence_identity() const
+{
+    std::string token = _confluence_user + ":" + _confluence_password;
+    std::ostringstream os;
+    Poco::Base64Encoder b64in(os);
+    b64in << token;
+    b64in.close();
+    std::string identity = "Basic " + os.str();
+    return identity;
+}
+
+std::string& Config::confluence_user(){
+    return _confluence_user;
+}
+
+std::string& Config::confluence_password(){
+    return _confluence_password;
+}
+
+std::string& Config::confluence_address(){
+    return _confluence_address;
+}
+
+const std::string& Config::get_confluence_user(){
+    return _confluence_user;
+}
+
+const std::string& Config::get_confluence_password(){
+    return _confluence_password;
+}
+
+const std::string& Config::get_confluence_address(){
+    return _confluence_address;
 }
 
 std::string &Config::jira_user()

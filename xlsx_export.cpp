@@ -13,6 +13,7 @@
 #include "model/cluster_project.h"
 #include "file_export/reports.h"
 #include "file_export/xls_export.h"
+#include "file_export/confluence_export.h"
 
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Parser.h>
@@ -25,7 +26,7 @@ int main()
     try
     {
 
-        std::string identity = Config::get().get_identity();
+        std::string identity = Config::get().get_jira_identity();
 
         std::vector<report::Report> report;
 
@@ -135,8 +136,14 @@ int main()
             }
         }
 
-        file_export::ExportXLS::start_export(report);
+        std::cout << std::endl;
         std::cout << "Report lines count: " << report.size() << std::endl;
+        std::cout << "Report export to xls: ";
+        file_export::ExportXLS::start_export(report);
+        std::cout << "Done" << std::endl;
+        std::cout << "Report export to confluence: ";
+        file_export::ExportConfluence::start_export(report);
+        std::cout << "Done" << std::endl;
     }
     catch (const std::exception &e)
     {
