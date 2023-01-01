@@ -6,15 +6,14 @@ namespace file_export
 {
     void ExportXLS::export_status(std::vector<report::Report> &report, OpenXLSX::XLDocument &doc)
     {
-        std::map<std::string, std::string> status;
-
-        status["Бэклог"] = "В работе";
-        status["Выполнено"] = "Готово";
-        status["Закрыт"] = "Готово";
-        status["Открыто"] = "В работе";
-        status["Готово к проверке"] = "Ревью";
-        status["В ожидании"] = "Приостановлено";
-        status["Отклонено"] = "Отменено";
+        std::map<std::string, std::string> status{
+            {"Бэклог", "В работе"},
+            {"Выполнено", "Готово"},
+            {"Закрыт", "Готово"},
+            {"Открыто", "В работе"},
+            {"Готово к проверке", "Ревью"},
+            {"В ожидании", "Приостановлено"},
+            {"Отклонено", "Отменено"}};
 
         auto map_status = [&status](auto &old_status) -> std::string
         {
@@ -84,7 +83,6 @@ namespace file_export
         wks.cell(1, 6).value() = "Epic link";
         wks.cell(1, 7).value() = "Assigne";
 
-
         int i = 2;
         for (report::Report &r : report)
         {
@@ -93,13 +91,14 @@ namespace file_export
             wks.cell(i, 3).value() = r.product;
             int j = 4;
 
-            if(!r.issue_status.empty()){
+            if (!r.issue_status.empty())
+            {
                 auto [i_status, p_status] = *r.issue_status.begin();
                 wks.cell(i, j++).value() = i_status.key;
                 wks.cell(i, j++).value() = i_status.name;
                 wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/" + p_status.key + "\")");
                 wks.cell(i, j++).value() = p_status.assigne;
-                for(const std::string& lk : p_status.links)
+                for (const std::string &lk : p_status.links)
                     wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/" + lk + "\")");
             }
             ++i;
@@ -115,9 +114,9 @@ namespace file_export
         OpenXLSX::XLDocument doc;
         doc.create(xls_name);
 
-        export_status(report,doc);
-        export_links(report,doc);
-        
+        export_status(report, doc);
+        export_links(report, doc);
+
         doc.workbook().deleteSheet("Sheet1");
         doc.save();
         doc.close();

@@ -1,44 +1,18 @@
 #include "jira_loader.h"
 
-#include "Poco/StreamCopier.h"
-#include "Poco/URI.h"
-#include "Poco/Exception.h"
-#include "Poco/SharedPtr.h"
-#include "Poco/Net/SSLManager.h"
-#include "Poco/Net/KeyConsoleHandler.h"
-#include "Poco/Net/ConsoleCertificateHandler.h"
-#include "Poco/Net/AcceptCertificateHandler.h"
-#include "Poco/Net/HTTPSClientSession.h"
-#include "Poco/Net/HTTPRequest.h"
-#include "Poco/Net/HTTPResponse.h"
-#include <Poco/JSON/Parser.h>
-#include <Poco/Dynamic/Var.h>
-
-#include <Poco/URIStreamFactory.h>
-#include <Poco/URIStreamOpener.h>
-#include <Poco/Net/HTTPSStreamFactory.h>
-#include <Poco/Net/HTTPStreamFactory.h>
-#include <Poco/Base64Encoder.h>
-
 #include "../config/config.h"
 #include "../database/database.h"
+#include "url_downloader.h"
 
 #include <Poco/MongoDB/Cursor.h>
-
+#include <Poco/JSON/Parser.h>
 #include <memory>
 #include <fstream>
-#include <functional>
 
 namespace loaders
 {
     LoaderJira::LoaderJira()
     {
-
-        Poco::Net::initializeSSL();
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(false);
-        Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "");
-        Poco::Net::SSLManager::instance().initializeClient(0, ptrCert, ptrContext);
-        //std::cout << "inited ..." << std::endl;
     }
 
     LoaderJira &LoaderJira::get()
@@ -187,39 +161,12 @@ namespace loaders
 
 #ifndef STUB
         std::string string_result;
-        try
-        {
 
-            std::string request_uri{Config::get().jira_address()};
-            std::string resource{"/rest/api/2/issue/"};
-            resource += id;
-            // std::cout << resource << std::endl;
-            Poco::URI uri(request_uri + resource);
-            Poco::Net::HTTPSClientSession s(uri.getHost(), uri.getPort());
-            Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uri.toString());
-            request.setContentType("application/json");
-
-            // std::cout << identity << std::endl;
-            request.set("Authorization", identity);
-            request.setKeepAlive(true);
-
-            s.sendRequest(request);
-            Poco::Net::HTTPResponse response;
-            std::istream &rs = s.receiveResponse(response);
-
-            while (rs)
-            {
-                char c{};
-                rs.read(&c, 1);
-                if (rs)
-                    string_result += c;
-            }
-        }
-        catch (Poco::Exception &ex)
-        {
-            std::cout << ex.displayText() << std::endl;
-            throw;
-        }
+        std::string request_uri{Config::get().jira_address()};
+        request_uri += "/rest/api/2/issue/"+ id;
+        std::optional<std::string> ptr = loaders::Downloader::get().do_get(request_uri,identity);
+        if(ptr) string_result = *ptr;
+            else throw std::logic_error("download exception");
 #endif
         
         if(!string_result.empty()){
@@ -232,6 +179,6 @@ namespace loaders
 
     LoaderJira::~LoaderJira()
     {
-        Poco::Net::uninitializeSSL();
+        
     }
 }

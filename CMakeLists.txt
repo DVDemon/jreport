@@ -41,6 +41,7 @@ add_executable(${EXECUTABLE_POCO} main_poco.cpp
                              model/cluster_project.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
+                             loader/url_downloader.cpp
                              loader/jira_loader.cpp)
 
 add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
@@ -56,6 +57,7 @@ add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
                              model/cluster_project.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
+                             loader/url_downloader.cpp
                              loader/jira_loader.cpp)
 
 add_executable(${EXECUTABLE} main.cpp
@@ -71,6 +73,7 @@ add_executable(${EXECUTABLE} main.cpp
                              model/cluster_project.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
+                             loader/url_downloader.cpp
                              loader/jira_loader.cpp)
 
 add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
@@ -87,6 +90,8 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     model/cluster_initiative_issue.cpp
                                     model/product_initiative_issue.cpp
                                     file_export/xls_export.cpp
+                                    file_export/confluence_export.cpp
+                                    loader/url_downloader.cpp
                                     loader/jira_loader.cpp)
 
 add_executable(${FIX_EXECUTABLE}    fix_product.cpp
@@ -102,6 +107,7 @@ add_executable(${FIX_EXECUTABLE}    fix_product.cpp
                                     model/cluster_project.cpp
                                     model/cluster_initiative_issue.cpp
                                     model/product_initiative_issue.cpp
+                                    loader/url_downloader.cpp
                                     loader/jira_loader.cpp)
 
 target_link_libraries(${EXECUTABLE} PRIVATE 

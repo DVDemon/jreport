@@ -2,8 +2,8 @@
 #define JIRA_LOADER
 
 #include "../model/issue.h"
-#include <chrono>
 #include <optional>
+#include <memory>
 
 //#define STUB
 namespace loaders{
