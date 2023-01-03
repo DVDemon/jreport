@@ -8,6 +8,7 @@ export MONGO_ADDRESS=127.0.0.1
 export MONGO_PORT=27017
 export CACHE=localhost:6379
 export JIRA_USER=
+export JIRA_PASSWORD=
 export CONFLUENCE_USER=
 export CONFLUENCE_PASSWORD=
 export CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
