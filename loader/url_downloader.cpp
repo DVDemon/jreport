@@ -56,6 +56,7 @@ namespace loaders
   
             Poco::Net::HTTPResponse response;
             std::istream &rs = s.receiveResponse(response);
+           
 
             while (rs)
             {
@@ -64,9 +65,15 @@ namespace loaders
                 if (rs)
                     string_result += c;
             }
+
+            if(response.getStatus()!=200){
+                std::cout << "response code:" << response.getStatus() << std::endl;
+                std::cout <<"[" << string_result << "]" << std::endl;
+            }
         }
         catch (Poco::Exception &ex)
         {
+            std::cout << "exception:" << ex.what() << std::endl;
             return std::optional<std::string>();
         }
 
@@ -96,7 +103,6 @@ namespace loaders
             Poco::Net::HTTPResponse response;
             std::istream &rs = s.receiveResponse(response);
 
-            std::cout << response.getStatus() << std::endl;
             while (rs)
             {
                 char c{};
@@ -104,10 +110,15 @@ namespace loaders
                 if (rs)
                     string_result += c;
             }
-           // std::cout <<"[" << string_result << "]" << std::endl;
+
+            if(response.getStatus()!=200){
+                std::cout << "response code:" << response.getStatus() << std::endl;
+                std::cout <<"[" << string_result << "]" << std::endl;
+            }
         }
         catch (Poco::Exception &ex)
         {
+            std::cout << "exception:" << ex.what() << std::endl;
             return std::optional<std::string>();
         }
 

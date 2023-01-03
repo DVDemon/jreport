@@ -42,7 +42,7 @@ namespace database
         {
             rediscpp::value response = rediscpp::execute(*_stream, "set",
                                                          id,
-                                                         val, "ex", "60");
+                                                         val, "ex", "1800");
         }
         catch (std::exception &ex)
         {

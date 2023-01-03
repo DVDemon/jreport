@@ -2,6 +2,7 @@
 
 #include <map>
 #include <iostream>
+#include <fstream>
 
 #include "../loader/url_downloader.h"
 #include "../config/config.h"
@@ -18,8 +19,28 @@ namespace file_export
         std::string content_body;
         
         content_body = "<table><tbody><tr>";
-        auto table_header = [&](const std::string& value) { return "<th><p><strong>"+value+"</strong></p></th>";};
-        auto table_cell   = [&](const std::string& value) { return "<td><p>"+value+"</p></td>";};
+        auto escape =  [&](const std::string& data) -> std::string {
+                 std::string buffer;
+                    buffer.reserve(data.size());
+                    for(size_t pos = 0; pos != data.size(); ++pos) {
+                        switch(data[pos]) {
+                            case '&':  buffer.append("&amp;");       break;
+                            case '\"': buffer.append("&quot;");      break;
+                            case '\'': buffer.append("&apos;");      break;
+                            case '<':  buffer.append("&lt;");        break;
+                            case '>':  buffer.append("&gt;");        break;
+                            default:   buffer.append(&data[pos], 1); break;
+                        }
+                    }
+                return buffer;
+        };
+
+        auto table_header = [&](const std::string& value) { 
+                return "<th><p><strong>"+value+"</strong></p></th>";
+            };
+        auto table_cell   = [&](const std::string& value) {            
+            return "<td><p>"+escape(value)+"</p></td>";};
+
         auto table_status   = [&](const std::string& value) { 
                 std::string result= "<td>";
 
@@ -44,6 +65,7 @@ namespace file_export
         content_body += table_header("Comments");
         content_body += "</tr>";
 
+
         for (report::Report &r : report)
         {
             content_body += "<tr>";
@@ -57,7 +79,7 @@ namespace file_export
                 auto [i_status, p_status] = *r.issue_status.begin();
                 content_body += table_cell(i_status.key);
                 content_body += table_cell(i_status.name);
-                content_body += table_cell("<a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">"+p_status.key+"</a>");
+                content_body += "<td><a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">"+p_status.key+"</a></td>";
                 content_body += table_cell(p_status.assigne);
                 content_body += table_status(report::Report::map_status(p_status.status));
                 for(size_t i=0;i<3;++i) content_body += "<td></td>";
@@ -70,8 +92,9 @@ namespace file_export
         std::cout << "done" << std::endl;
         std::cout << "get page version id ...";
 
-        std::string page_id{"589825"};
+        std::string page_id{"572452945"};
         std::string url = Config::get().get_confluence_address()+"/content/"+page_id;
+        std::cout << url << std::endl;
         std::optional<std::string> result = loaders::Downloader::get().do_get(url,Config::get().get_confluence_identity());
                                                                         
         if(result) {
@@ -85,7 +108,7 @@ namespace file_export
 
             std::cout << "put page  ...";
             Poco::JSON::Object::Ptr data =  new Poco::JSON::Object();
-            data->set("id","589825");
+            data->set("id","572452945");
             data->set("type","page");
             data->set("title","new page");
 
@@ -101,6 +124,10 @@ namespace file_export
             
             sobject->set("representation","storage");
             sobject->set("value",content_body);
+
+           // std::ofstream out("content_body.html");
+           // out << content_body;
+           // out.close();
 
             bobject->set("storage",sobject);
             data->set("body",bobject);
