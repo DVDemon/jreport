@@ -11,6 +11,7 @@ namespace model
 {
     struct Initiative{
         std::string name;
+        std::string confluence_page;
         std::set<std::string> issues;
         bool operator<(const Initiative &other) const;
     };

@@ -24,7 +24,9 @@ namespace model
             Poco::Dynamic::Var result = parser.parse(str);
             Poco::JSON::Array::Ptr array = result.extract<Poco::JSON::Array::Ptr>();
             for(size_t i=0;i<array->size();++i){
-                std::string item = array->getElement<std::string>(i);
+                Poco::JSON::Object::Ptr pitem = array->getObject(i);
+                std::string item = pitem->getValue<std::string>("name");
+                std::string confluence = pitem->getValue<std::string>("confluence");
                
                 std::set<std::string> issues;
                 Poco::Data::Session session = database::Database::get().create_session();            
@@ -40,7 +42,7 @@ namespace model
                     if(select.execute())
                     issues.insert(issue);
                 }
-                std::shared_ptr<Initiative> in_ptr = std::shared_ptr<Initiative>(new Initiative{item,issues});
+                std::shared_ptr<Initiative> in_ptr = std::shared_ptr<Initiative>(new Initiative{item,confluence,issues});
                 _initiatives.insert(in_ptr);
             }
         }

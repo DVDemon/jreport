@@ -1,12 +1,42 @@
 [
-    "ArchOPS",
-    "Cloud Native",
-    "Target Architecture Guidelines",
-    "TechRadar",
-    "Near Realtime",
-    "Micro-frontends for Web UIs",
-    "Пилотирование практики Architecture as Code",
-    "Запрет интеграции через БД",
-    "Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4",
-    "[BCAA] Актуализация описания компетенций и связей с ПО"
+    {
+        "name":"ArchOPS",
+        "confluence":"572453125"
+    },
+    {
+        "name":"Cloud Native",
+        "confluence":"572453123"
+    },
+    {
+        "name":"Target Architecture Guidelines",
+        "confluence":"572453127"
+    },
+    {
+        "name": "TechRadar",
+        "confluence":"572453129"
+    },
+    {
+        "name":"Near Realtime",
+        "confluence":"572453131"
+    },
+    {
+        "name":"Micro-frontends for Web UIs",
+        "confluence":"572453133"
+    },
+    {
+        "name":"Пилотирование практики Architecture as Code",
+        "confluence":"572453135"
+    },
+    {
+        "name":"Запрет интеграции через БД",
+        "confluence":"572453137"
+    },
+    {
+        "name":"Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4",
+        "confluence":"572453139"
+    },
+    {
+        "name": "[BCAA] Актуализация описания компетенций и связей с ПО",
+        "confluence":"572453141"
+    }
 ]
