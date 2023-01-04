@@ -83,7 +83,7 @@ namespace file_export
         content_body += table_header("Epic link");
         content_body += table_header("Assigne");
         content_body += table_header("Status");
-        content_body += table_header("Last status change");
+        content_body += table_header("Last status change (days)");
         content_body += table_header("Links");
         content_body += table_header("Comments");
         content_body += "</tr>";
@@ -102,8 +102,8 @@ namespace file_export
 
             if (r.issue_status.empty())
             {
-                for (size_t i = 0; i < 8; ++i)
-                    content_body += "<td></td>";
+                for (size_t i = 0; i < 10; ++i)
+                     body += "<td></td>";
             }
             else
             {
@@ -113,8 +113,25 @@ namespace file_export
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">" + p_status.key + "</a></td>";
                 body += table_cell(p_status.assigne);
                 body += table_status(report::Report::map_status(p_status.status));
-                for (size_t i = 0; i < 3; ++i)
-                    content_body += "<td></td>";
+
+                
+                size_t change = 0;
+                for (auto & [i_s, p_s] : r.issue_status)
+                {
+
+                   if(p_status.status!=p_s.status) {
+                        change = p_s.day_shift;
+                        break;
+                   }
+                   
+                }
+
+                if(change == 0 ) body +=  "<td></td>";
+                            else body += table_cell(std::to_string(change));
+
+
+                for (size_t i = 0; i < 2; ++i)
+                    body += "<td></td>";
             }
             body += "</tr>";
             initiatives_content[r.initative] = initiatives_content[r.initative] + body;
@@ -149,13 +166,14 @@ namespace file_export
                         Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
                         Poco::JSON::Object::Ptr ver = json->getObject("version");
                         int version = ver->getValue<int>("number");
+                        std::string title = json->getValue<std::string>("title");
                         std::cout << version << std::endl;
 
                         std::cout << "put page  ...";
                         Poco::JSON::Object::Ptr data = new Poco::JSON::Object();
                         data->set("id", page_id);
                         data->set("type", "page");
-                        data->set("title", "new page");
+                        data->set("title", title);
 
                         Poco::JSON::Object::Ptr vobject = new Poco::JSON::Object();
                         vobject->set("number", ++version);
