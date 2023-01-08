@@ -12,6 +12,7 @@ namespace report{
         std::string status;
         std::string assigne;
         size_t      day_shift;
+        size_t      status_changed;
         std::vector<std::string> links;
     };
 

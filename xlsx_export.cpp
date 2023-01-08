@@ -100,9 +100,13 @@ int main()
 
                                 line.issue_status.push_back({ii, ri});
 
-                                const std::vector<size_t> days {1,2,3,4,5,7,14,21,30,60,90};
-                                for (size_t day : days)
+                                const std::set<size_t> days {1,2,3,4,5,7,14,21,30,60,90};
+                                size_t status_changed = 0;
+                                const std::string cur_status = product_item->get_status();
+
+                                for (size_t day=1;day<= 90;day++)
                                 {
+                                   
                                     std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
                                     now -= std::chrono::hours(day * 24);
                                     std::time_t t_t = std::chrono::system_clock::to_time_t(now);
@@ -110,19 +114,27 @@ int main()
                                     auto old_issue = model::Issue::from_mongodb(product_item->get_key(), local_tm);
                                     if (old_issue)
                                     {
-                                        ri.key = old_issue->get_key();
-                                        ri.name = old_issue->get_name();
-                                        ri.status = old_issue->get_status();
-                                        ri.assigne = old_issue->get_assignee();
-                                        ri.day_shift = day;
-                                        if (!old_issue->get_resolution().empty())
-                                            ri.status = old_issue->get_resolution();
-                                        else
+                                        if(status_changed ==0){
+                                            if(cur_status!=old_issue->get_status())
+                                                status_changed = day;
+                                        }
+                                         if(days.find(day)!=std::end(days)){
+                                            ri.key = old_issue->get_key();
+                                            ri.name = old_issue->get_name();
                                             ri.status = old_issue->get_status();
+                                            ri.assigne = old_issue->get_assignee();
+                                            ri.day_shift = day;
+                                            if (!old_issue->get_resolution().empty())
+                                                ri.status = old_issue->get_resolution();
+                                            else
+                                                ri.status = old_issue->get_status();
 
-                                        line.issue_status.push_back({ii, ri});
-                                    }
+                                            line.issue_status.push_back({ii, ri});
+                                         }
+                                    } else break;
                                 }
+                                if (status_changed!=0)
+                                    line.issue_status[0].second.status_changed = status_changed;
                             }
                         }
                         if (!line.issue_status.empty())

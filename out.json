@@ -1,0 +1,51 @@
+200
+{
+    "id": "572453516",
+    "type": "page",
+    "status": "current",
+    "title": "test page",
+    "body": {
+        "storage": {
+            "value": "<p><br /></p><table class=\"wrapped\"><colgroup><col /><col /></colgroup><tbody><tr>
+            <th><br /></th><th><br /></th></tr><tr>
+            <td class=\"highlight-#ff7452\" title=\"Background colour : Medium red 85%\" data-highlight-colour=\"#ff7452\">
+            <br /></td>
+            <td class=\"highlight-#ffc400\" title=\"Background colour : Medium yellow 100%\" data-highlight-colour=\"#ffc400\"><br /></td></tr></tbody></table><p class=\"auto-cursor-target\"><br /></p>",
+            "representation": "storage",
+            "_expandable": {
+                "content": "/rest/api/content/572453516"
+            }
+        },
+        "_expandable": {
+            "editor": "",
+            "view": "",
+            "export_view": "",
+            "styled_view": "",
+            "anonymous_export_view": ""
+        }
+    },
+    "extensions": {
+        "position": "none"
+    },
+    "_links": {
+        "webui": "/display/~dvdzyub1/test+page",
+        "edit": "/pages/resumedraft.action?draftId=572453516&draftShareId=233e0bc6-0512-47b1-90b6-535dc81e98fe",
+        "tinyui": "/x/jPIeIg",
+        "collection": "/rest/api/content",
+        "base": "https://confluence.mts.ru",
+        "context": "",
+        "self": "https://confluence.mts.ru/rest/api/content/572453516"
+    },
+    "_expandable": {
+        "container": "/rest/api/space/~dvdzyub1",
+        "metadata": "",
+        "operations": "",
+        "children": "/rest/api/content/572453516/child",
+        "restrictions": "/rest/api/content/572453516/restriction/byOperation",
+        "history": "/rest/api/content/572453516/history",
+        "ancestors": "",
+        "version": "",
+        "descendants": "/rest/api/content/572453516/descendant",
+        "space": "/rest/api/space/~dvdzyub1"
+    }
+}

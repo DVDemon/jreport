@@ -64,13 +64,13 @@ namespace file_export
             std::string result = "<td>";
 
             if (value == "Готово")
-                result = "<td data-highlight-colour=\"#e3fcef\">";
+                result = "<td class=\"highlight-#57d9a3\" title=\"Background colour : Medium green 65%\" data-highlight-colour=\"#57d9a3\">";
             if (value == "Отменено")
-                result = "<td data-highlight-colour=\"#fce3ef\">";
+                result = "<td class=\"highlight-#ff7452\" title=\"Background colour : Medium red 85%\" data-highlight-colour=\"#ff7452\">";
             if (value == "Ревью")
-                result = "<td data-highlight-colour=\"#ffe400\">";
+                result = "<td class=\"highlight-#ffc400\" title=\"Background colour : Medium yellow 100%\" data-highlight-colour=\"#ffc400\">";
             if (value == "Обратная связь")
-                result = "<td data-highlight-colour=\"#ffe400\">";
+                result = "<td class=\"highlight-#ffc400\" title=\"Background colour : Medium yellow 100%\" data-highlight-colour=\"#ffc400\">";
 
             result += "<p>" + value + "</p></td>";
             return result;
@@ -78,9 +78,8 @@ namespace file_export
 
         content_body += table_header("Cluster");
         content_body += table_header("Product");
-        content_body += table_header("Epic");
-        content_body += table_header("Epic name");
-        content_body += table_header("Epic link");
+        content_body += table_header("Initiative epic");
+        content_body += table_header("Product epic");
         content_body += table_header("Assigne");
         content_body += table_header("Status");
         content_body += table_header("Last status change (days)");
@@ -102,36 +101,29 @@ namespace file_export
 
             if (r.issue_status.empty())
             {
-                for (size_t i = 0; i < 10; ++i)
+                for (size_t i = 0; i < 9; ++i)
                      body += "<td></td>";
             }
             else
             {
                 auto [i_status, p_status] = *r.issue_status.begin();
-                body += table_cell(i_status.key);
-                body += table_cell(i_status.name);
+                body += "<td><a href=\"https://jira.mts.ru/browse/" + i_status.key + "\">" + i_status.name + "</a></td>";
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">" + p_status.key + "</a></td>";
                 body += table_cell(p_status.assigne);
                 body += table_status(report::Report::map_status(p_status.status));
 
                 
-                size_t change = 0;
-                for (auto & [i_s, p_s] : r.issue_status)
-                {
-
-                   if(p_status.status!=p_s.status) {
-                        change = p_s.day_shift;
-                        break;
-                   }
-                   
-                }
-
+                size_t change = p_status.status_changed;
                 if(change == 0 ) body +=  "<td></td>";
                             else body += table_cell(std::to_string(change));
 
+                body += "<td>";
+                for (const std::string &lk : p_status.links)
+                    body += "<a href=\"https://jira.mts.ru/browse/" + lk + "\">" + lk + "</a><br/>";
 
-                for (size_t i = 0; i < 2; ++i)
-                    body += "<td></td>";
+                body += "</td>";
+                
+                body += "<td></td>";
             }
             body += "</tr>";
             initiatives_content[r.initative] = initiatives_content[r.initative] + body;
