@@ -52,6 +52,14 @@ int main()
                             auto product_ptr = model::Products::get().products()[pi.product];
                             if (product_ptr)
                                 cluster = product_ptr->cluster;
+                        } else {
+                            if(initiative_item){
+                                std::string project = initiative_item->get_project();
+                                std::optional<model::ClusterProject> cp = model::ClusterProject::load(project);
+                                if(cp){
+                                    cluster = cp->cluster;
+                                }
+                            }
                         }
                         report::Report line;
                         line.initative = initiative->name;
