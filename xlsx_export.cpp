@@ -86,7 +86,7 @@ int main()
                                         cluster = cp->cluster;
                                         line.cluster = cluster;
                                         std::cout << "        add cluster: " << cluster << std::endl;
-                                    }
+                                    } else std::cout << "------------ can't get cluster for project [" << product_item->get_project() << "]" << std::endl;
                                 }
 
                                 report::Report_Issue ri;

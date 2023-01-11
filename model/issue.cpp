@@ -245,7 +245,7 @@ namespace model
         issue->status() = object->getValue<std::string>("status");
         issue->resolution() = object->getValue<std::string>("resolution");
         issue->project() = object->getValue<std::string>("project");
-        issue->project() = object->getValue<std::string>("product");
+        issue->product() = object->getValue<std::string>("product");
 
         Poco::JSON::Array::Ptr links = object->getArray("links");
         if (links)
