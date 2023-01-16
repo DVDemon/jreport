@@ -6,6 +6,9 @@
 
 #include <Poco/MongoDB/Cursor.h>
 #include <Poco/JSON/Parser.h>
+#include <Poco/Foundation.h>
+#include <Poco/RegularExpression.h>
+
 #include <memory>
 #include <fstream>
 
@@ -110,6 +113,39 @@ namespace loaders
                             }
                     }
 
+                    if (object->has("comment")){
+                        Poco::JSON::Object::Ptr comment = object->getObject("comment");
+                        //std::cout << "++++++++ comment" << std::endl;
+                        if(comment->has("comments")){
+                            //std::cout << "++++++++ comments" << std::endl;
+                            Poco::JSON::Array::Ptr comments = comment->getArray("comments");
+                            if (comments){
+                                    //std::cout << "++++++++ comments:" << comments->size()  << std::endl;
+                                    
+                                    for (size_t i = 0; i < comments->size(); ++i)
+                                    {
+                                        //std::cout << "+++++++++ c:" << i << std::endl;
+                                        Poco::JSON::Object::Ptr com = comments->getObject(i);
+                                        std::string body;
+                                        if(com->has("body")){
+                                            body = com->getValue<std::string>("body");
+                                            //std::cout << "++++++++++++++++++++++++++[" << body <<"]" <<std::endl;
+                                            
+                                            std::string href;
+                                            Poco::RegularExpression regex("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])");
+                                            Poco::RegularExpression::MatchVec mvec;
+                                            int matches = regex.extract(body,href);
+                                            if(matches>0){
+                                                issue->hrefs().push_back(href);
+                                                std::cout << "--------------------------[" << href <<"]" <<std::endl;
+                                            }
+                                        }
+                                    }
+                                    }
+                        }
+
+                    }
+
                     if (object->has("issuelinks"))
                     {
                         Poco::JSON::Array::Ptr links = object->getArray("issuelinks");
@@ -150,7 +186,7 @@ namespace loaders
     std::shared_ptr<model::Issue> LoaderJira::load( const std::string &id, [[maybe_unused]] const std::string &identity)
     {
         std::shared_ptr<model::Issue> res;
-        res = model::Issue::from_cache(id);
+       // res = model::Issue::from_cache(id);
         if(res) {
             //std::cout << "loaded from cache" << std::endl;
             return res;

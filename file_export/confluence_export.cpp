@@ -123,7 +123,15 @@ namespace file_export
 
                 body += "</td>";
                 
-                body += "<td></td>";
+                if(p_status.issue->hrefs().empty())
+                    body += "<td></td>";
+                else{
+                    body += "<td>";
+                    for (const std::string &hr : p_status.issue->hrefs())
+                         body += "<a href=\""+ escape(hr)+"\">link</a><br/>";
+
+                    body += "</td>";
+                }
             }
             body += "</tr>";
             initiatives_content[r.initative] = initiatives_content[r.initative] + body;

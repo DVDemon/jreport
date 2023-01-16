@@ -27,7 +27,6 @@ int main()
     {
 
         std::string identity = Config::get().get_jira_identity();
-
         std::vector<report::Report> report;
 
 
@@ -72,6 +71,7 @@ int main()
                             ii.key = initiative_item->get_key();
                             ii.name = initiative_item->get_name();
                             ii.status = initiative_item->get_status();
+                            ii.issue = initiative_item;
 
                             auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
                             if (product_item)
@@ -94,6 +94,7 @@ int main()
                                 ri.name = product_item->get_name();
                                 ri.status = product_item->get_status();
                                 ri.assigne = product_item->get_assignee();
+                                ri.issue = product_item;
                                 if (!product_item->get_resolution().empty())
                                     ri.status = product_item->get_resolution();
                                 else
@@ -131,6 +132,7 @@ int main()
                                             ri.name = old_issue->get_name();
                                             ri.status = old_issue->get_status();
                                             ri.assigne = old_issue->get_assignee();
+                                            ri.issue = old_issue;
                                             ri.day_shift = day;
                                             if (!old_issue->get_resolution().empty())
                                                 ri.status = old_issue->get_resolution();

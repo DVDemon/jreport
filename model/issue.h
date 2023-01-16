@@ -25,6 +25,7 @@ namespace model
             std::string _product;
 
             std::vector<IssueLink> _links;
+            std::vector<std::string> _hrefs;
 
         public:
             std::string& id();
@@ -38,6 +39,7 @@ namespace model
             std::string& project();
             std::string& product();
             std::vector<IssueLink>& links();
+            std::vector<std::string>& hrefs();
 
             const std::string& get_id();
             const std::string& get_key();
@@ -50,6 +52,7 @@ namespace model
             const std::string& get_project();
             const std::string& get_product();
             const std::vector<IssueLink>& get_links();
+            const std::vector<std::string>& get_hrefs();
             
             void save_to_mongodb();
             void save_to_cache();

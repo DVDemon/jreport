@@ -107,6 +107,14 @@ namespace model
         return _resolution;
     }
 
+    std::vector<std::string>& Issue::hrefs(){
+        return _hrefs;
+    }
+    
+    const std::vector<std::string>& Issue::get_hrefs(){
+        return _hrefs;
+    }
+
     void Issue::save_to_cache(){
         std::stringstream ss;
         Poco::JSON::Stringifier::stringify(toJSON(), ss);
@@ -247,20 +255,34 @@ namespace model
         issue->project() = object->getValue<std::string>("project");
         issue->product() = object->getValue<std::string>("product");
 
-        Poco::JSON::Array::Ptr links = object->getArray("links");
-        if (links)
-        {
-            for (size_t i = 0; i < links->size(); ++i)
+        if(object->has("links")){
+            Poco::JSON::Array::Ptr links = object->getArray("links");
+            if (links)
             {
-                Poco::JSON::Object::Ptr l = links->getObject(i);
-                IssueLink il;
-                il.link_type = l->getValue<std::string>("type");
-                Poco::JSON::Object::Ptr item = l->getObject("issue");
+                for (size_t i = 0; i < links->size(); ++i)
+                {
+                    Poco::JSON::Object::Ptr l = links->getObject(i);
+                    IssueLink il;
+                    il.link_type = l->getValue<std::string>("type");
+                    Poco::JSON::Object::Ptr item = l->getObject("issue");
 
-                std::stringstream ss;
-                Poco::JSON::Stringifier::stringify(item, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
-                il.item = Issue::fromJSON(ss.str());
-                issue->links().push_back(il);
+                    std::stringstream ss;
+                    Poco::JSON::Stringifier::stringify(item, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
+                    il.item = Issue::fromJSON(ss.str());
+                    issue->links().push_back(il);
+                }
+            }
+        }
+
+        if(object->has("hrefs")){
+            Poco::JSON::Array::Ptr hrefs = object->getArray("hrefs");
+            if (hrefs)
+            {
+                for (size_t i = 0; i < hrefs->size(); ++i)
+                {
+                    std::string val = hrefs->getElement<std::string>(i);
+                    issue->hrefs().push_back(val);
+                }
             }
         }
 
@@ -281,6 +303,12 @@ namespace model
         root->set("project", _project);
         root->set("product", _product);
 
+        if (!_hrefs.empty()){
+            Poco::JSON::Array::Ptr hrefs_array = new Poco::JSON::Array();
+            for(const std::string & s: _hrefs){
+                hrefs_array->add(s);
+            }
+        }
         if (!_links.empty())
         {
             Poco::JSON::Array::Ptr links_array = new Poco::JSON::Array();
@@ -293,6 +321,8 @@ namespace model
             }
             root->set("links", links_array);
         }
+
+        
         return root;
     }
 

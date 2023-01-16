@@ -5,6 +5,8 @@
 #include <vector>
 #include <utility>
 
+#include "../model/issue.h"
+
 namespace report{
     struct Report_Issue{
         std::string key;
@@ -13,6 +15,7 @@ namespace report{
         std::string assigne;
         size_t      day_shift;
         size_t      status_changed;
+        std::shared_ptr<model::Issue> issue;
         std::vector<std::string> links;
     };
 
