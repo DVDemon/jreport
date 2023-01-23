@@ -83,6 +83,7 @@ namespace file_export
         content_body += table_header("Assigne");
         content_body += table_header("Status");
         content_body += table_header("Last status change (days)");
+        content_body += table_header("Reason");
         content_body += table_header("Links");
         content_body += table_header("Comments");
         content_body += "</tr>";
@@ -101,7 +102,7 @@ namespace file_export
 
             if (r.issue_status.empty())
             {
-                for (size_t i = 0; i < 9; ++i)
+                for (size_t i = 0; i < 10; ++i)
                      body += "<td></td>";
             }
             else
@@ -116,10 +117,10 @@ namespace file_export
                 size_t change = p_status.status_changed;
                 if(change == 0 ) body +=  "<td></td>";
                             else body += table_cell(std::to_string(change));
-
+                body += table_cell(p_status.issue->get_reason());
                 body += "<td>";
-                for (const std::string &lk : p_status.links)
-                    body += "<a href=\"https://jira.mts.ru/browse/" + lk + "\">" + lk + "</a><br/>";
+                for (const auto &[lk,link_type] : p_status.links)
+                    body += "<a href=\"https://jira.mts.ru/browse/" + lk + "\">" + link_type +" " + lk + "</a><br/>";
 
                 body += "</td>";
                 

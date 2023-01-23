@@ -103,7 +103,7 @@ int main()
                                 for(const model::IssueLink &il : product_item->get_links()){
                                     if(il.link_type!="child of")
                                     if(il.item){
-                                        ri.links.push_back(il.item->get_key());
+                                        ri.links.push_back({il.item->get_key(),il.link_type});
                                     }
                                 }
 
@@ -123,6 +123,7 @@ int main()
                                     auto old_issue = model::Issue::from_mongodb(product_item->get_key(), local_tm);
                                     if (old_issue)
                                     {
+                                        //std::cout << "*";
                                         if(status_changed ==0){
                                             if(cur_status!=old_issue->get_status())
                                                 status_changed = day;
@@ -141,7 +142,7 @@ int main()
 
                                             line.issue_status.push_back({ii, ri});
                                          }
-                                    } else break;
+                                    }// else break;
                                 }
                                 if (status_changed!=0)
                                     line.issue_status[0].second.status_changed = status_changed;

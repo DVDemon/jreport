@@ -62,47 +62,51 @@ namespace model
         return _product;
     }
 
-    const std::string &Issue::get_product()
+    std::string& Issue::reason() {
+        return _reason;
+    }
+
+    const std::string &Issue::get_product() const
     {
         return _product;
     }
 
-    const std::string &Issue::get_project()
+    const std::string &Issue::get_project() const
     {
         return _project;
     }
 
-    const std::string &Issue::get_id()
+    const std::string &Issue::get_id() const
     {
         return _id;
     }
 
-    const std::string &Issue::get_key()
+    const std::string &Issue::get_key() const
     {
         return _key;
     }
-    const std::string &Issue::get_name()
+    const std::string &Issue::get_name() const
     {
         return _name;
     }
-    const std::string &Issue::get_description()
+    const std::string &Issue::get_description() const
     {
         return _description;
     }
-    const std::string &Issue::get_author()
+    const std::string &Issue::get_author() const
     {
         return _author;
     }
-    const std::string &Issue::get_assignee()
+    const std::string &Issue::get_assignee() const
     {
         return _assignee;
     }
-    const std::string &Issue::get_status()
+    const std::string &Issue::get_status() const
     {
         return _status;
     }
 
-    const std::string &Issue::get_resolution()
+    const std::string &Issue::get_resolution() const
     {
         return _resolution;
     }
@@ -111,9 +115,13 @@ namespace model
         return _hrefs;
     }
     
-    const std::vector<std::string>& Issue::get_hrefs(){
+    const std::vector<std::string>& Issue::get_hrefs() const{
         return _hrefs;
     }
+
+     const std::string& Issue::get_reason() const{
+        return _reason;
+     }
 
     void Issue::save_to_cache(){
         std::stringstream ss;
@@ -227,6 +235,7 @@ namespace model
                 // Get the next bunch of documents
                 response = cursor.next(database::Database::get().mongo());
             }
+           // std::cout << "mongodb: not found" << std::endl;
         }
         catch (std::exception &ex)
         {
@@ -254,6 +263,9 @@ namespace model
         issue->resolution() = object->getValue<std::string>("resolution");
         issue->project() = object->getValue<std::string>("project");
         issue->product() = object->getValue<std::string>("product");
+
+        if(object->has("reason"))
+            issue->reason() = object->getValue<std::string>("reason");
 
         if(object->has("links")){
             Poco::JSON::Array::Ptr links = object->getArray("links");
@@ -302,6 +314,7 @@ namespace model
         root->set("resolution", _resolution);
         root->set("project", _project);
         root->set("product", _product);
+        root->set("reason", _reason);
 
         if (!_hrefs.empty()){
             Poco::JSON::Array::Ptr hrefs_array = new Poco::JSON::Array();
@@ -331,7 +344,7 @@ namespace model
         return _links;
     }
 
-    const std::vector<IssueLink> &Issue::get_links()
+    const std::vector<IssueLink> &Issue::get_links() const
     {
         return _links;
     }
@@ -353,6 +366,7 @@ std::ostream &operator<<(std::ostream &os, model::Issue &issue)
     os << "status:" << issue.get_status() << std::endl;
     os << "project:" << issue.get_project() << std::endl;
     os << "product:" << issue.get_product() << std::endl;
+    os << "reason:" << issue.get_reason() << std::endl;
 
     return os;
 }

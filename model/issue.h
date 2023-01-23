@@ -23,6 +23,7 @@ namespace model
             std::string _resolution;
             std::string _project;
             std::string _product;
+            std::string _reason;
 
             std::vector<IssueLink> _links;
             std::vector<std::string> _hrefs;
@@ -38,21 +39,23 @@ namespace model
             std::string& resolution();
             std::string& project();
             std::string& product();
+            std::string& reason();
             std::vector<IssueLink>& links();
             std::vector<std::string>& hrefs();
 
-            const std::string& get_id();
-            const std::string& get_key();
-            const std::string& get_name();
-            const std::string& get_description();
-            const std::string& get_author();
-            const std::string& get_assignee();
-            const std::string& get_status();
-            const std::string& get_resolution();
-            const std::string& get_project();
-            const std::string& get_product();
-            const std::vector<IssueLink>& get_links();
-            const std::vector<std::string>& get_hrefs();
+            const std::string& get_id() const;
+            const std::string& get_key() const;
+            const std::string& get_name() const;
+            const std::string& get_description() const;
+            const std::string& get_author() const;
+            const std::string& get_assignee() const;
+            const std::string& get_status() const;
+            const std::string& get_resolution() const;
+            const std::string& get_project() const;
+            const std::string& get_product() const;
+            const std::string& get_reason() const;
+            const std::vector<IssueLink>& get_links() const;
+            const std::vector<std::string>& get_hrefs() const;
             
             void save_to_mongodb();
             void save_to_cache();

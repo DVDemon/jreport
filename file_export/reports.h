@@ -16,7 +16,7 @@ namespace report{
         size_t      day_shift;
         size_t      status_changed;
         std::shared_ptr<model::Issue> issue;
-        std::vector<std::string> links;
+        std::vector<std::pair<std::string,std::string>> links;
     };
 
     struct Report{

@@ -81,7 +81,7 @@ namespace file_export
                 wks.cell(i, j++).value() = i_status.name;
                 wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/" + p_status.key + "\")");
                 wks.cell(i, j++).value() = p_status.assigne;
-                for (const std::string &lk : p_status.links)
+                for (const auto &[lk,link_type] : p_status.links)
                     wks.cell(i, j++).formula().set("=HYPERLINK(\"https://jira.mts.ru/browse/" + lk + "\")");
             }
             ++i;

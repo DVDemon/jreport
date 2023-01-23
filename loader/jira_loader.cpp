@@ -79,6 +79,10 @@ namespace loaders
 
                     if (object->has("summary"))
                         issue->name() = object->getValue<std::string>("summary");
+                    
+                    if (object->has("customfield_12434"))
+                        issue->reason() = object->getValue<std::string>("customfield_12434");
+
 
                     if (object->has("status"))
                         if (object->getObject("status")->has("name"))
@@ -186,9 +190,9 @@ namespace loaders
     std::shared_ptr<model::Issue> LoaderJira::load( const std::string &id, [[maybe_unused]] const std::string &identity)
     {
         std::shared_ptr<model::Issue> res;
-       // res = model::Issue::from_cache(id);
+        //res = model::Issue::from_cache(id);
         if(res) {
-            //std::cout << "loaded from cache" << std::endl;
+            std::cout << "loaded from cache" << std::endl;
             return res;
         }
 #ifdef STUB
