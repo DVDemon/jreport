@@ -67,13 +67,13 @@ namespace loaders
             }
 
             if(response.getStatus()!=200){
-                std::cout << "response code:" << response.getStatus() << std::endl;
-                std::cout <<"[" << string_result << "]" << std::endl;
+                //std::cout << "response code:" << response.getStatus() << std::endl;
+                //std::cout <<"[" << string_result << "]" << std::endl;
             }
         }
         catch (Poco::Exception &ex)
         {
-            std::cout << "exception:" << ex.what() << std::endl;
+           // std::cout << "exception:" << ex.what() << std::endl;
             return std::optional<std::string>();
         }
 
@@ -112,13 +112,13 @@ namespace loaders
             }
 
             if(response.getStatus()!=200){
-                std::cout << "response code:" << response.getStatus() << std::endl;
-                std::cout <<"[" << string_result << "]" << std::endl;
+                //std::cout << "response code:" << response.getStatus() << std::endl;
+                //std::cout <<"[" << string_result << "]" << std::endl;
             }
         }
         catch (Poco::Exception &ex)
         {
-            std::cout << "exception:" << ex.what() << std::endl;
+            //std::cout << "exception:" << ex.what() << std::endl;
             return std::optional<std::string>();
         }
 

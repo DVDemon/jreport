@@ -80,8 +80,10 @@ namespace loaders
                     if (object->has("summary"))
                         issue->name() = object->getValue<std::string>("summary");
                     
-                    if (object->has("customfield_12434"))
+                    if (object->has("customfield_12434")){
+                        if(!object->isNull("customfield_12434"))
                         issue->reason() = object->getValue<std::string>("customfield_12434");
+                    }
 
 
                     if (object->has("status"))

@@ -12,6 +12,9 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/Dynamic/Var.h>
 
+#include <Poco/URI.h>
+
+
 namespace file_export
 {
     void ExportConfluence::start_export([[maybe_unused]] std::vector<report::Report> &report)
@@ -128,8 +131,30 @@ namespace file_export
                     body += "<td></td>";
                 else{
                     body += "<td>";
-                    for (const std::string &hr : p_status.issue->hrefs())
-                         body += "<a href=\""+ escape(hr)+"\">link</a><br/>";
+                    for (const std::string &hr : p_status.issue->hrefs()){
+                        std::string title{hr};
+                        try{
+                            if(hr.find("confluence")){
+                                Poco::URI Uri(hr);
+                                Poco::URI::QueryParameters qp = Uri.getQueryParameters();
+                                std::string  pageId;
+                                for(const auto &[n,v] : qp){
+                                    if(n=="pageId")
+                                        pageId = v;
+                                }
+                                if(!pageId.empty()){
+                                    std::cout << "pageId:" << pageId << std::endl;
+                                    auto res = ExportConfluence::get_page(pageId);
+                                    if(res){
+                                        title = res->second;
+                                        std::cout << "title:" << title << std::endl;
+                                    }
+                                }
+                            
+                            }
+                        }catch(...){}
+                        body += "<a href=\""+ escape(hr)+"\">"+escape(title)+"</a><br/>";
+                    }
 
                     body += "</td>";
                 }
@@ -156,19 +181,11 @@ namespace file_export
 
                 try
                 {
-                    std::string url = Config::get().get_confluence_address() + "/content/" + page_id;
-                    std::cout << url << std::endl;
-                    std::optional<std::string> result = loaders::Downloader::get().do_get(url, Config::get().get_confluence_identity());
+                    std::optional<std::pair<int,std::string>> result = get_page(page_id);
 
                     if (result)
                     {
-                        Poco::JSON::Parser parser;
-                        Poco::Dynamic::Var var = parser.parse(*result);
-                        Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
-                        Poco::JSON::Object::Ptr ver = json->getObject("version");
-                        int version = ver->getValue<int>("number");
-                        std::string title = json->getValue<std::string>("title");
-                        std::cout << version << std::endl;
+                        auto& [version,title] = *result;
 
                         std::cout << "put page  ...";
                         Poco::JSON::Object::Ptr data = new Poco::JSON::Object();
@@ -193,10 +210,10 @@ namespace file_export
                         data->set("body", bobject);
 
                         std::stringstream ss;
+                        std::string url = Config::get().get_confluence_address() + "/content/" + page_id;
                         Poco::JSON::Stringifier::stringify(data, ss, 4, -1, Poco::JSON_PRESERVE_KEY_ORDER);
 
-                        result = loaders::Downloader::get().do_put(url, Config::get().get_confluence_identity(), ss.str());
-                        if (result)
+                        if (loaders::Downloader::get().do_put(url, Config::get().get_confluence_identity(), ss.str()))
                         {
                             std::cout << "done" << std::endl;
                         }
@@ -214,5 +231,27 @@ namespace file_export
                 }
             }
         }
+    }
+
+     std::optional<std::pair<int,std::string>> ExportConfluence::get_page(const std::string & page_id){
+        std::string url = Config::get().get_confluence_address() + "/content/" + page_id;
+        return ExportConfluence::get_page_by_url(url);
+        
+    }
+    
+    std::optional<std::pair<int,std::string>> ExportConfluence::get_page_by_url(const std::string & url){
+        std::optional<std::string> result = loaders::Downloader::get().do_get(url, Config::get().get_confluence_identity());
+
+        if (result)
+            {
+                Poco::JSON::Parser parser;
+                Poco::Dynamic::Var var = parser.parse(*result);
+                Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();
+                Poco::JSON::Object::Ptr ver = json->getObject("version");
+                int version = ver->getValue<int>("number");
+                std::string title = json->getValue<std::string>("title");
+                return std::pair<int,std::string>(version,title);
+            }
+        return std::optional<std::pair<int,std::string>>();
     }
 }
