@@ -7,6 +7,7 @@
 #include "../loader/url_downloader.h"
 #include "../config/config.h"
 #include "../model/initiative.h"
+#include "../model/hrefs.h"
 
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Parser.h>
@@ -91,13 +92,23 @@ namespace file_export
         content_body += table_header("Comments");
         content_body += "</tr>";
 
-        std::map<std::string, std::string> initiatives_content;
+        struct initiative_body{
+            std::string body;
+            size_t closed{0};
+            size_t progress{0};
+            size_t review{0};
+            size_t feedback{0};
+            size_t reject{0};
+            size_t hold{0};
+            size_t waiting{0};
+        };
+        std::map<std::string, initiative_body> initiatives_content;
 
         for (report::Report &r : report)
         {
 
             if (initiatives_content.find(r.initative) == std::end(initiatives_content))
-                initiatives_content[r.initative] = "";
+                initiatives_content[r.initative] = initiative_body{};
             std::string body;
             body += "<tr>";
             body += table_cell(r.cluster);
@@ -114,8 +125,14 @@ namespace file_export
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + i_status.key + "\">" + i_status.name + "</a></td>";
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">" + p_status.key + "</a></td>";
                 body += table_cell(p_status.assigne);
-                body += table_status(report::Report::map_status(p_status.status));
-
+                std::string status = report::Report::map_status(p_status.status);
+                body += table_status(status);
+                if(status=="Готово") initiatives_content[r.initative].closed++;
+                if(status=="В работе")  initiatives_content[r.initative].progress++;
+                if(status=="Ревью") initiatives_content[r.initative].review++;
+                if(status=="Обратная связь") initiatives_content[r.initative].feedback++;
+                if(status=="Приостановлено") initiatives_content[r.initative].hold++;
+                if(status=="Отменено") initiatives_content[r.initative].reject++;
                 
                 size_t change = p_status.status_changed;
                 if(change == 0 ) body +=  "<td></td>";
@@ -133,7 +150,9 @@ namespace file_export
                     body += "<td>";
                     for (const std::string &hr : p_status.issue->hrefs()){
                         std::string title{hr};
-                        try{
+                        if(auto t = model::HREFS::get()[hr])
+                          title = *t;
+/*                        try{
                             if(hr.find("confluence")){
                                 Poco::URI Uri(hr);
                                 Poco::URI::QueryParameters qp = Uri.getQueryParameters();
@@ -152,7 +171,7 @@ namespace file_export
                                 }
                             
                             }
-                        }catch(...){}
+                        }catch(...){}*/
                         body += "<a href=\""+ escape(hr)+"\">"+escape(title)+"</a><br/>";
                     }
 
@@ -160,11 +179,12 @@ namespace file_export
                 }
             }
             body += "</tr>";
-            initiatives_content[r.initative] = initiatives_content[r.initative] + body;
+
+            initiatives_content[r.initative].body = initiatives_content[r.initative].body + body;
         }
         std::cout << "done" << std::endl;
 
-        for (const auto &[in, body] : initiatives_content)
+        for (const auto &[in, ib] : initiatives_content)
         {
             //
             std::shared_ptr<model::Initiative> ptr;
@@ -200,7 +220,16 @@ namespace file_export
                         Poco::JSON::Object::Ptr sobject = new Poco::JSON::Object();
 
                         sobject->set("representation", "storage");
-                        sobject->set("value", content_body + body + "</tbody></table>");
+                        std::string header;
+                        header+="<p>";
+                        header+="<b>Готово:</b>"+std::to_string(ib.closed)+"&nbsp;";
+                        header+="<b>В работе:</b>"+std::to_string(ib.progress)+"&nbsp;";
+                        header+="<b>Ревью:</b>"+std::to_string(ib.review)+"&nbsp;";
+                        header+="<b>Обратная связь:</b>"+std::to_string(ib.feedback)+"&nbsp;";
+                        header+="<b>Приостановлено:</b>"+std::to_string(ib.hold)+"&nbsp;";
+                        header+="<b>Отменено:</b>"+std::to_string(ib.reject)+"&nbsp;";
+                        header+="</p>";
+                        sobject->set("value", content_body + ib.body + "</tbody></table>");
 
                         // std::ofstream out("content_body.html");
                         // out << content_body;
@@ -225,25 +254,30 @@ namespace file_export
                     else
                         std::cout << "fail" << std::endl;
                 }
-                catch (...)
+                catch (std::exception &ex)
                 {
-                    std::cout << "exception" << std::endl;
+                    std::cout << "exception: " << ex.what() << std::endl;
                 }
             }
         }
     }
 
-     std::optional<std::pair<int,std::string>> ExportConfluence::get_page(const std::string & page_id){
+        std::optional<std::pair<int,std::string>> ExportConfluence::get_page(const std::string & page_id){
         std::string url = Config::get().get_confluence_address() + "/content/" + page_id;
-        return ExportConfluence::get_page_by_url(url);
+        return ExportConfluence::get_page_by_url(url,true);
         
     }
     
-    std::optional<std::pair<int,std::string>> ExportConfluence::get_page_by_url(const std::string & url){
+    std::optional<std::pair<int,std::string>> ExportConfluence::get_page_by_url(const std::string & url,bool log_result){
+        //std::cout << "get url:" << url << std::endl;
         std::optional<std::string> result = loaders::Downloader::get().do_get(url, Config::get().get_confluence_identity());
+
+        
 
         if (result)
             {
+                if(log_result) std::cout << *result << std::endl;
+
                 Poco::JSON::Parser parser;
                 Poco::Dynamic::Var var = parser.parse(*result);
                 Poco::JSON::Object::Ptr json = var.extract<Poco::JSON::Object::Ptr>();

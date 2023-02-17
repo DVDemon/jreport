@@ -98,6 +98,44 @@ namespace model
             throw;
         }
     }
+
+    std::vector<ProductInitativeIssue> ProductInitativeIssue::load_all(){
+
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+
+            Statement select(session);
+            std::vector<ProductInitativeIssue> results;
+            ProductInitativeIssue result;
+
+            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue",
+                into(result.product),
+                into(result.cluster_issue),
+                into(result.product_issue),
+                range(0,1);
+
+            while(!select.done()){
+                if(select.execute()) 
+                    results.push_back(result);
+            }
+
+            return results;
+        }
+
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+    }
+
     ProductInitativeIssue ProductInitativeIssue::load(const std::string &product, const std::string &cluster_issue)
     {
 

@@ -160,6 +160,8 @@ namespace model
             date_key += std::to_string(local_tm.tm_year + 1900) + 
                 ((local_tm.tm_mon + 1<10)?"0":"") + std::to_string(local_tm.tm_mon + 1) + 
                 ((local_tm.tm_mday <10)?"0":"") + std::to_string(local_tm.tm_mday);
+            
+            //std::cout << "mongodb: query key='" + get_key() + "' date='" + date_key + "'" << std::endl;
 
             Poco::SharedPtr<Poco::MongoDB::DeleteRequest> request = db.createDeleteRequest("issues");
             request->selector().add("key", get_key());
@@ -321,6 +323,7 @@ namespace model
             for(const std::string & s: _hrefs){
                 hrefs_array->add(s);
             }
+            root->set("hrefs", hrefs_array);
         }
         if (!_links.empty())
         {

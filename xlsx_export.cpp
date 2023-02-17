@@ -43,8 +43,9 @@ int main()
                 {
                     try
                     {
-                        std::cout << "        " << pi.product << std::endl;
+                        std::cout << "        " << pi.product << ", " << pi.product_issue <<  std::endl;
                         std::string cluster;
+
 
                         if (model::Products::get().products().find(pi.product) != std::end(model::Products::get().products()))
                         {

@@ -30,6 +30,7 @@ for i in range(0,365):
     print(f'sleep {(future-t).total_seconds()} seconds')
     time.sleep((future-t).total_seconds())
     subprocess.run(["/bin/sh","fix_product.sh"])
+    subprocess.run(["/bin/sh","hrefs.sh"])
     subprocess.run(["/bin/sh","export.sh"])
 
     credentials = Credentials(username=login, password=password)

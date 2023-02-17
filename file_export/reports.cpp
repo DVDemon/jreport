@@ -5,7 +5,7 @@ namespace report{
 
     std::string Report::map_status(const std::string & old_status){
          static std::map<std::string, std::string> status{
-            {"Бэклог", "В работе"},
+            {"Бэклог", "Бэклог"},
             {"Выполнено", "Готово"},
             {"Закрыт", "Готово"},
             {"Открыто", "В работе"},

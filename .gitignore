@@ -2,5 +2,7 @@ build/*
 .vscode/*
 token.txt
 *.xlsx
+export.sh
 *.sh
 
+export.sh

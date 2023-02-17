@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.10)
 project(jserver C CXX)
 
 set(EXECUTABLE jserver)
-set(EXECUTABLE_POCO jserver_poco)
 set(EXPORT_EXECUTABLE xlsx_report)
 set(FIX_EXECUTABLE fix_product)
 set(PRODUCTS_EXECUTABLE export_products)
+set(HREFS_EXECUTABLE hrefs)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,17 +18,16 @@ set (CMAKE_CXX_FLAGS_RELEASE "-O3 -g0 -std=${STD_CXX} -Wall -DNDEBUG ${REDISCPP_
 find_package(OpenSSL)
 find_package(Threads)
 find_package(ZLIB)
-find_package(Poco REQUIRED COMPONENTS Foundation Util Net XML JSON Crypto NetSSL MongoDB)
-find_package(Boost COMPONENTS filesystem system program_options regex REQUIRED)
+find_package(Poco REQUIRED COMPONENTS Foundation Util Net XML JSON Crypto NetSSL MongoDB Data)
+
 
 if(OPENSSL_FOUND)
     set(HTTPLIB_IS_USING_OPENSSL TRUE)
 endif()
 
 include_directories(${Poco_INCLUDE_DIRS})
-include_directories(${Boost_INCLUDE_DIR})
 
-add_executable(${EXECUTABLE_POCO} main_poco.cpp
+add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
                              config/config.cpp
                              database/database.cpp
                              database/cache.cpp
@@ -44,7 +43,7 @@ add_executable(${EXECUTABLE_POCO} main_poco.cpp
                              loader/url_downloader.cpp
                              loader/jira_loader.cpp)
 
-add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
+add_executable(${HREFS_EXECUTABLE} main_hrefs.cpp
                              config/config.cpp
                              database/database.cpp
                              database/cache.cpp
@@ -53,10 +52,13 @@ add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
                              model/initiative.cpp
                              model/product.cpp
                              model/comment.cpp
+                             model/hrefs.cpp
                              model/product_project.cpp
                              model/cluster_project.cpp
                              model/cluster_initiative_issue.cpp
                              model/product_initiative_issue.cpp
+                             file_export/confluence_export.cpp
+                             file_export/reports.cpp
                              loader/url_downloader.cpp
                              loader/jira_loader.cpp)
 
@@ -85,6 +87,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     model/initiative.cpp
                                     model/product.cpp
                                     model/comment.cpp
+                                    model/hrefs.cpp
                                     model/product_project.cpp
                                     model/cluster_project.cpp
                                     model/cluster_initiative_issue.cpp
@@ -119,19 +122,6 @@ target_link_libraries(${EXECUTABLE} PRIVATE
                              "OpenXLSX"
                              stdc++fs
                              ZLIB::ZLIB
-                             ${Boost_LIBRARIES}
-                             OpenSSL::SSL
-                             OpenSSL::Crypto)
-
-target_link_libraries(${EXECUTABLE_POCO} PRIVATE 
-                             ${CMAKE_THREAD_LIBS_INIT} 
-                             ${Poco_LIBRARIES}
-                             "PocoData"
-                             "PocoDataMySQL"
-                             "OpenXLSX"
-                             stdc++fs
-                             ZLIB::ZLIB
-                             ${Boost_LIBRARIES}
                              OpenSSL::SSL
                              OpenSSL::Crypto)
 
@@ -143,7 +133,17 @@ target_link_libraries(${PRODUCTS_EXECUTABLE} PRIVATE
                              "OpenXLSX"
                              stdc++fs
                              ZLIB::ZLIB
-                             ${Boost_LIBRARIES}
+                             OpenSSL::SSL
+                             OpenSSL::Crypto)
+
+target_link_libraries(${HREFS_EXECUTABLE} PRIVATE 
+                             ${CMAKE_THREAD_LIBS_INIT} 
+                             ${Poco_LIBRARIES}
+                             "PocoData"
+                             "PocoDataMySQL"
+                             "OpenXLSX"
+                             stdc++fs
+                             ZLIB::ZLIB
                              OpenSSL::SSL
                              OpenSSL::Crypto)
 
@@ -155,7 +155,6 @@ target_link_libraries(${EXPORT_EXECUTABLE} PRIVATE
                              "OpenXLSX"
                              stdc++fs
                              ZLIB::ZLIB
-                             ${Boost_LIBRARIES}
                              OpenSSL::SSL
                              OpenSSL::Crypto)
 
@@ -167,6 +166,5 @@ target_link_libraries(${FIX_EXECUTABLE} PRIVATE
                              "OpenXLSX"
                              stdc++fs
                              ZLIB::ZLIB
-                             ${Boost_LIBRARIES}
                              OpenSSL::SSL
                              OpenSSL::Crypto)
