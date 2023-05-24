@@ -117,7 +117,7 @@ add_executable(${FIX_EXECUTABLE}    fix_product.cpp
 # target_link_libraries(${EXECUTABLE} PRIVATE 
 #                              ${CMAKE_THREAD_LIBS_INIT} 
 #                              ${Poco_LIBRARIES}
-#                              "PocoData"
+#                              "PocoData"&& sudo make install
 #                              "PocoDataMySQL"
 #                              "OpenXLSX"
 #                              stdc++fs
