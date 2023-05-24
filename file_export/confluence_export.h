@@ -3,6 +3,7 @@
 
 #include "reports.h"
 #include <vector>
+#include <optional>
 
 
 namespace file_export {
