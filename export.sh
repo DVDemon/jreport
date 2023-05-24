@@ -9,8 +9,8 @@ export MONGO_PORT=27017
 export CACHE=localhost:6379
 export JIRA_USER=
 export JIRA_PASSWORD=
-export CONFLUENCE_USER=
-export CONFLUENCE_PASSWORD=
+export CONFLUENCE_USER=dvdzyub1
+export CONFLUENCE_PASSWORD=3.14Oneer4
 export CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
 
 build/xlsx_report

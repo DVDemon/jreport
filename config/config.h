@@ -22,7 +22,7 @@ class  Config{
         std::string _mongo_address;
         std::string _mongo_port;
 
-        std::string _cache_servers;
+
 
     public:
         static Config& get();
@@ -36,7 +36,7 @@ class  Config{
         std::string& jira_address();
         std::string& mongo_address();
         std::string& mongo_port();
-        std::string& cache_servers();
+
 
         std::string& jira_user();
         std::string& jira_password();
@@ -61,7 +61,7 @@ class  Config{
         const std::string& get_password() const ;
         const std::string& get_database() const ;
         const std::string& get_jira_address() const ;
-        const std::string& get_cache_servers() const;
+
 
         const std::string get_jira_identity() const;
         const std::string get_confluence_identity() const;

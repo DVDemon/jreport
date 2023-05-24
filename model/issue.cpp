@@ -1,6 +1,5 @@
 #include "issue.h"
 #include "../database/database.h"
-#include "../database/cache.h"
 
 #include <Poco/Data/RecordSet.h>
 #include <Poco/JSON/Parser.h>
@@ -17,6 +16,15 @@ using Poco::Data::Statement;
 
 namespace model
 {
+    std::string &Issue::fixed_version()
+    {
+        return _fixed_version;
+    }
+
+    const std::string &Issue::get_fixed_version() const{
+        return _fixed_version;
+    }
+
     std::string &Issue::id()
     {
         return _id;
@@ -123,29 +131,6 @@ namespace model
         return _reason;
      }
 
-    void Issue::save_to_cache(){
-        std::stringstream ss;
-        Poco::JSON::Stringifier::stringify(toJSON(), ss);
-        std::string message = ss.str();
-        database::Cache::get().put(get_key(), message);
-    }
-
-    std::shared_ptr<model::Issue> Issue::from_cache(const std::string & key){
-         try
-        {
-            std::string result;
-            if (database::Cache::get().get(key, result))
-                return fromJSON(result);
-            //else
-                
-        }
-        catch (std::exception* err)
-        {
-            //std::cerr << "error:" << err->what() << std::endl;
-            //throw;
-        }
-        return std::shared_ptr<Issue>();
-    }
 
 // https://github.com/pocoproject/poco/blob/devel/MongoDB/samples/SQLToMongo/src/SQLToMongo.cpp
     void Issue::save_to_mongodb()
@@ -266,6 +251,9 @@ namespace model
         issue->project() = object->getValue<std::string>("project");
         issue->product() = object->getValue<std::string>("product");
 
+        if(object->has("fixed_version"))
+            issue->fixed_version() = object->getValue<std::string>("fixed_version");
+
         if(object->has("reason"))
             issue->reason() = object->getValue<std::string>("reason");
 
@@ -317,6 +305,7 @@ namespace model
         root->set("project", _project);
         root->set("product", _product);
         root->set("reason", _reason);
+        root->set("fixed_version",_fixed_version);
 
         if (!_hrefs.empty()){
             Poco::JSON::Array::Ptr hrefs_array = new Poco::JSON::Array();
@@ -370,6 +359,7 @@ std::ostream &operator<<(std::ostream &os, model::Issue &issue)
     os << "project:" << issue.get_project() << std::endl;
     os << "product:" << issue.get_product() << std::endl;
     os << "reason:" << issue.get_reason() << std::endl;
+    os << "fixed_version:" << issue.get_fixed_version() << std::endl;
 
     return os;
 }

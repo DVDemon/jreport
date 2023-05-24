@@ -15,7 +15,6 @@ Config::Config()
     if(std::getenv("MONGO_ADDRESS")) _mongo_address = std::getenv("MONGO_ADDRESS");
     
     if(std::getenv("MONGO_PORT")) _mongo_port = std::getenv("MONGO_PORT");
-    if(std::getenv("CACHE")) _cache_servers = std::getenv("CACHE");
     if(std::getenv("JIRA_USER")) _jira_user = std::getenv("JIRA_USER");
     if(std::getenv("JIRA_PASSWORD")) _jira_password = std::getenv("JIRA_PASSWORD");
 
@@ -104,16 +103,6 @@ std::string &Config::mongo_address()
 std::string &Config::mongo_port()
 {
     return _mongo_port;
-}
-
-const std::string &Config::get_cache_servers() const
-{
-    return _cache_servers;
-}
-
-std::string &Config::cache_servers()
-{
-    return _cache_servers;
 }
 
 const std::string &Config::get_mongo_address()

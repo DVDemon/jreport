@@ -85,6 +85,7 @@ namespace file_export
         content_body += table_header("Initiative epic");
         content_body += table_header("Product epic");
         content_body += table_header("Assigne");
+        content_body += table_header("Fixed version");
         content_body += table_header("Status");
         content_body += table_header("Last status change (days)");
         content_body += table_header("Reason");
@@ -125,6 +126,7 @@ namespace file_export
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + i_status.key + "\">" + i_status.name + "</a></td>";
                 body += "<td><a href=\"https://jira.mts.ru/browse/" + p_status.key + "\">" + p_status.key + "</a></td>";
                 body += table_cell(p_status.assigne);
+                body += table_cell(p_status.fixed_version);
                 std::string status = report::Report::map_status(p_status.status);
                 body += table_status(status);
                 if(status=="Готово") initiatives_content[r.initative].closed++;

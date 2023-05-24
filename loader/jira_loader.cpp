@@ -101,6 +101,25 @@ namespace loaders
                     if (object->has("project"))
                         if (object->getObject("project")->has("key"))
                             issue->project() = object->getObject("project")->getValue<std::string>("key");
+                    
+                    if (object->has("fixVersions")){
+                        std::string fix;
+
+                        Poco::JSON::Array::Ptr comps = object->getArray("fixVersions");
+                        if (comps)
+                            for (size_t i = 0; i < comps->size(); ++i)
+                            {
+                                Poco::JSON::Object::Ptr comp = comps->getObject(i);
+                                if (comp->has("name"))
+                                {
+                                    std::string n = comp->getValue<std::string>("name");
+                                    fix += n + " ";
+                                }
+                            }
+                        
+                        issue->fixed_version() =fix;
+                    }
+
 
                     if (object->has("components"))
                     {
@@ -192,11 +211,7 @@ namespace loaders
     std::shared_ptr<model::Issue> LoaderJira::load( const std::string &id, [[maybe_unused]] const std::string &identity)
     {
         std::shared_ptr<model::Issue> res;
-        //res = model::Issue::from_cache(id);
-        if(res) {
-            std::cout << "loaded from cache" << std::endl;
-            return res;
-        }
+
 #ifdef STUB
         std::string string_result = load_from_file(id);
 #endif
@@ -210,12 +225,9 @@ namespace loaders
         if(ptr) string_result = *ptr;
             else throw std::logic_error("download exception");
 #endif
-        
         if(!string_result.empty()){
             res = parse(string_result);
-            if(res) res->save_to_cache();
-        }
-
+        }      
         return res;
     }
 

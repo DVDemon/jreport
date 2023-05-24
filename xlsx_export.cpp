@@ -72,6 +72,7 @@ int main()
                             ii.key = initiative_item->get_key();
                             ii.name = initiative_item->get_name();
                             ii.status = initiative_item->get_status();
+                            ii.fixed_version = initiative_item->get_fixed_version();
                             ii.issue = initiative_item;
 
                             auto product_item = loaders::LoaderJira::get().load(pi.product_issue, identity);
@@ -95,6 +96,7 @@ int main()
                                 ri.name = product_item->get_name();
                                 ri.status = product_item->get_status();
                                 ri.assigne = product_item->get_assignee();
+                                ri.fixed_version = product_item->get_fixed_version();
                                 ri.issue = product_item;
                                 if (!product_item->get_resolution().empty())
                                     ri.status = product_item->get_resolution();
@@ -134,6 +136,7 @@ int main()
                                             ri.name = old_issue->get_name();
                                             ri.status = old_issue->get_status();
                                             ri.assigne = old_issue->get_assignee();
+                                            ri.fixed_version = old_issue->get_fixed_version();
                                             ri.issue = old_issue;
                                             ri.day_shift = day;
                                             if (!old_issue->get_resolution().empty())

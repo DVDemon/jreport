@@ -24,6 +24,7 @@ namespace model
             std::string _project;
             std::string _product;
             std::string _reason;
+            std::string _fixed_version;
 
             std::vector<IssueLink> _links;
             std::vector<std::string> _hrefs;
@@ -40,6 +41,7 @@ namespace model
             std::string& project();
             std::string& product();
             std::string& reason();
+            std::string& fixed_version();
             std::vector<IssueLink>& links();
             std::vector<std::string>& hrefs();
 
@@ -54,12 +56,11 @@ namespace model
             const std::string& get_project() const;
             const std::string& get_product() const;
             const std::string& get_reason() const;
+            const std::string& get_fixed_version() const;
             const std::vector<IssueLink>& get_links() const;
             const std::vector<std::string>& get_hrefs() const;
             
             void save_to_mongodb();
-            void save_to_cache();
-            static std::shared_ptr<Issue> from_cache(const std::string & key);
             static std::shared_ptr<Issue> from_mongodb(const std::string & key,const tm &date);
             static std::shared_ptr<Issue> fromJSON(const std::string & str);
             Poco::JSON::Object::Ptr toJSON() const;

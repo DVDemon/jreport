@@ -13,6 +13,7 @@ namespace report{
         std::string name;
         std::string status;
         std::string assigne;
+        std::string fixed_version;
         size_t      day_shift;
         size_t      status_changed;
         std::shared_ptr<model::Issue> issue;

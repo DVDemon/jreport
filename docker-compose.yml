@@ -1,14 +1,25 @@
 version: '3.3'
 services:
-  cache:
-    image: redis:6.2-alpine
-    container_name: cache-1
-    restart: always
+  db-node:
+    build:
+      context: mysql
+      dockerfile: Dockerfile
+    container_name: db-node
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: jreport
+      MYSQL_USER: stud
+      MYSQL_PASSWORD: stud
+      MYSQL_ROOT_PASSWORD: '1'
+    command: >
+      --sql-mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+      --general-log=ON
+      --log-queries-not-using-indexes=ON
     ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning 
-    volumes: 
-      - cache:/data
+      - 3360:3306
+    volumes:
+      - db-node-data:/var/lib/mysql
+      
   mongo:
     image: mongo:5.0
     container_name: mongo-1
@@ -27,5 +38,4 @@ services:
 volumes:
   mongodb:
   mongoconfig:
-  cache:
-    driver: local
+  db-node-data:
