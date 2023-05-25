@@ -66,16 +66,14 @@ bool do_init(){
             "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('[BCAA] Актуализация описания компетенций и связей с ПО','KA-2255');"
         };
         std::cout << "check records" << std::endl;
-        int count{0};
+        long count{0};
         Poco::Data::Statement select(session);
-        select << "SELECT count(*) from Initiatives_Issue",
+        select << "SELECT count(*) as cnt FROM Initiatives_Issue",
                 into(count),
                 range(0, 1); //  iterate over result set one row at a time
 
-        if (!select.done())
-            {
-                select.execute();
-            }
+        Poco::Data::RecordSet rs(select);
+        rs.moveFirst();
         if(count==0){
             std::cout << "insert config" << std::endl;
             for(auto s:inserts){

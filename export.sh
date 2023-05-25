@@ -1,4 +1,4 @@
-export DATABASE_IP=127.0.0.1
+export DATABASE_IP=localhost
 export DATABASE_PORT=3306
 export DATABASE_LOGIN=stud
 export DATABASE_PASSWORD=stud
