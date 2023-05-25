@@ -40,14 +40,14 @@ bool do_init()
 
         std::cout << "create tables" << std::endl;
         std::vector<std::string> tables{
-            "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256) NOT NULL,description VARCHAR(4096) NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id),KEY(key_field));",
-            "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256) NOT NULL,issue_key VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256) CHARACTER SET utf8 DEFAULT NOT NULL,description VARCHAR(4096) CHARACTER SET utf8 DEFAULT NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id),KEY(key_field));",
+            "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256) CHARACTER SET utf8 DEFAULT NOT NULL,issue_key VARCHAR(256) NOT NULL);",
             "CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,initiative_issue VARCHAR(256) NOT NULL,initiative VARCHAR(256) NOT NULL,cluster VARCHAR(256) NOT NULL);",
-            "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL);",
-            "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL);",
-            "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);",
-            "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);",
-            "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512), KEY(link));"};
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256) CHARACTER SET utf8 DEFAULT NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256)CHARACTER SET utf8 DEFAULT NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256) CHARACTER SET utf8 DEFAULT NOT NULL,project VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) CHARACTER SET utf8 DEFAULT NOT NULL,project VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512) CHARACTER SET utf8 DEFAULT, KEY(link));"};
         
         for (auto s : tables)
         {
@@ -80,8 +80,7 @@ bool do_init()
             into(count),
             range(0, 1); //  iterate over result set one row at a time
 
-        Poco::Data::RecordSet rs(select);
-        rs.moveFirst();
+        if (!select.done()) select.execute();
         if (count == 0)
         {
             std::cout << "insert config" << std::endl;
