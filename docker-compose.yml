@@ -19,6 +19,8 @@ services:
       - 3360:3306
     volumes:
       - db-node-data:/var/lib/mysql
+    networks:
+      - robonet
       
   mongo:
     image: mongo:5.0
@@ -35,6 +37,8 @@ services:
       # named volumes
       - mongodb:/data/db
       - mongoconfig:/data/configdb
+    networks:
+      - robonet
 
   robot:
     build: 
@@ -57,8 +61,12 @@ services:
     depends_on:
       - mongo
       - db-node
+    networks:
+      - robonet
 
 
+networks:
+    robonet:
 
 volumes:
   mongodb:

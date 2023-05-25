@@ -4,9 +4,7 @@ project(jserver C CXX)
 
 # set(EXECUTABLE jserver)
 set(EXPORT_EXECUTABLE xlsx_report)
-set(FIX_EXECUTABLE fix_product)
-set(PRODUCTS_EXECUTABLE export_products)
-set(HREFS_EXECUTABLE hrefs)
+
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -27,40 +25,6 @@ find_package(Poco REQUIRED COMPONENTS Foundation Util Net XML JSON Crypto NetSSL
 
 include_directories(${Poco_INCLUDE_DIRS})
 
-add_executable(${PRODUCTS_EXECUTABLE} export_products.cpp
-                             config/config.cpp
-                             database/database.cpp
-                            #  database/cache.cpp
-                             model/issue.cpp
-                             model/cluster.cpp
-                             model/initiative.cpp
-                             model/product.cpp
-                             model/comment.cpp
-                             model/product_project.cpp
-                             model/cluster_project.cpp
-                             model/cluster_initiative_issue.cpp
-                             model/product_initiative_issue.cpp
-                             loader/url_downloader.cpp
-                             loader/jira_loader.cpp)
-
-add_executable(${HREFS_EXECUTABLE} main_hrefs.cpp
-                             config/config.cpp
-                             database/database.cpp
-                            #  database/cache.cpp
-                             model/issue.cpp
-                             model/cluster.cpp
-                             model/initiative.cpp
-                             model/product.cpp
-                             model/comment.cpp
-                             model/hrefs.cpp
-                             model/product_project.cpp
-                             model/cluster_project.cpp
-                             model/cluster_initiative_issue.cpp
-                             model/product_initiative_issue.cpp
-                             file_export/confluence_export.cpp
-                             file_export/reports.cpp
-                             loader/url_downloader.cpp
-                             loader/jira_loader.cpp)
 
 # add_executable(${EXECUTABLE} main.cpp
 #                              config/config.cpp
@@ -98,21 +62,7 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
                                     loader/url_downloader.cpp
                                     loader/jira_loader.cpp)
 
-add_executable(${FIX_EXECUTABLE}    fix_product.cpp
-                                    config/config.cpp
-                                    database/database.cpp
-                                    # database/cache.cpp
-                                    model/issue.cpp
-                                    model/cluster.cpp
-                                    model/initiative.cpp
-                                    model/product.cpp
-                                    model/comment.cpp
-                                    model/product_project.cpp
-                                    model/cluster_project.cpp
-                                    model/cluster_initiative_issue.cpp
-                                    model/product_initiative_issue.cpp
-                                    loader/url_downloader.cpp
-                                    loader/jira_loader.cpp)
+
 
 # target_link_libraries(${EXECUTABLE} PRIVATE 
 #                              ${CMAKE_THREAD_LIBS_INIT} 
@@ -125,40 +75,8 @@ add_executable(${FIX_EXECUTABLE}    fix_product.cpp
 #                              OpenSSL::SSL
 #                              OpenSSL::Crypto)
 
-target_link_libraries(${PRODUCTS_EXECUTABLE} PRIVATE 
-                             ${CMAKE_THREAD_LIBS_INIT} 
-                             ${Poco_LIBRARIES}
-                             "PocoData"
-                             "PocoDataMySQL"
-                             "OpenXLSX"
-                             stdc++fs
-                             ZLIB::ZLIB
-                             OpenSSL::SSL
-                             OpenSSL::Crypto)
-
-target_link_libraries(${HREFS_EXECUTABLE} PRIVATE 
-                             ${CMAKE_THREAD_LIBS_INIT} 
-                             ${Poco_LIBRARIES}
-                             "PocoData"
-                             "PocoDataMySQL"
-                             "OpenXLSX"
-                             stdc++fs
-                             ZLIB::ZLIB
-                             OpenSSL::SSL
-                             OpenSSL::Crypto)
 
 target_link_libraries(${EXPORT_EXECUTABLE} PRIVATE 
-                             ${CMAKE_THREAD_LIBS_INIT} 
-                             ${Poco_LIBRARIES}
-                             "PocoData"
-                             "PocoDataMySQL"
-                             "OpenXLSX"
-                             stdc++fs
-                             ZLIB::ZLIB
-                             OpenSSL::SSL
-                             OpenSSL::Crypto)
-
-target_link_libraries(${FIX_EXECUTABLE} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
                              "PocoData"
