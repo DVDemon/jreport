@@ -13,6 +13,7 @@ namespace database{
         _connection_string+=Config::get().get_database();
         _connection_string+=";password=";
         _connection_string+=Config::get().get_password();
+        std::cout << "database: "<< _connection_string << std::endl;
 
         Poco::Data::MySQL::Connector::registerConnector();
 
