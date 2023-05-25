@@ -77,7 +77,9 @@ bool do_init(){
         if(count==0){
             std::cout << "insert config" << std::endl;
             for(auto s:inserts){
+                Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement ins_stmt(session);
+                std::cout << s << std::endl;
                 ins_stmt << s;
                 ins_stmt.execute();
 
