@@ -25,7 +25,6 @@
 
 using namespace std::chrono;
 
-
 #include <Poco/Data/MySQL/Connector.h>
 #include <Poco/Data/MySQL/MySQLException.h>
 #include <Poco/Data/SessionFactory.h>
@@ -33,65 +32,75 @@ using namespace std::chrono;
 #include "database/database.h"
 using namespace Poco::Data::Keywords;
 
-bool do_init(){
+bool do_init()
+{
 
-    try{
-        Poco::Data::Session session = database::Database::get().create_session();
-        Poco::Data::Statement create_stmt(session);
+    try
+    {
+
         std::cout << "create tables" << std::endl;
-        create_stmt << "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256) NOT NULL,description VARCHAR(4096) NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id),KEY(key_field));";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256) NOT NULL,issue_key VARCHAR(256) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,initiative_issue VARCHAR(256) NOT NULL,initiative VARCHAR(256) NOT NULL,cluster VARCHAR(256) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);";create_stmt.execute();
-        create_stmt << "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512), KEY(link));";create_stmt.execute();
+        std::vector<std::string> tables{
+            "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256) NOT NULL,description VARCHAR(4096) NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id),KEY(key_field));",
+            "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256) NOT NULL,issue_key VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,initiative_issue VARCHAR(256) NOT NULL,initiative VARCHAR(256) NOT NULL,cluster VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);",
+            "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512), KEY(link));"};
         
-        std::vector<std::pair<std::string,std::string>> inserts{
-            {"Cloud Native","KA-1395"},
-            {"Cloud Native","KA-1396"},
-            {"Cloud Native","KA-1397"},
-            {"ArchOPS","KA-1435"},
-            {"TechRadar","ARC-199"},
-            {"Target Architecture Guidelines","KA-1140"},
-            {"Target Architecture Guidelines","KA-1141"},
-            {"Target Architecture Guidelines","KA-1142"},
-            {"Near Realtime","KA-1480"},
-            {"Near Realtime","KA-1504"},
-            {"Micro-frontends for Web UIs","KA-2234"},
-            {"Пилотирование практики Architecture as Code","KA-2227"},
-            {"Запрет интеграции через БД","KA-2217"},
-            {"Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4","ARC-200"},
-            {"[BCAA] Актуализация описания компетенций и связей с ПО","KA-2255"}
-        };
+        for (auto s : tables)
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+            Poco::Data::Statement create_stmt(session);
+            create_stmt << s;
+            create_stmt.execute();
+        }
+        std::vector<std::pair<std::string, std::string>> inserts{
+            {"Cloud Native", "KA-1395"},
+            {"Cloud Native", "KA-1396"},
+            {"Cloud Native", "KA-1397"},
+            {"ArchOPS", "KA-1435"},
+            {"TechRadar", "ARC-199"},
+            {"Target Architecture Guidelines", "KA-1140"},
+            {"Target Architecture Guidelines", "KA-1141"},
+            {"Target Architecture Guidelines", "KA-1142"},
+            {"Near Realtime", "KA-1480"},
+            {"Near Realtime", "KA-1504"},
+            {"Micro-frontends for Web UIs", "KA-2234"},
+            {"Пилотирование практики Architecture as Code", "KA-2227"},
+            {"Запрет интеграции через БД", "KA-2217"},
+            {"Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4", "ARC-200"},
+            {"[BCAA] Актуализация описания компетенций и связей с ПО", "KA-2255"}};
         std::cout << "check records" << std::endl;
         long count{0};
+        Poco::Data::Session session = database::Database::get().create_session();
         Poco::Data::Statement select(session);
         select << "SELECT count(*) as cnt FROM Initiatives_Issue",
-                into(count),
-                range(0, 1); //  iterate over result set one row at a time
+            into(count),
+            range(0, 1); //  iterate over result set one row at a time
 
         Poco::Data::RecordSet rs(select);
         rs.moveFirst();
-        if(count==0){
+        if (count == 0)
+        {
             std::cout << "insert config" << std::endl;
-            for(auto& [initiative,epic]:inserts){
+            for (auto &[initiative, epic] : inserts)
+            {
                 Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement ins_stmt(session);
                 std::cout << "insert:" << initiative << "," << epic << std::endl;
-                ins_stmt << "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES (?,?)" <<
-                    use(initiative),
+                ins_stmt << "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES (?,?)" << use(initiative),
                     use(epic);
                 ins_stmt.execute();
-
             }
-         } else std::cout << "config already done" << std::endl;
-        
-
-
-    }catch(std::exception &ex){
-        std::cout << "init exception:" << ex.what()<< std::endl;
+        }
+        else
+            std::cout << "config already done" << std::endl;
+    }
+    catch (std::exception &ex)
+    {
+        std::cout << "init exception:" << ex.what() << std::endl;
         return false;
     }
     return true;
@@ -115,11 +124,11 @@ void do_hrefs()
 
                     try
                     {
-                        if (link.find("confluence")!= std::string::npos)
+                        if (link.find("confluence") != std::string::npos)
                         {
-                            
+
                             std::cout << "   " + link;
-                            
+
                             if (!model::HREFS::get()[link])
                             {
                                 std::this_thread::sleep_for(1000ms);
@@ -140,9 +149,15 @@ void do_hrefs()
                                         std::string title = res->second;
                                         std::cout << "... title:" << title << std::endl;
                                         model::HREFS::get().set(link, title);
-                                    } else std::cout << " ... fail load confluence" << std::endl;
-                                } else std::cout << " ... fail get page" << std::endl;
-                            } else std::cout << " ... from cache" << std::endl;
+                                    }
+                                    else
+                                        std::cout << " ... fail load confluence" << std::endl;
+                                }
+                                else
+                                    std::cout << " ... fail get page" << std::endl;
+                            }
+                            else
+                                std::cout << " ... from cache" << std::endl;
                         }
                     }
                     catch (std::exception &ex)
@@ -152,7 +167,6 @@ void do_hrefs()
                 }
             }
         }
-        
     }
 }
 
@@ -389,14 +403,18 @@ void do_export()
 int main()
 {
 
-    while(!do_init()) std::this_thread::sleep_for(15*1000ms);
+    while (!do_init())
+        std::this_thread::sleep_for(15 * 1000ms);
 
-    while(true){
-        try{
+    while (true)
+    {
+        try
+        {
             do_fix_product();
             do_hrefs();
             do_export();
-        }catch(std::exception &ex)
+        }
+        catch (std::exception &ex)
         {
             std::cout << "exception: " << ex.what() << std::endl;
         }
