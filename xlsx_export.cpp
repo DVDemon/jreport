@@ -89,10 +89,10 @@ bool do_init()
             {
                 Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement ins_stmt(session);
-                std::cout << "insert:" << initiative << "," << epic << std::endl;
-                ins_stmt << "INSERT INTO Initiatives_Issue (initative_name,issue_key) VALUES ( ? , ? )" 
-                    << use(initiative)
-                    << use(epic);
+                ins_stmt << "INSERT INTO Initiatives_Issue (initative_name,issue_key) VALUES ( ? , ? )", 
+                    use(initiative),
+                    use(epic);
+                std::cout << ins_stmt.toString() << std::endl;
                 ins_stmt.execute();
             }
         }
