@@ -48,22 +48,22 @@ bool do_init(){
         create_stmt << "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL);";create_stmt.execute();
         create_stmt << "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512), KEY(link));";create_stmt.execute();
         
-        std::vector<std::string> inserts{
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1395')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1396')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Cloud Native','KA-1397')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('ArchOPS','KA-1435')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('TechRadar','ARC-199')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1140')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1141')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Target Architecture Guidelines','KA-1142')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1480')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Near Realtime','KA-1504')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Micro-frontends for Web UIs','KA-2234')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Пилотирование практики Architecture as Code','KA-2227')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Запрет интеграции через БД','KA-2217')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4','ARC-200')",
-            "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES ('[BCAA] Актуализация описания компетенций и связей с ПО','KA-2255')"
+        std::vector<std::pair<std::string,std::string>> inserts{
+            {"Cloud Native","KA-1395"},
+            {"Cloud Native","KA-1396"},
+            {"Cloud Native","KA-1397"},
+            {"ArchOPS","KA-1435"},
+            {"TechRadar","ARC-199"},
+            {"Target Architecture Guidelines","KA-1140"},
+            {"Target Architecture Guidelines","KA-1141"},
+            {"Target Architecture Guidelines","KA-1142"},
+            {"Near Realtime","KA-1480"},
+            {"Near Realtime","KA-1504"},
+            {"Micro-frontends for Web UIs","KA-2234"},
+            {"Пилотирование практики Architecture as Code","KA-2227"},
+            {"Запрет интеграции через БД","KA-2217"},
+            {"Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4","ARC-200"},
+            {"[BCAA] Актуализация описания компетенций и связей с ПО","KA-2255"}
         };
         std::cout << "check records" << std::endl;
         long count{0};
@@ -76,11 +76,13 @@ bool do_init(){
         rs.moveFirst();
         if(count==0){
             std::cout << "insert config" << std::endl;
-            for(auto s:inserts){
+            for(auto& [initiative,epic]:inserts){
                 Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement ins_stmt(session);
-                std::cout << s << std::endl;
-                ins_stmt << s;
+                std::cout << "insert:" << initiative << "," << epic << std::endl;
+                ins_stmt << "INSERT INTO Initiatives_Issue(initative_name,issue_key) VALUES (?,?)" <<
+                    use(initiative),
+                    use(epic);
                 ins_stmt.execute();
 
             }
