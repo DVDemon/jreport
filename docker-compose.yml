@@ -44,6 +44,7 @@ services:
     build: 
       context: robot
     container_name: robot
+    restart: always
     environment:
       - DATABASE_IP=db-node
       - DATABASE_PORT=3306
