@@ -23,6 +23,7 @@ namespace model
             Poco::JSON::Parser parser;
             Poco::Dynamic::Var result = parser.parse(str);
             Poco::JSON::Array::Ptr array = result.extract<Poco::JSON::Array::Ptr>();
+            std::cout << "initiatives: " << array->size() << std::endl;
             for(size_t i=0;i<array->size();++i){
                 Poco::JSON::Object::Ptr pitem = array->getObject(i);
                 std::string item = pitem->getValue<std::string>("name");

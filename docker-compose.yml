@@ -53,10 +53,10 @@ services:
       - JIRA_ADDRESS=https://jira.mts.ru
       - MONGO_ADDRESS=mongo-1
       - MONGO_PORT=27017
-      - JIRA_USER=dvdzyub1
-      - JIRA_PASSWORD=3.14Oneer4
-      - CONFLUENCE_USER=dvdzyub1
-      - CONFLUENCE_PASSWORD=3.14Oneer4
+      - JIRA_USER=
+      - JIRA_PASSWORD=
+      - CONFLUENCE_USER=
+      - CONFLUENCE_PASSWORD=
       - CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
     depends_on:
       - mongo
