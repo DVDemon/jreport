@@ -21,6 +21,17 @@ Config::Config()
     if(std::getenv("CONFLUENCE_USER")) _confluence_user = std::getenv("CONFLUENCE_USER");
     if(std::getenv("CONFLUENCE_PASSWORD")) _confluence_password = std::getenv("CONFLUENCE_PASSWORD");
     if(std::getenv("CONFLUENCE_ADDRESS")) _confluence_address=std::getenv("CONFLUENCE_ADDRESS");
+    if(std::getenv("INIT_SQL")) _init_sql=std::getenv("INIT_SQL");
+}
+
+const std::string& Config::get_init_sql() const
+{
+    return _init_sql;
+}
+
+std::string& Config::init_sql()
+{
+    return _init_sql;
 }
 
 const std::string Config::get_jira_identity() const

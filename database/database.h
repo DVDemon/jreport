@@ -3,8 +3,8 @@
 
 #include <string>
 #include <memory>
-#include <Poco/Data/MySQL/Connector.h>
-#include <Poco/Data/MySQL/MySQLException.h>
+#include <Poco/Data/PostgreSQL/Connector.h>
+#include <Poco/Data/PostgreSQL/PostgreSQLException.h>
 #include <Poco/Data/SessionFactory.h>
 #include <Poco/Data/SessionPool.h>
 #include <Poco/MongoDB/MongoDB.h>

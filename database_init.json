@@ -1,0 +1,877 @@
+[
+    {
+        "initiative": "Cloud Native",
+        "issues": [
+            {
+                "initiative_issue": "KA-1395",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            },
+            {
+                "initiative_issue": "KA-1396",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            },
+            {
+                "initiative_issue": "KA-1397",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "ArchOPS",
+        "issues": [
+            {
+                "initiative_issue": "KA-1435",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "TechRadar",
+        "issues": [
+            {
+                "initiative_issue": "ARC-199",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Target Architecture Guidelines",
+        "issues": [
+            {
+                "initiative_issue": "KA-1140",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            },
+            {
+                "initiative_issue": "KA-1141",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            },
+            {
+                "initiative_issue": "KA-1142",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Near Realtime",
+        "issues": [
+            {
+                "initiative_issue": "KA-1480",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            },
+            {
+                "initiative_issue": "KA-1504",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Micro-frontends for Web UIs",
+        "issues": [
+            {
+                "initiative_issue": "KA-2234",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Пилотирование практики Architecture as Code",
+        "issues": [
+            {
+                "initiative_issue": "KA-2227",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Запрет интеграции через БД",
+        "issues": [
+            {
+                "initiative_issue": "KA-2217",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4",
+        "issues": [
+            {
+                "initiative_issue": "ARC-200",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "initiative": "[BCAA] Актуализация описания компетенций и связей с ПО",
+        "issues": [
+            {
+                "initiative_issue": "AKA-2255",
+                "clusters": [
+                    { 
+                        "cluster" : "Бизнес платформы",
+                        "issue" : ""
+                    },
+                    { 
+                        "cluster" : "Технологические платформы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Корпоративные сервисы",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Умный дом и IoT",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "CX",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Телеком",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Развитие инфраструктуры",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Облачная платформа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Цифровые продукты и партнерства",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Банк",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "РТК",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТС Медиа",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Рекламные технологии",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "Big Data",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МТТ",
+                        "issue" : ""
+                    },{ 
+                        "cluster" : "МГТС",
+                        "issue" : ""
+                    }
+                ]
+            }
+        ]
+    }
+]

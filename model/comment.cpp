@@ -35,12 +35,12 @@ std::optional<Comment> Comment::load(const std::string &product, const  std::str
             return result;
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
@@ -90,12 +90,12 @@ void Comment::save(){
             insert_issue.execute();
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;

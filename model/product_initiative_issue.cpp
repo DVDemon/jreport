@@ -47,12 +47,12 @@ namespace model
             return result;
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
@@ -86,12 +86,12 @@ namespace model
             return results;
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
@@ -123,12 +123,12 @@ namespace model
             return results;
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
@@ -162,12 +162,12 @@ namespace model
             return result;
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;
@@ -195,12 +195,12 @@ namespace model
             insert_issue.execute();
         }
 
-        catch (Poco::Data::MySQL::ConnectionException &e)
+        catch (Poco::Data::PostgreSQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
             throw;
         }
-        catch (Poco::Data::MySQL::StatementException &e)
+        catch (Poco::Data::PostgreSQL::StatementException &e)
         {
 
             std::cout << "statement:" << e.what() << std::endl;

@@ -40,14 +40,14 @@ bool do_init()
 
         std::cout << "create tables" << std::endl;
         std::vector<std::string> tables{
-            "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256)  NOT NULL,description VARCHAR(4096)  NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id),KEY(key_field)) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256)  NOT NULL,issue_key VARCHAR(256) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,initiative_issue VARCHAR(256) NOT NULL,initiative VARCHAR(256) NOT NULL,cluster VARCHAR(256) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256)  NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256)  NOT NULL,project VARCHAR(256) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256)  NOT NULL,project VARCHAR(256) NOT NULL) CHARACTER SET 'utf8';",
-            "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512) , KEY(link)) CHARACTER SET 'utf8';"};
+            "CREATE TABLE IF NOT EXISTS Issue (id VARCHAR(256) NOT NULL,key_field VARCHAR(256) NOT NULL,name VARCHAR(256)  NOT NULL,description VARCHAR(4096)  NOT NULL,author VARCHAR(256) NOT NULL,assignee VARCHAR(256) NOT NULL,status VARCHAR(256) NOT NULL,project VARCHAR(256) NOT NULL,PRIMARY KEY (id))",
+            "CREATE TABLE IF NOT EXISTS Initiatives_Issue(initative_name VARCHAR(256)  NOT NULL,issue_key VARCHAR(256) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS Cluster_Initiative_Issue(issue varchar(256) NOT NULL,initiative_issue VARCHAR(256) NOT NULL,initiative VARCHAR(256) NOT NULL,cluster VARCHAR(256) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Issue(product varchar(256)  NOT NULL,cluster_issue VARCHAR(256) NOT NULL,product_issue VARCHAR(256) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS Product_Initiative_Comment(product VARCHAR(256) NOT NULL,cluster_issue VARCHAR(256) NOT NULL,comment VARCHAR(4096) NOT NULL,address VARCHAR(4096) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS Product_Project(product VARCHAR(256)  NOT NULL,project VARCHAR(256) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS Cluster_Project(cluster VARCHAR(256)  NOT NULL,project VARCHAR(256) NOT NULL)",
+            "CREATE TABLE IF NOT EXISTS HREF(link VARCHAR(512) NOT NULL,title VARCHAR(512) , PRIMARY KEY(link))"};
 
         for (auto s : tables)
         {
@@ -57,54 +57,83 @@ bool do_init()
             create_stmt << s;
             create_stmt.execute();
         }
-        std::vector<std::pair<std::string, std::string>> inserts{
-            {"Cloud Native", "KA-1395"},
-            {"Cloud Native", "KA-1396"},
-            {"Cloud Native", "KA-1397"},
-            {"ArchOPS", "KA-1435"},
-            {"TechRadar", "ARC-199"},
-            {"Target Architecture Guidelines", "KA-1140"},
-            {"Target Architecture Guidelines", "KA-1141"},
-            {"Target Architecture Guidelines", "KA-1142"},
-            {"Near Realtime", "KA-1480"},
-            {"Near Realtime", "KA-1504"},
-            {"Micro-frontends for Web UIs", "KA-2234"},
-            {"Пилотирование практики Architecture as Code", "KA-2227"},
-            {"Запрет интеграции через БД", "KA-2217"},
-            {"Реализация задач по переходу с технологий в статусе HOLD - 23Q1-23Q4", "ARC-200"},
-            {"[BCAA] Актуализация описания компетенций и связей с ПО", "KA-2255"}};
-        std::cout << "check records" << std::endl;
-        long count{0};
-        Poco::Data::Session session = database::Database::get().create_session();
-        Poco::Data::Statement select(session);
-        select << "SELECT count(*) as cnt FROM Initiatives_Issue",
-            into(count),
-            range(0, 1); //  iterate over result set one row at a time
 
-        if (!select.done())
-            select.execute();
-        if (count == 0)
+        std::cout << "[loading config]" << Config::get().get_init_sql() << std::endl;
+        std::ifstream ifs(Config::get().get_init_sql());
+        std::vector<std::pair<std::string, std::string>> Initiatives_Issues;
+        std::vector<std::tuple<std::string, std::string, std::string, std::string>> Cluster_Initiative_Issue;
+
+        if (ifs.is_open())
         {
-            std::cout << "insert config" << std::endl;
-            for (auto &[initiative, epic] : inserts)
+            std::istream_iterator<char> start(ifs >> std::noskipws), end{};
+            std::string str{start, end};
+            Poco::JSON::Parser parser;
+            Poco::Dynamic::Var result = parser.parse(str);
+            Poco::JSON::Array::Ptr array = result.extract<Poco::JSON::Array::Ptr>();
+            for (size_t i = 0; i < array->size(); ++i)
+            {
+                Poco::JSON::Object::Ptr ptr = array->getObject(i);
+                Poco::JSON::Array::Ptr issues = ptr->getArray("issues");
+                for (size_t j = 0; j < issues->size(); ++j)
+                {
+                    Poco::JSON::Object::Ptr issue = issues->getObject(j);
+                    Initiatives_Issues.push_back({ptr->getValue<std::string>("initiative"), issue->getValue<std::string>("initiative_issue")});
+                    Poco::JSON::Array::Ptr clusters = issue->getArray("clusters");
+                    for (size_t k = 0; k < clusters->size(); ++k)
+                    {
+                        Poco::JSON::Object::Ptr cluster = clusters->getObject(k);
+                        Cluster_Initiative_Issue.push_back({cluster->getValue<std::string>("issue"),
+                                                            issue->getValue<std::string>("initiative_issue"),
+                                                            ptr->getValue<std::string>("initiative"),
+                                                            cluster->getValue<std::string>("cluster")});
+                    }
+                }
+            }
+
+            {
+                Poco::Data::Session session = database::Database::get().create_session();
+                Poco::Data::Statement truncate(session);
+                truncate << "TRUNCATE TABLE Initiatives_Issue"; //  iterate over result set one row at a time
+                truncate.execute();
+            }
+
+            for (auto &[initiative, epic] : Initiatives_Issues)
             {
                 Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement ins_stmt(session);
-                ins_stmt << "INSERT INTO Initiatives_Issue (initative_name,issue_key) VALUES ( ? , ? )",
-                    use(initiative),
-                    use(epic);
+                std::string str = "INSERT INTO Initiatives_Issue (initative_name,issue_key) VALUES (";
+                str += "'" + initiative + "',";
+                str += "'" + epic + "')";
+                ins_stmt << str;
+                std::cout << ins_stmt.toString() << std::endl;
+                ins_stmt.execute();
+            }
+
+            {
+                Poco::Data::Session session = database::Database::get().create_session();
+                Poco::Data::Statement truncate(session);
+                truncate << "TRUNCATE TABLE Cluster_Initiative_Issue"; //  iterate over result set one row at a time
+                truncate.execute();
+            }
+
+            for (auto &[issue, initiative_issue, initiative, cluster] : Cluster_Initiative_Issue)
+            {
+                Poco::Data::Session session = database::Database::get().create_session();
+                Poco::Data::Statement ins_stmt(session);
+                std::string str = "INSERT INTO Cluster_Initiative_Issue (issue,initiative_issue,initiative,cluster) VALUES (";
+                str += "'" + issue + "',";
+                str += "'" + initiative_issue + "',";
+                str += "'" + initiative + "',";
+                str += "'" + cluster + "')";
+                ins_stmt << str;
                 std::cout << ins_stmt.toString() << std::endl;
                 ins_stmt.execute();
             }
         }
-        else
-        {
-            std::cout << "config already done:" << count << std::endl;
-        }
     }
-    catch (std::exception &ex)
+    catch (Poco::Data::PostgreSQL::PostgreSQLException &ex)
     {
-        std::cout << "init exception:" << ex.what() << std::endl;
+        std::cout << "init exception:" << ex.displayText() << std::endl;
         return false;
     }
     return true;
@@ -250,7 +279,8 @@ void do_fix_product()
 }
 void do_export()
 {
-    std::cout << "[export report]" << std::endl;
+    std::cout << "[export report] ------------------------------" << std::endl
+              << std::endl;
     try
     {
 
@@ -260,14 +290,13 @@ void do_export()
         for (std::shared_ptr<model::Initiative> initiative : model::Initiatives::get().initiatives())
         {
             std::cout << initiative->name << std::endl;
-
             for (std::string initiative_issue : initiative->issues)
             {
                 std::cout << "     " << initiative_issue << std::endl;
-
                 try
                 {
                     auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
+                    std::cout << "model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)" << std::endl;
                     for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)) // cii->issue))
                     {
                         try
@@ -427,19 +456,19 @@ int main()
     while (!do_init())
         std::this_thread::sleep_for(15 * 1000ms);
 
-    while (true)
-    {
-        try
-        {
-            do_fix_product();
-            do_hrefs();
-            do_export();
-        }
-        catch (std::exception &ex)
-        {
-            std::cout << "exception: " << ex.what() << std::endl;
-        }
-        std::this_thread::sleep_for(60min); // an hour
-    }
+    // while (true)
+    // {
+    //     try
+    //     {
+    //         // do_fix_product();
+    //         // do_hrefs();
+    //         do_export();
+    //     }
+    //     catch (std::exception &ex)
+    //     {
+    //         std::cout << "exception: " << ex.what() << std::endl;
+    //     }
+    //     std::this_thread::sleep_for(60min); // an hour
+    // }
     return 1;
 }

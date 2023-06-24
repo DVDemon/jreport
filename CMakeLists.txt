@@ -79,9 +79,8 @@ add_executable(${EXPORT_EXECUTABLE} xlsx_export.cpp
 target_link_libraries(${EXPORT_EXECUTABLE} PRIVATE 
                              ${CMAKE_THREAD_LIBS_INIT} 
                              ${Poco_LIBRARIES}
-                             "PocoData"
-                             "PocoDataMySQL"
-                             "OpenXLSX"
+                             PocoDataPostgreSQL
+                             OpenXLSX
                              stdc++fs
                              ZLIB::ZLIB
                              OpenSSL::SSL

@@ -22,6 +22,7 @@ class  Config{
         std::string _mongo_address;
         std::string _mongo_port;
 
+        std::string _init_sql;
 
 
     public:
@@ -36,6 +37,7 @@ class  Config{
         std::string& jira_address();
         std::string& mongo_address();
         std::string& mongo_port();
+        std::string& init_sql();
 
 
         std::string& jira_user();
@@ -65,6 +67,8 @@ class  Config{
 
         const std::string get_jira_identity() const;
         const std::string get_confluence_identity() const;
+
+        const std::string& get_init_sql() const;
 };
 
 #endif
