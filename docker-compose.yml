@@ -1,22 +1,6 @@
 version: '2.1'
 services:
-  # db-node:
-  #   build:
-  #     context: mysql
-  #     dockerfile: Dockerfile
-  #   container_name: db-node
-  #   restart: unless-stopped
-  #   environment:
-  #     MYSQL_DATABASE: jreport
-  #     MYSQL_USER: stud
-  #     MYSQL_PASSWORD: stud
-  #     MYSQL_ROOT_PASSWORD: '1'
-  #   ports:
-  #     - 3360:3306
-  #   volumes:
-  #     - db-node-data:/var/lib/mysql
-  #   networks:
-  #     - robonet
+
   postgres:
     image: postgres:14.8-alpine3.18
     environment:
@@ -49,30 +33,33 @@ services:
     networks:
       - robonet
 
-  # robot:
-  #   build: 
-  #     context: robot
-  #   container_name: robot
-  #   restart: always
-  #   environment:
-  #     - DATABASE_IP=db-node
-  #     - DATABASE_PORT=3306
-  #     - DATABASE_LOGIN=stud
-  #     - DATABASE_PASSWORD=stud
-  #     - DATABASE_NAME=jreport
-  #     - JIRA_ADDRESS=https://jira.mts.ru
-  #     - MONGO_ADDRESS=mongo-1
-  #     - MONGO_PORT=27017
-  #     - JIRA_USER=
-  #     - JIRA_PASSWORD=
-  #     - CONFLUENCE_USER=
-  #     - CONFLUENCE_PASSWORD=
-  #     - CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
-  #   depends_on:
-  #     - mongo
-  #     - db-node
-  #   networks:
-  #     - robonet
+  robot:
+    build: 
+      context: robot
+    container_name: robot
+    restart: always
+    environment:
+      - DATABASE_IP=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_LOGIN=stud
+      - DATABASE_PASSWORD=stud
+      - DATABASE_NAME=jreport
+      - JIRA_ADDRESS=https://jira.mts.ru
+      - MONGO_ADDRESS=mongo-1
+      - MONGO_PORT=27017
+      - JIRA_USER=
+      - JIRA_PASSWORD=
+      - CONFLUENCE_USER=
+      - CONFLUENCE_PASSWORD=
+      - CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
+      - INIT_SQL=database_init.json
+    volumes:
+      - /home/stud/jreport/database_init.sql:/jreport/database_init.sql
+    depends_on:
+      - mongo
+      - postgres
+    networks:
+      - robonet
 
 
 networks:

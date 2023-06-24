@@ -456,19 +456,19 @@ int main()
     while (!do_init())
         std::this_thread::sleep_for(15 * 1000ms);
 
-    // while (true)
-    // {
-    //     try
-    //     {
-    //         // do_fix_product();
-    //         // do_hrefs();
-    //         do_export();
-    //     }
-    //     catch (std::exception &ex)
-    //     {
-    //         std::cout << "exception: " << ex.what() << std::endl;
-    //     }
-    //     std::this_thread::sleep_for(60min); // an hour
-    // }
+    while (true)
+    {
+        try
+        {
+            do_fix_product();
+            do_hrefs();
+            do_export();
+        }
+        catch (std::exception &ex)
+        {
+            std::cout << "exception: " << ex.what() << std::endl;
+        }
+        std::this_thread::sleep_for(60min); // an hour
+    }
     return 1;
 }
