@@ -32,17 +32,19 @@ namespace model
                 std::set<std::string> issues;
                 Poco::Data::Session session = database::Database::get().create_session();            
                 Statement select(session);
-                std::string issue;
-                select << "SELECT issue_key FROM Initiatives_Issue WHERE initative_name=?",
-                    into(issue),
-                    use(item),
-                    range(0, 1); //  iterate over result set one row at a time
-
-                while (!select.done())
-                {
-                    if(select.execute())
+                std::string sql = database::sql_string( "SELECT issue_key FROM Initiatives_Issue WHERE initative_name=?",item);
+                select << sql;
+                select.execute();
+                
+                Poco::Data::RecordSet rs(select);
+                if(rs.rowCount())
+                for(auto & row : rs){
+                    std::string issue;
+                    issue = row["issue_key"].toString();
+                    std::cout << "issue:" << issue << std::endl;
                     issues.insert(issue);
                 }
+
                 std::shared_ptr<Initiative> in_ptr = std::shared_ptr<Initiative>(new Initiative{item,confluence,issues});
                 _initiatives.insert(in_ptr);
             }

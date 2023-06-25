@@ -23,7 +23,7 @@ namespace model
         return result;
     }
 
-    std::optional<ProductInitativeIssue>  ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue)
+    std::optional<ProductInitativeIssue> ProductInitativeIssue::load_by_issue(std::string &product_issue, std::string &cluster_issue)
     {
         try
         {
@@ -31,19 +31,22 @@ namespace model
 
             Statement select(session);
             ProductInitativeIssue result;
+            std::string sql = database::sql_string("SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE product_issue=? AND cluster_issue=?", product_issue, cluster_issue);
 
-            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE product_issue=? AND cluster_issue=?",
-                use(product_issue),
-                use(cluster_issue),
-                into(result.product),
-                into(result.cluster_issue),
-                into(result.product_issue);
-
+            select << sql;
             select.execute();
+
             Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst())
+            if (rs.rowCount())
+                for (auto &row : rs)
+                {
+                    result.product = row["product"].toString();
+                    result.product_issue = row["product_issue"].toString();
+                    result.cluster_issue = row["cluster_issue"].toString();
+                }
+            else
                 return std::optional<ProductInitativeIssue>();
-                
+
             return result;
         }
 
@@ -60,7 +63,8 @@ namespace model
         }
     }
 
-    std::vector<ProductInitativeIssue> ProductInitativeIssue::load_by_cluster_issue(std::string &cluster_issue){
+    std::vector<ProductInitativeIssue> ProductInitativeIssue::load_by_cluster_issue(std::string &cluster_issue)
+    {
 
         try
         {
@@ -68,19 +72,21 @@ namespace model
 
             Statement select(session);
             std::vector<ProductInitativeIssue> results;
-            ProductInitativeIssue result;
-            std::string ci = cluster_issue;
 
-            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE cluster_issue=?",
-                use(ci),
-                into(result.product),
-                into(result.cluster_issue),
-                into(result.product_issue),
-                range(0,1);
+            std::string sql = database::sql_string("SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE cluster_issue=?", cluster_issue);
 
-            while(!select.done()){
-                if(select.execute()) 
-                    results.push_back(result);
+            select << sql;
+            select.execute();
+
+            Poco::Data::RecordSet rs(select);
+
+            for (auto &row : rs)
+            {
+                ProductInitativeIssue result;
+                result.product = row["product"].toString();
+                result.product_issue = row["product_issue"].toString();
+                result.cluster_issue = row["cluster_issue"].toString();
+                results.push_back(result);
             }
 
             return results;
@@ -99,7 +105,8 @@ namespace model
         }
     }
 
-    std::vector<ProductInitativeIssue> ProductInitativeIssue::load_all(){
+    std::vector<ProductInitativeIssue> ProductInitativeIssue::load_all()
+    {
 
         try
         {
@@ -109,16 +116,21 @@ namespace model
             std::vector<ProductInitativeIssue> results;
             ProductInitativeIssue result;
 
-            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue",
-                into(result.product),
-                into(result.cluster_issue),
-                into(result.product_issue),
-                range(0,1);
+            std::string sql = "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue";
+            select << sql;
 
-            while(!select.done()){
-                if(select.execute()) 
+            select.execute();
+
+            Poco::Data::RecordSet rs(select);
+            if (rs.rowCount())
+                for (auto &row : rs)
+                {
+                    result.product = row["product"].toString();
+                    result.cluster_issue = row["cluster_issue"].toString();
+                    result.product_issue = row["product_issue"].toString();
                     results.push_back(result);
-            }
+                }
+
 
             return results;
         }
@@ -182,16 +194,15 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Product_Initiative_Issue WHERE product_issue=?",
-                use(product_issue); //  iterate over result set one row at a time
+            std::string sql = database::sql_string("DELETE FROM Product_Initiative_Issue WHERE product_issue=?", product_issue);
+
+            delete_issue << sql; //  iterate over result set one row at a time
             delete_issue.execute();
 
             Statement insert_issue(session);
 
-            insert_issue << "INSERT INTO Product_Initiative_Issue(product,cluster_issue,product_issue) VALUES (?,?,?)",
-                use(product),
-                use(cluster_issue),
-                use(product_issue);
+            sql = database::sql_string("INSERT INTO Product_Initiative_Issue(product,cluster_issue,product_issue) VALUES (?,?,?)", product,cluster_issue,product_issue);
+            insert_issue << sql;
             insert_issue.execute();
         }
 

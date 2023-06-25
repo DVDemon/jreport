@@ -296,7 +296,6 @@ void do_export()
                 try
                 {
                     auto initiative_item = loaders::LoaderJira::get().load(initiative_issue, identity);
-                    std::cout << "model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)" << std::endl;
                     for (model::ProductInitativeIssue pi : model::ProductInitativeIssue::load_by_cluster_issue(initiative_issue)) // cii->issue))
                     {
                         try

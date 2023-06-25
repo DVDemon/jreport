@@ -70,15 +70,14 @@ using namespace Poco::Data::Keywords;
                 Poco::Data::Session session = database::Database::get().create_session();
                 Poco::Data::Statement delete_issue(session);
                 std::string l=link;
-                delete_issue << "DELETE FROM HREF WHERE link=?",
-                    use(link); 
+                std::string sql = database::sql_string("DELETE FROM HREF WHERE link=?",link);
+                delete_issue << sql;
                 delete_issue.execute();
 
                 Poco::Data::Statement insert_issue(session);
 
-                insert_issue << "INSERT INTO HREF(link,title) VALUES (?,?)",
-                    use(link),
-                    use(title);
+                sql = database::sql_string("INSERT INTO HREF(link,title) VALUES (?,?)",link,title);
+                insert_issue << sql;
                 insert_issue.execute();
             }
 

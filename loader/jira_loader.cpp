@@ -35,7 +35,7 @@ namespace loaders
             file_name = "stubs/" + id.substr(index + 1) + ".json";
 
         std::ifstream ifs(file_name);
-        std::cout << "loading from " << file_name << std::endl;
+        std::cout << "     loading from " << file_name << std::endl;
 
         if (ifs.is_open())
         {

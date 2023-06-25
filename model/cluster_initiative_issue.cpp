@@ -32,21 +32,24 @@ namespace model
             Statement select(session);
             ClusterInitativeIssue result;
 
-            std::string c = cluster;
-            std::string ii = initiative_issue;
+            std::string sql = database::sql_string("SELECT issue,initiative_issue,initiative,cluster FROM Cluster_Initiative_Issue WHERE cluster=? AND initiative_issue=?", cluster, initiative_issue);
 
-            select << "SELECT issue,initiative_issue,initiative,cluster FROM Cluster_Initiative_Issue WHERE cluster=? AND initiative_issue=?",
-                use(c),
-                use(ii),
-                into(result.issue),
-                into(result.initiative_issue),
-                into(result.initiative),
-                into(result.cluster),
-                range(0,1);
-
+            select << sql;
             select.execute();
+
             Poco::Data::RecordSet rs(select);
-            if (!rs.moveFirst()) return std::optional<ClusterInitativeIssue>();
+            if (rs.rowCount())
+                for (auto &row : rs)
+                {
+
+                    result.issue = row["issue"].toString();
+                    result.initiative_issue = row["initiative_issue"].toString();
+                    result.initiative = row["initiative"].toString();
+                    result.cluster = row["cluster"].toString();
+                }
+            else
+                return std::optional<ClusterInitativeIssue>();
+            
             return result;
         }
 

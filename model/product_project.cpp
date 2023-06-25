@@ -107,15 +107,14 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Product_Project WHERE product=? ",
-                use(product); 
+            std::string sql = database::sql_string("DELETE FROM Product_Project WHERE product=?", product);
+            delete_issue << sql;
             delete_issue.execute();
 
             Statement insert_issue(session);
 
-            insert_issue << "INSERT INTO Product_Project(product,project) VALUES (?,?)",
-                use(product),
-                use(project);
+            sql = database::sql_string("INSERT INTO Product_Project(product,project) VALUES (?,?)", product,project);
+            insert_issue << sql;
             insert_issue.execute();
         }
 
