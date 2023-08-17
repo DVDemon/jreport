@@ -160,7 +160,7 @@ namespace model
             std::string p = product;
             std::string ci = cluster_issue;
 
-            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE product=? AND cluster_issue=?",
+            select << "SELECT product,cluster_issue,product_issue FROM Product_Initiative_Issue WHERE product=$1 AND cluster_issue=$2",
                 use(p),
                 use(ci),
                 into(result.product),

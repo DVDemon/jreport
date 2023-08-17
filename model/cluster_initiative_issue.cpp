@@ -72,7 +72,7 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE initiative=? and cluster=? and initiative_issue=?",
+            delete_issue << "DELETE FROM Cluster_Initiative_Issue WHERE initiative=$1 and cluster=$2 and initiative_issue=$3",
                 use(initiative),
                 use(cluster),
                 use(initiative_issue); //  iterate over result set one row at a time
@@ -80,7 +80,7 @@ namespace model
 
             Statement insert_issue(session);
 
-            insert_issue << "INSERT INTO Cluster_Initiative_Issue(issue,initiative_issue,initiative,cluster) VALUES (?,?,?,?)",
+            insert_issue << "INSERT INTO Cluster_Initiative_Issue(issue,initiative_issue,initiative,cluster) VALUES ($1,$2,$3,$4)",
                 use(issue),
                 use(initiative_issue),
                 use(initiative),

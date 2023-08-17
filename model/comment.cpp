@@ -20,7 +20,7 @@ std::optional<Comment> Comment::load(const std::string &product, const  std::str
             std::string p = product;
             std::string ci = cluster_issue;
 
-            select << "SELECT product,cluster_issue,comment,address FROM Product_Initiative_Comment WHERE product=? AND cluster_issue=?",
+            select << "SELECT product,cluster_issue,comment,address FROM Product_Initiative_Comment WHERE product=$1 AND cluster_issue=$2",
                 use(p),
                 use(ci),
                 into(result.product),
@@ -75,14 +75,14 @@ void Comment::save(){
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Product_Initiative_Comment WHERE product=? AND cluster_issue=?",
+            delete_issue << "DELETE FROM Product_Initiative_Comment WHERE product=$1 AND cluster_issue=$2",
                 use(product),
                 use(cluster_issue); //  iterate over result set one row at a time
             delete_issue.execute();
 
             Statement insert_issue(session);
 
-            insert_issue << "INSERT INTO Product_Initiative_Comment(product,cluster_issue,comment,address) VALUES (?,?,?,?)",
+            insert_issue << "INSERT INTO Product_Initiative_Comment(product,cluster_issue,comment,address) VALUES ($1,$2,$3,$4)",
                 use(product),
                 use(cluster_issue),
                 use(comment),

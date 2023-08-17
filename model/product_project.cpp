@@ -21,7 +21,7 @@ namespace model
             ProductProject result;
             std::string p = product;
 
-            select << "SELECT product,project FROM Product_Project WHERE product=?",
+            select << "SELECT product,project FROM Product_Project WHERE product=$1",
                 use(p),
                 into(result.product),
                 into(result.project);
