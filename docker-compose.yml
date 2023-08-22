@@ -35,7 +35,7 @@ services:
 
   robot:
     build: 
-      context: robot
+      dockerfile: robot/Dockerfile
     container_name: robot
     restart: always
     environment:
@@ -54,7 +54,7 @@ services:
       - CONFLUENCE_ADDRESS=https://confluence.mts.ru/rest/api
       - INIT_SQL=database_init.json
     volumes:
-      - /home/stud/jreport/database_init.sql:/jreport/database_init.sql
+      - ./database_init.json:/jreport/database_init.json
     depends_on:
       - mongo
       - postgres

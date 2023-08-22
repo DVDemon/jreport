@@ -26,8 +26,8 @@ namespace model
             Statement select(session);
             ClusterProject result;
             std::string p = project;
-
-            select << "SELECT cluster,project FROM Cluster_Project WHERE project=?",
+            
+            select << "SELECT cluster,project FROM Cluster_Project WHERE project=$1",
                 use(p),
                 into(result.cluster),
                 into(result.project);
@@ -107,13 +107,13 @@ namespace model
             Poco::Data::Session session = database::Database::get().create_session();
             Statement delete_issue(session);
 
-            delete_issue << "DELETE FROM Cluster_Project WHERE project=? ",
+            delete_issue << "DELETE FROM Cluster_Project WHERE project=$1",
                 use(project); 
             delete_issue.execute();
 
             Statement insert_issue(session);
 
-            insert_issue << "INSERT INTO Cluster_Project(cluster,project) VALUES (?,?)",
+            insert_issue << "INSERT INTO Cluster_Project(cluster,project) VALUES ($1,$2)",
                 use(cluster),
                 use(project);
             insert_issue.execute();
